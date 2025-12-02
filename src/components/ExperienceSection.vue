@@ -15,9 +15,10 @@
         <div
           v-for="(exp, index) in experiences"
           :key="exp.id"
+          :ref="el => expRefs[index] = el as HTMLElement"
           class="relative pl-20 pb-12 last:pb-0"
-          v-motion-slide-visible-once-left
-          :delay="index * 100"
+          :class="{ 'animate-fade-in-left': visibleExps[index] }"
+          :style="{ transitionDelay: visibleExps[index] ? `${index * 100}ms` : '0ms' }"
         >
           <div class="absolute left-6 w-4 h-4 bg-foreground rounded-full border-4 border-white"></div>
           
@@ -44,6 +45,43 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+const expRefs = ref<(HTMLElement | null)[]>([])
+const visibleExps = ref<boolean[]>(new Array(3).fill(false))
+
+const observeExperiences = () => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = expRefs.value.findIndex((ref) => ref === entry.target)
+          if (index !== -1) {
+            visibleExps.value[index] = true
+            observer.unobserve(entry.target)
+          }
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    }
+  )
+
+  expRefs.value.forEach((ref) => {
+    if (ref) {
+      observer.observe(ref)
+    }
+  })
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    observeExperiences()
+  }, 100)
+})
+
 interface Experience {
   id: string
   role: string

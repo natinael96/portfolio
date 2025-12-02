@@ -12,9 +12,10 @@
         <div
           v-for="(project, index) in projects"
           :key="project.id"
+          :ref="el => projectRefs[index] = el as HTMLElement"
           class="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-8 hover:shadow-xl hover:border-foreground/20 transition-all duration-300 hover:-translate-y-1"
-          v-motion-slide-visible-once-bottom
-          :delay="index * 100"
+          :class="{ 'animate-fade-in-up': visibleProjects[index] }"
+          :style="{ transitionDelay: visibleProjects[index] ? `${index * 100}ms` : '0ms' }"
         >
           <div class="mb-4">
             <h3 class="text-xl font-semibold text-foreground mb-2">
@@ -62,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { Github, ExternalLink } from 'lucide-vue-next'
 
 interface Project {
@@ -72,6 +74,43 @@ interface Project {
   github?: string
   demo?: string
 }
+
+const projectRefs = ref<(HTMLElement | null)[]>([])
+const visibleProjects = ref<boolean[]>(new Array(6).fill(false))
+
+const observeProjects = () => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = projectRefs.value.findIndex((ref) => ref === entry.target)
+          if (index !== -1) {
+            visibleProjects.value[index] = true
+            observer.unobserve(entry.target)
+          }
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    }
+  )
+
+  projectRefs.value.forEach((ref) => {
+    if (ref) {
+      observer.observe(ref)
+    }
+  })
+
+  return observer
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    observeProjects()
+  }, 100)
+})
 
 const projects: Project[] = [
   {
