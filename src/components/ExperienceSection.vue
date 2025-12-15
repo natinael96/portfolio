@@ -10,17 +10,17 @@
 
       <!-- Timeline -->
       <div class="relative">
-        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200/50"></div>
+        <div class="absolute left-4 sm:left-8 top-0 bottom-0 w-0.5 bg-gray-200/50"></div>
         
         <div
           v-for="(exp, index) in experiences"
           :key="exp.id"
           :ref="el => expRefs[index] = el as HTMLElement"
-          class="relative pl-20 pb-12 last:pb-0"
+          class="relative pl-12 sm:pl-20 pb-12 last:pb-0"
           :class="{ 'animate-fade-in-left': visibleExps[index] }"
           :style="{ transitionDelay: visibleExps[index] ? `${index * 100}ms` : '0ms' }"
         >
-          <div class="absolute left-6 w-4 h-4 bg-foreground rounded-full border-4 border-white"></div>
+          <div class="absolute left-2 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-foreground rounded-full border-2 sm:border-4 border-white"></div>
           
           <div class="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
