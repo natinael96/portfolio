@@ -15,7 +15,7 @@
     >
       <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left">
         <p class="text-sm text-foreground-light">
-          © {{ new Date().getFullYear() }} Natinael M.
+          © {{ new Date().getFullYear() }} {{ site.name }}
         </p>
         <p class="text-sm text-foreground-light/80">
           Vue 3 · TypeScript · Tailwind CSS
@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+import { site } from './content/site'
 import AnimatedBackground from './components/AnimatedBackground.vue'
 import Navigation from './components/Navigation.vue'
 import HeroSection from './components/HeroSection.vue'

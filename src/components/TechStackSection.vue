@@ -6,7 +6,7 @@
           Tech stack
         </h2>
         <p class="text-foreground-light text-lg leading-relaxed max-w-2xl">
-          Tools I reach for most often—grouped by how I think about the stack.
+          What I use in production-style work—not an exhaustive list, but an honest one.
         </p>
       </header>
 
@@ -58,7 +58,7 @@ const techCategories: TechCategory[] = [
   {
     name: 'Frontend',
     icon: Code,
-    items: ['React', 'Next.js', 'Vue.js', 'TypeScript', 'Tailwind CSS'],
+    items: ['Vue.js', 'React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
   },
   {
     name: 'Database',

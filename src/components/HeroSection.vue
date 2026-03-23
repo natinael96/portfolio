@@ -25,38 +25,30 @@
             class="text-sm font-semibold tracking-[0.12em] uppercase text-accent mb-4"
             v-motion-fade
           >
-            Backend & full-stack
+            {{ site.roleLabel }}
           </p>
           <h1
             class="font-display text-[clamp(2.5rem,6vw,4.25rem)] font-light text-foreground tracking-tight text-balance mb-6"
             v-motion-slide-top
           >
-            Natinael M.
+            {{ site.name }}
           </h1>
 
           <p
             class="text-lg sm:text-xl text-foreground-light max-w-xl leading-relaxed mb-10"
             v-motion-slide-bottom
           >
-            Backend engineer and React developer building scalable APIs, services, and interfaces that stay maintainable as they grow.
+            {{ site.bio }}
           </p>
 
           <div
             class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-12"
             v-motion-fade
           >
-            <button
-              type="button"
-              class="px-7 py-3 bg-accent text-accent-fg rounded-lg font-medium shadow-sm transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-              @click="scrollTo('projects')"
-            >
+            <button type="button" class="btn-primary" @click="scrollTo('projects')">
               View work
             </button>
-            <button
-              type="button"
-              class="px-7 py-3 border border-accent/25 text-foreground rounded-lg font-medium transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/45 hover:bg-accent-subtle hover:-translate-y-0.5 active:translate-y-0"
-              @click="scrollTo('contact')"
-            >
+            <button type="button" class="btn-secondary" @click="scrollTo('contact')">
               Get in touch
             </button>
           </div>
@@ -66,9 +58,9 @@
             v-motion-fade
           >
             <span
-              v-for="tech in techStack"
+              v-for="tech in heroTech"
               :key="tech"
-              class="px-3.5 py-1.5 text-sm text-foreground-light font-medium rounded-full border border-accent/15 bg-accent-subtle/80 transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/35 hover:bg-accent-muted/60"
+              class="select-none rounded-full border border-accent/15 bg-accent-subtle/80 px-3.5 py-1.5 text-sm font-medium text-foreground-light"
             >
               {{ tech }}
             </span>
@@ -81,8 +73,7 @@
 
 <script setup lang="ts">
 import { User } from 'lucide-vue-next'
-
-const techStack = ['Node.js', 'NestJS', 'Python', 'React', 'Next.js', 'TypeScript']
+import { heroTech, site } from '../content/site'
 
 const scrollTo = (id: string) => {
   const element = document.getElementById(id)

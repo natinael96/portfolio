@@ -6,7 +6,7 @@
           Experience
         </h2>
         <p class="text-foreground-light text-lg leading-relaxed max-w-md">
-          Roles where I owned backend architecture, delivery, and mentoring.
+          Where I’ve focused on reliability, delivery, and helping others level up—without naming employers I can’t share publicly.
         </p>
       </header>
 
@@ -54,38 +54,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-interface Experience {
-  id: string
-  role: string
-  company: string
-  period: string
-  description: string
-}
-
-const experiences: Experience[] = [
-  {
-    id: '1',
-    role: 'Senior Backend Engineer',
-    company: 'Tech Company',
-    period: '2022 — Present',
-    description:
-      'Microservices, API performance, and mentoring—shipping reliable systems without sacrificing clarity.',
-  },
-  {
-    id: '2',
-    role: 'Full-Stack Developer',
-    company: 'Startup Inc.',
-    period: '2020 — 2022',
-    description: 'End-to-end features, CI/CD, and keeping production calm under growth.',
-  },
-  {
-    id: '3',
-    role: 'Backend Developer',
-    company: 'Digital Agency',
-    period: '2018 — 2020',
-    description: 'REST integrations, third-party APIs, and data layers that stayed maintainable.',
-  },
-]
+import { experiences } from '../content/site'
 
 const expRefs = ref<(HTMLElement | null)[]>([])
 const visibleExps = ref<boolean[]>(experiences.map(() => false))

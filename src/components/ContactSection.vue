@@ -6,21 +6,31 @@
           Get in touch
         </h2>
         <p class="text-foreground-light text-lg leading-relaxed max-w-2xl">
-          Share a short note about your project or role—I read everything.
+          Hiring, collaboration, or a technical question—send a note and I’ll reply when I can.
         </p>
       </header>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         <div class="lg:col-span-7 border border-accent/12 rounded-2xl p-7 sm:p-8 bg-accent-fg/70">
           <form class="space-y-6" @submit.prevent="handleSubmit">
-            <div v-if="submitStatus === 'success'" class="p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/90">
-              <p class="text-emerald-800 text-sm font-medium">
+            <div
+              v-if="submitStatus === 'success'"
+              role="status"
+              aria-live="polite"
+              class="rounded-xl border border-emerald-200/80 bg-emerald-50/90 p-4"
+            >
+              <p class="text-sm font-medium text-emerald-900">
                 Thanks—your message went through.
               </p>
             </div>
-            <div v-if="submitStatus === 'error'" class="p-4 rounded-xl border border-red-200/80 bg-red-50/90">
-              <p class="text-red-800 text-sm font-medium">
-                Something failed. Try again or email directly below.
+            <div
+              v-if="submitStatus === 'error'"
+              role="alert"
+              aria-live="assertive"
+              class="rounded-xl border border-red-200/80 bg-red-50/90 p-4"
+            >
+              <p class="text-sm font-medium text-red-900">
+                Something failed. Try again or use the email below.
               </p>
             </div>
 
@@ -33,8 +43,9 @@
                 v-model="form.name"
                 type="text"
                 required
+                autocomplete="name"
                 :disabled="isSubmitting"
-                class="w-full px-4 py-3 rounded-lg border border-accent/15 bg-accent-fg text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-accent/45 focus:ring-2 focus:ring-accent/15 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="input-field"
                 placeholder="Your name"
               />
             </div>
@@ -48,8 +59,9 @@
                 v-model="form.email"
                 type="email"
                 required
+                autocomplete="email"
                 :disabled="isSubmitting"
-                class="w-full px-4 py-3 rounded-lg border border-accent/15 bg-accent-fg text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-accent/45 focus:ring-2 focus:ring-accent/15 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="input-field"
                 placeholder="you@example.com"
               />
             </div>
@@ -64,34 +76,41 @@
                 required
                 :disabled="isSubmitting"
                 rows="5"
-                class="w-full px-4 py-3 rounded-lg border border-accent/15 bg-accent-fg text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-accent/45 focus:ring-2 focus:ring-accent/15 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                class="textarea-field"
                 placeholder="What are you building?"
               />
             </div>
 
             <button
               type="submit"
+              class="btn-submit"
               :disabled="isSubmitting"
-              class="w-full px-8 py-3.5 bg-accent text-accent-fg rounded-lg font-semibold transition-[transform,opacity,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-hover hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              :aria-busy="isSubmitting"
             >
-              <span v-if="isSubmitting">Sending…</span>
+              <span v-if="isSubmitting" class="inline-flex items-center gap-2">
+                <span
+                  class="h-4 w-4 animate-spin rounded-full border-2 border-accent-fg/35 border-t-accent-fg motion-reduce:animate-none motion-reduce:border-t-transparent motion-reduce:opacity-60"
+                  aria-hidden="true"
+                />
+                Sending…
+              </span>
               <span v-else>Send message</span>
             </button>
           </form>
         </div>
 
         <aside class="lg:col-span-5 flex flex-col gap-10">
-          <div>
+          <div v-if="profileLinks.length > 0">
             <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-5">
-              Connect
+              Profiles
             </h3>
             <ul class="flex flex-col gap-2">
-              <li v-for="social in socialLinks" :key="social.name">
+              <li v-for="social in profileLinks" :key="social.name">
                 <a
                   :href="social.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex items-center gap-4 px-4 py-3.5 rounded-xl border border-accent/12 bg-accent-fg/50 transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/35 hover:bg-accent-subtle/90 hover:-translate-y-0.5"
+                  class="profile-link-card"
                 >
                   <component :is="social.icon" :size="22" class="text-accent/70" />
                   <span class="font-medium text-foreground">{{ social.name }}</span>
@@ -100,13 +119,13 @@
             </ul>
           </div>
 
-          <div class="pt-8 border-t border-accent/12">
+          <div :class="profileLinks.length > 0 ? 'pt-8 border-t border-accent/12' : ''">
             <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-2">
               Direct email
             </h3>
             <a
               :href="`mailto:${EMAIL}`"
-              class="text-lg font-medium text-accent hover:text-accent-hover transition-colors break-all"
+              class="link-inline break-all py-1 text-lg font-medium text-accent underline-offset-4 hover:text-accent-hover hover:underline"
             >
               {{ EMAIL }}
             </a>
@@ -118,13 +137,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Github, Linkedin, Twitter, Mail } from 'lucide-vue-next'
+import { computed, ref } from 'vue'
+import { Github, Linkedin, Twitter } from 'lucide-vue-next'
+import { site } from '../content/site'
 
 const FORM_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || ''
 const USE_FORMSPREE = !!FORM_ENDPOINT
 
-const EMAIL = 'natinael.96@gmail.com'
+const EMAIL = site.email
+
+const profileLinks = computed(() => {
+  const entries = [
+    { name: 'GitHub', url: site.social.github, icon: Github },
+    { name: 'LinkedIn', url: site.social.linkedin, icon: Linkedin },
+    { name: 'Twitter / X', url: site.social.twitter, icon: Twitter },
+  ]
+  return entries.filter(
+    (e) => typeof e.url === 'string' && e.url.length > 0 && e.url.startsWith('http')
+  )
+})
 
 const form = ref({
   name: '',
@@ -134,13 +165,6 @@ const form = ref({
 
 const isSubmitting = ref(false)
 const submitStatus = ref<'idle' | 'success' | 'error'>('idle')
-
-const socialLinks = [
-  { name: 'GitHub', url: '#', icon: Github },
-  { name: 'LinkedIn', url: '#', icon: Linkedin },
-  { name: 'Twitter', url: '#', icon: Twitter },
-  { name: 'Email', url: `mailto:${EMAIL}`, icon: Mail },
-]
 
 const handleSubmit = async () => {
   if (isSubmitting.value) return

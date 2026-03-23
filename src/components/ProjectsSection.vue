@@ -6,7 +6,7 @@
           Featured projects
         </h2>
         <p class="text-foreground-light text-lg leading-relaxed max-w-2xl">
-          Backend systems, full-stack apps, and APIs—selected work that shows how I design for scale and clarity.
+          Representative work across APIs, data layers, and UIs—framed the way I’d explain it in a technical interview.
         </p>
       </header>
 
@@ -47,9 +47,9 @@
               :href="project.github"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-semibold text-accent inline-flex items-center gap-2 transition-opacity hover:opacity-80"
+              class="project-link"
             >
-              <Github :size="16" stroke-width="2" />
+              <Github :size="16" stroke-width="2" aria-hidden="true" />
               Code
             </a>
             <a
@@ -57,7 +57,7 @@
               :href="project.demo"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-semibold text-accent inline-flex items-center gap-2 transition-opacity hover:opacity-80"
+              class="project-link"
             >
               <ExternalLink :size="16" stroke-width="2" />
               Demo
@@ -73,62 +73,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Github, ExternalLink } from 'lucide-vue-next'
 
-interface Project {
-  id: string
-  title: string
-  description: string
-  tech: string[]
-  github?: string
-  demo?: string
-}
-
-const projects: Project[] = [
-  {
-    id: '1',
-    title: 'Microservices Architecture',
-    description:
-      'Scalable backend with API gateway, service discovery, and distributed tracing.',
-    tech: ['Node.js', 'NestJS', 'Docker', 'Kubernetes'],
-    github: '#',
-  },
-  {
-    id: '2',
-    title: 'E-Commerce Platform',
-    description: 'Payments, inventory, and admin tooling in one full-stack product.',
-    tech: ['React', 'Next.js', 'Node.js', 'PostgreSQL'],
-    github: '#',
-    demo: '#',
-  },
-  {
-    id: '3',
-    title: 'RESTful API Service',
-    description: 'High-performance API with auth, rate limits, and solid documentation.',
-    tech: ['Python', 'FastAPI', 'PostgreSQL', 'Redis'],
-    github: '#',
-  },
-  {
-    id: '4',
-    title: 'Real-time Dashboard',
-    description: 'Live charts and controls over WebSocket-backed data.',
-    tech: ['React', 'TypeScript', 'WebSocket', 'Chart.js'],
-    github: '#',
-    demo: '#',
-  },
-  {
-    id: '5',
-    title: 'Cloud Infrastructure',
-    description: 'CI/CD, observability, and autoscaling with infrastructure as code.',
-    tech: ['AWS', 'Terraform', 'GitHub Actions', 'Docker'],
-    github: '#',
-  },
-  {
-    id: '6',
-    title: 'Authentication Service',
-    description: 'JWT, OAuth2, and MFA flows with clear security boundaries.',
-    tech: ['Node.js', 'Express', 'MongoDB', 'JWT'],
-    github: '#',
-  },
-]
+import { projects } from '../content/site'
 
 const projectRefs = ref<(HTMLElement | null)[]>([])
 const visibleProjects = ref<boolean[]>(projects.map(() => false))

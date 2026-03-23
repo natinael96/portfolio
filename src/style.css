@@ -9,6 +9,14 @@
     --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
     --section-y: clamp(3.5rem, 8vw, 7rem);
     --section-x: clamp(1.25rem, 4vw, 3.5rem);
+    /* Mirrors tailwind.config.js — used where @apply cannot mix opacity on theme colors */
+    --accent: oklch(0.36 0.17 168);
+    --accent-hover: oklch(0.3 0.155 168);
+    --accent-fg: oklch(0.99 0.01 95);
+    --accent-muted: oklch(0.9 0.09 168);
+    --accent-subtle: oklch(0.94 0.065 168);
+    --page-bg: oklch(0.985 0.022 95);
+    --foreground-muted: oklch(0.42 0.06 166);
   }
 
   body {
@@ -19,6 +27,116 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+  }
+}
+
+@layer components {
+  /* Primary CTA — min 44px hit area, keyboard focus, motion-safe lift */
+  .btn-primary {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg px-7 font-medium shadow-sm text-accent-fg bg-accent
+      transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:bg-accent-hover hover:shadow-md motion-safe:hover:-translate-y-0.5
+      active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-sm motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]
+      disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:motion-safe:hover:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg border border-solid px-7 font-medium text-foreground bg-transparent
+      transition-[transform,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:bg-accent-subtle motion-safe:hover:-translate-y-0.5
+      active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]
+      disabled:pointer-events-none disabled:opacity-50;
+    border-color: color-mix(in oklch, var(--accent) 30%, transparent);
+  }
+
+  .btn-secondary:hover {
+    border-color: color-mix(in oklch, var(--accent) 55%, transparent);
+  }
+
+  .btn-submit {
+    @apply w-full cursor-pointer inline-flex items-center justify-center gap-2 min-h-[2.75rem] rounded-lg px-8 font-semibold text-accent-fg bg-accent
+      transition-[transform,opacity,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:bg-accent-hover hover:shadow-md active:scale-[0.99] motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg
+      disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
+  }
+
+  .input-field {
+    @apply w-full min-h-[2.75rem] rounded-lg border border-solid bg-accent-fg px-4 py-3 text-base sm:text-[0.9375rem] leading-normal text-foreground
+      transition-[border-color,box-shadow] duration-200
+      focus-visible:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0
+      disabled:cursor-not-allowed disabled:opacity-50;
+    border-color: color-mix(in oklch, var(--accent) 20%, transparent);
+  }
+
+  .input-field::placeholder {
+    color: color-mix(in oklch, var(--foreground-muted) 55%, transparent);
+  }
+
+  .textarea-field {
+    @apply input-field min-h-[9rem] resize-none py-3;
+  }
+
+  .link-inline {
+    @apply rounded-md transition-[color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+  }
+
+  .nav-link {
+    @apply link-inline inline-flex items-center min-h-[2.75rem] rounded-md px-2 -mx-0.5 text-sm font-medium text-foreground-light
+      hover:text-accent active:opacity-80 focus-visible:ring-offset-accent-fg;
+  }
+
+  .nav-link-mobile {
+    @apply link-inline flex min-h-[2.75rem] w-full items-center rounded-lg px-3 -mx-1 text-sm font-medium text-foreground-light
+      hover:text-accent focus-visible:ring-offset-accent-fg;
+  }
+
+  .nav-link-mobile:hover {
+    background-color: color-mix(in oklch, var(--accent) 6%, transparent);
+  }
+
+  .nav-link-mobile:active {
+    background-color: color-mix(in oklch, var(--accent) 8%, transparent);
+  }
+
+  .brand-mark {
+    @apply link-inline inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-lg px-2 font-display text-lg font-semibold tracking-tight text-accent
+      transition-opacity duration-200 hover:opacity-80 active:opacity-70 focus-visible:ring-offset-accent-fg;
+  }
+
+  .profile-link-card {
+    @apply flex min-h-[2.75rem] cursor-pointer items-center gap-4 rounded-xl border border-solid px-4 py-3
+      transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 50%, transparent);
+  }
+
+  .profile-link-card:hover {
+    border-color: color-mix(in oklch, var(--accent) 40%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 90%, transparent);
+  }
+
+  .project-link {
+    @apply inline-flex min-h-[2.75rem] cursor-pointer items-center gap-2 rounded-md px-1.5 -mx-1.5 text-sm font-semibold text-accent underline-offset-4
+      transition-[color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:underline hover:opacity-90 active:scale-[0.98] motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
+  }
+
+  .icon-btn {
+    @apply inline-flex cursor-pointer items-center justify-center min-h-[2.75rem] min-w-[2.75rem] rounded-lg text-foreground
+      transition-[color,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      active:scale-[0.96] motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
+  }
+
+  .icon-btn:hover {
+    background-color: color-mix(in oklch, var(--accent) 8%, transparent);
   }
 }
 
