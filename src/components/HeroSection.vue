@@ -15,12 +15,12 @@
             v-motion-fade
           >
             <span class="h-px w-8 sm:w-12 bg-accent/35 shrink-0" aria-hidden="true" />
-            <p class="text-sm font-semibold tracking-[0.12em] uppercase text-accent">
+            <p class="text-sm font-semibold tracking-[0.2em] uppercase text-accent">
               {{ site.roleLabel }}
             </p>
           </div>
           <h1
-            class="font-display text-[clamp(2.35rem,5.5vw,4rem)] font-light text-foreground tracking-tight text-balance mb-6 max-w-[22ch] lg:max-w-[20ch] xl:max-w-none"
+            class="font-display text-[clamp(2.35rem,5.5vw,4rem)] font-semibold tracking-display text-balance mb-6 max-w-[22ch] lg:max-w-[20ch] xl:max-w-none bg-gradient-to-br from-foreground to-accent bg-clip-text text-transparent"
             v-motion-slide-top
           >
             {{ site.name }}

@@ -8,7 +8,7 @@
           <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
             Selected work
           </p>
-          <h2 class="font-display text-4xl sm:text-5xl lg:text-[3.25rem] font-light text-foreground mb-4 tracking-tight">
+          <h2 class="font-display text-4xl sm:text-5xl lg:text-[3.25rem] font-normal text-foreground mb-4 tracking-display">
             Featured projects
           </h2>
         </div>
@@ -36,7 +36,7 @@
             >
               <div class="flex-1 min-w-0 lg:pr-4">
                 <h3
-                  class="font-display text-xl sm:text-2xl font-bold text-foreground mb-3 tracking-tight group-hover:text-accent transition-colors"
+                  class="font-display text-xl sm:text-2xl font-bold text-foreground mb-3 tracking-display group-hover:text-accent transition-colors"
                 >
                   {{ project.title }}
                 </h3>
@@ -85,7 +85,7 @@
           <template v-else>
             <div class="mb-5 flex-1">
               <h3
-                class="font-display text-xl font-bold text-foreground mb-2 tracking-tight group-hover:text-accent transition-colors"
+                class="font-display text-xl font-bold text-foreground mb-2 tracking-display group-hover:text-accent transition-colors"
               >
                 {{ project.title }}
               </h3>

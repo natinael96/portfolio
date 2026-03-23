@@ -23,8 +23,12 @@ export default {
         'accent-subtle': 'oklch(0.94 0.065 168)',
       },
       fontFamily: {
-        sans: ['Outfit', 'system-ui', 'sans-serif'],
-        display: ['Sora', 'Outfit', 'system-ui', 'sans-serif'],
+        sans: ['"Exo 2"', 'system-ui', 'sans-serif'],
+        display: ['Orbitron', '"Exo 2"', 'system-ui', 'sans-serif'],
+      },
+      letterSpacing: {
+        display: '0.05em',
+        brand: '0.14em',
       },
     },
   },

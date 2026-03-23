@@ -10,7 +10,7 @@
         <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
           Timeline
         </p>
-        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-5 tracking-tight">
+        <h2 class="font-display text-4xl sm:text-5xl font-normal text-foreground mb-5 tracking-display">
           Experience
         </h2>
         <p class="text-foreground-light text-base sm:text-lg leading-relaxed max-w-sm xl:max-w-xs">

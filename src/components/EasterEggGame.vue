@@ -29,7 +29,7 @@
             <div>
               <h2
                 id="egg-game-title"
-                class="font-display text-xl font-bold text-foreground tracking-tight"
+                class="font-display text-xl font-bold text-foreground tracking-display"
               >
                 Snake break
               </h2>

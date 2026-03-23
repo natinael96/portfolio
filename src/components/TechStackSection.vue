@@ -8,7 +8,7 @@
           <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
             Toolkit
           </p>
-          <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
+          <h2 class="font-display text-4xl sm:text-5xl font-normal text-foreground mb-4 tracking-display">
             Tech stack
           </h2>
         </div>
