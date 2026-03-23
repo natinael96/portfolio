@@ -5,22 +5,10 @@
   >
     <div class="w-full max-w-[90rem] mx-auto">
       <div
-        class="grid grid-cols-1 xl:grid-cols-[minmax(3.5rem,6.5rem)_minmax(0,1fr)_minmax(0,12rem)] gap-10 lg:gap-12 xl:gap-0 xl:items-end"
+        class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,12rem)] gap-10 lg:gap-12 xl:gap-0 xl:items-end"
       >
-        <!-- Left rail: editorial year (xl+) -->
         <div
-          class="hidden xl:flex flex-col justify-end pb-2 pr-6 border-r border-accent/15 min-h-[10rem]"
-          aria-hidden="true"
-        >
-          <span
-            class="font-display text-[clamp(2.75rem,4.5vw,4.25rem)] font-light leading-none text-accent/20 select-none tabular-nums"
-          >
-            {{ yearLabel }}
-          </span>
-        </div>
-
-        <div
-          class="flex flex-col items-center lg:items-start text-center lg:text-left xl:px-8 xl:pb-2 xl:border-r border-transparent xl:border-accent/10 max-w-4xl xl:max-w-none"
+          class="flex flex-col items-center lg:items-start text-center lg:text-left xl:pr-10 xl:pb-2 xl:border-r border-transparent xl:border-accent/10 max-w-4xl xl:max-w-none"
         >
           <div
             class="flex items-center gap-3 mb-5 w-full justify-center lg:justify-start"
@@ -88,10 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { heroTech, site } from '../content/site'
-
-const yearLabel = computed(() => String(new Date().getFullYear()))
 
 const scrollTo = (id: string) => {
   const element = document.getElementById(id)

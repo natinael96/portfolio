@@ -103,7 +103,7 @@ const frontend: TechCategory = {
 const database: TechCategory = {
   name: 'Database',
   icon: Database,
-  items: ['PostgreSQL', 'MongoDB', 'Redis', 'MySQL', 'Elasticsearch'],
+  items: ['PostgreSQL', 'MongoDB', 'Redis', 'MySQL'],
 }
 const devops: TechCategory = {
   name: 'DevOps & CI',

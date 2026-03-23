@@ -23,8 +23,8 @@ export default {
         'accent-subtle': 'oklch(0.94 0.065 168)',
       },
       fontFamily: {
-        sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
-        display: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Outfit', 'system-ui', 'sans-serif'],
+        display: ['Sora', 'Outfit', 'system-ui', 'sans-serif'],
       },
     },
   },
