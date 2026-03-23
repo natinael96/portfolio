@@ -15,7 +15,7 @@
           v-for="(project, index) in projects"
           :key="project.id"
           :ref="(el) => setProjectRef(el, index)"
-          class="group flex flex-col border border-foreground/[0.09] rounded-2xl p-7 sm:p-8 bg-[oklch(0.99_0.008_90/0.55)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/20 hover:shadow-[0_24px_48px_-28px_oklch(0.25_0.02_55/0.18)] hover:-translate-y-0.5"
+          class="group flex flex-col border border-foreground/[0.09] rounded-2xl p-7 sm:p-8 bg-accent-fg/55 transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/50 hover:shadow-[0_24px_48px_-28px_oklch(0.36_0.16_168/0.28)] hover:-translate-y-0.5"
           :class="[
             projectColClass(index),
             { 'animate-fade-in-up': visibleProjects[index] },
@@ -23,7 +23,7 @@
           :style="{ transitionDelay: visibleProjects[index] ? `${index * 80}ms` : '0ms' }"
         >
           <div class="mb-5 flex-1">
-            <h3 class="text-xl font-semibold text-foreground mb-2 tracking-tight group-hover:text-foreground transition-colors">
+            <h3 class="text-xl font-semibold text-foreground mb-2 tracking-tight group-hover:text-accent transition-colors">
               {{ project.title }}
             </h3>
             <p class="text-sm sm:text-[0.9375rem] text-foreground-light leading-relaxed">
@@ -35,7 +35,7 @@
             <span
               v-for="tech in project.tech"
               :key="tech"
-              class="px-2.5 py-1 text-xs font-medium text-foreground-light rounded-md bg-foreground/[0.04] border border-transparent group-hover:border-foreground/[0.06] transition-colors"
+              class="px-2.5 py-1 text-xs font-medium text-foreground rounded-md bg-accent-muted/45 border border-accent/10 group-hover:border-accent/25 transition-colors"
             >
               {{ tech }}
             </span>
@@ -47,7 +47,7 @@
               :href="project.github"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-semibold text-foreground inline-flex items-center gap-2 transition-opacity hover:opacity-75"
+              class="text-sm font-semibold text-accent inline-flex items-center gap-2 transition-opacity hover:opacity-80"
             >
               <Github :size="16" stroke-width="2" />
               Code
@@ -57,7 +57,7 @@
               :href="project.demo"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-semibold text-foreground inline-flex items-center gap-2 transition-opacity hover:opacity-75"
+              class="text-sm font-semibold text-accent inline-flex items-center gap-2 transition-opacity hover:opacity-80"
             >
               <ExternalLink :size="16" stroke-width="2" />
               Demo

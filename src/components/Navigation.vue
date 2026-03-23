@@ -1,12 +1,12 @@
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 border-b border-foreground/[0.07] bg-[oklch(0.99_0.008_90/0.72)] backdrop-blur-md supports-[backdrop-filter]:bg-[oklch(0.99_0.008_90/0.55)]"
+    class="fixed top-0 left-0 right-0 z-50 border-b border-accent/10 bg-accent-fg/70 backdrop-blur-md supports-[backdrop-filter]:bg-accent-fg/55"
   >
     <div class="max-w-7xl mx-auto section-x">
       <div class="flex items-center justify-between h-16">
         <a
           href="#hero"
-          class="font-display text-lg font-medium text-foreground tracking-tight transition-opacity duration-200 hover:opacity-80"
+          class="font-display text-lg font-semibold text-accent tracking-tight transition-opacity duration-200 hover:opacity-80"
           @click.prevent="scrollTo('hero')"
         >
           NM
@@ -16,7 +16,7 @@
             v-for="item in navItems"
             :key="item.id"
             :href="`#${item.id}`"
-            class="text-sm font-medium text-foreground-light hover:text-foreground transition-colors duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            class="text-sm font-medium text-foreground-light hover:text-accent transition-colors duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
             @click.prevent="scrollTo(item.id)"
           >
             {{ item.label }}
@@ -24,7 +24,7 @@
         </div>
         <button
           type="button"
-          class="md:hidden p-2 -mr-2 rounded-lg text-foreground hover:bg-foreground/[0.05] transition-colors duration-200"
+          class="md:hidden p-2 -mr-2 rounded-lg text-foreground hover:bg-accent/[0.08] transition-colors duration-200"
           :aria-expanded="mobileMenuOpen"
           aria-label="Toggle menu"
           @click="mobileMenuOpen = !mobileMenuOpen"
@@ -45,14 +45,14 @@
     >
       <div
         v-if="mobileMenuOpen"
-        class="md:hidden border-t border-foreground/[0.07] bg-[oklch(0.99_0.008_90/0.95)] backdrop-blur-md"
+        class="md:hidden border-t border-accent/10 bg-accent-fg/95 backdrop-blur-md"
       >
         <div class="section-x py-5 flex flex-col gap-1">
           <a
             v-for="item in navItems"
             :key="item.id"
             :href="`#${item.id}`"
-            class="py-3 text-sm font-medium text-foreground-light hover:text-foreground transition-colors"
+            class="py-3 text-sm font-medium text-foreground-light hover:text-accent transition-colors"
             @click.prevent="onNavClick(item.id)"
           >
             {{ item.label }}

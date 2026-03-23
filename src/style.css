@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply bg-[oklch(0.98_0.012_85)] text-foreground antialiased font-sans;
+    @apply bg-background text-foreground antialiased font-sans;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
 

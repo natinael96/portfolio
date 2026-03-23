@@ -14,19 +14,19 @@
         <div
           v-for="(category, index) in techCategories"
           :key="category.name"
-          class="flex flex-col border border-foreground/[0.09] rounded-2xl p-7 bg-[oklch(0.99_0.008_90/0.45)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/18 hover:shadow-[0_20px_40px_-24px_oklch(0.25_0.02_55/0.15)]"
+          class="flex flex-col border border-foreground/[0.09] rounded-2xl p-7 bg-accent-fg/45 transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/45 hover:shadow-[0_20px_40px_-24px_oklch(0.36_0.15_168/0.25)]"
           v-motion-slide-visible-once-bottom
           :delay="index * 90"
         >
           <h3 class="text-base font-semibold text-foreground mb-6 flex items-center gap-2.5">
-            <component :is="category.icon" :size="20" class="text-foreground/55" stroke-width="2" />
+            <component :is="category.icon" :size="20" class="text-accent" stroke-width="2" />
             {{ category.name }}
           </h3>
           <ul class="space-y-3 flex-1">
             <li
               v-for="tech in category.items"
               :key="tech"
-              class="flex items-center gap-3 text-foreground-light hover:text-foreground transition-colors duration-200"
+              class="flex items-center gap-3 text-foreground-light hover:text-accent transition-colors duration-200"
             >
               <TechIcon :name="tech" :size="20" class="flex-shrink-0 opacity-90" />
               <span class="text-sm font-medium">{{ tech }}</span>

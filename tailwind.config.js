@@ -8,12 +8,19 @@ export default {
     extend: {
       colors: {
         background: {
-          DEFAULT: 'oklch(0.98 0.012 85)',
+          DEFAULT: 'oklch(0.985 0.022 95)',
           dark: '#1a1a1a',
         },
         foreground: {
-          DEFAULT: 'oklch(0.28 0.02 55)',
-          light: 'oklch(0.48 0.02 60)',
+          DEFAULT: 'oklch(0.24 0.05 168)',
+          light: 'oklch(0.42 0.06 166)',
+        },
+        accent: {
+          DEFAULT: 'oklch(0.36 0.17 168)',
+          hover: 'oklch(0.30 0.155 168)',
+          fg: 'oklch(0.99 0.01 95)',
+          muted: 'oklch(0.90 0.09 168)',
+          subtle: 'oklch(0.94 0.065 168)',
         },
       },
       fontFamily: {

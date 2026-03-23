@@ -1,5 +1,5 @@
 <template>
-  <section id="experience" class="section-y section-x bg-[oklch(0.985_0.01_88/0.5)] border-y border-foreground/[0.06]">
+  <section id="experience" class="section-y section-x bg-accent-muted/35 border-y border-accent/12">
     <div class="max-w-3xl mx-auto lg:max-w-6xl lg:mx-auto lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16 xl:gap-24 items-start">
       <header class="mb-14 lg:mb-0 lg:sticky lg:top-28">
         <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
@@ -12,7 +12,7 @@
 
       <div class="relative pl-8 sm:pl-10">
         <div
-          class="absolute left-[0.55rem] sm:left-[0.65rem] top-2 bottom-2 w-px bg-gradient-to-b from-foreground/15 via-foreground/10 to-transparent"
+          class="absolute left-[0.55rem] sm:left-[0.65rem] top-2 bottom-2 w-px bg-gradient-to-b from-accent/35 via-accent/15 to-transparent"
           aria-hidden="true"
         />
 
@@ -25,7 +25,7 @@
           :style="{ transitionDelay: visibleExps[index] ? `${index * 90}ms` : '0ms' }"
         >
           <div
-            class="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-foreground border-[3px] border-[oklch(0.99_0.01_90)] shadow-sm"
+            class="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-accent border-[3px] border-accent-fg shadow-[0_0_0_1px_oklch(0.36_0.15_168/0.4)]"
             aria-hidden="true"
           />
 

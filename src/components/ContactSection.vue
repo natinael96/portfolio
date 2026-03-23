@@ -1,5 +1,5 @@
 <template>
-  <section id="contact" class="section-y section-x bg-[oklch(0.985_0.01_88/0.45)]">
+  <section id="contact" class="section-y section-x bg-accent-muted/30">
     <div class="max-w-7xl mx-auto">
       <header class="mb-12 sm:mb-16 max-w-3xl">
         <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
@@ -11,7 +11,7 @@
       </header>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-        <div class="lg:col-span-7 border border-foreground/[0.09] rounded-2xl p-7 sm:p-8 bg-[oklch(0.99_0.008_90/0.65)]">
+        <div class="lg:col-span-7 border border-accent/12 rounded-2xl p-7 sm:p-8 bg-accent-fg/70">
           <form class="space-y-6" @submit.prevent="handleSubmit">
             <div v-if="submitStatus === 'success'" class="p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/90">
               <p class="text-emerald-800 text-sm font-medium">
@@ -34,7 +34,7 @@
                 type="text"
                 required
                 :disabled="isSubmitting"
-                class="w-full px-4 py-3 rounded-lg border border-foreground/[0.12] bg-[oklch(0.99_0.005_90)] text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-foreground/25 focus:ring-2 focus:ring-foreground/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full px-4 py-3 rounded-lg border border-accent/15 bg-accent-fg text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-accent/45 focus:ring-2 focus:ring-accent/15 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Your name"
               />
             </div>
@@ -49,7 +49,7 @@
                 type="email"
                 required
                 :disabled="isSubmitting"
-                class="w-full px-4 py-3 rounded-lg border border-foreground/[0.12] bg-[oklch(0.99_0.005_90)] text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-foreground/25 focus:ring-2 focus:ring-foreground/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full px-4 py-3 rounded-lg border border-accent/15 bg-accent-fg text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-accent/45 focus:ring-2 focus:ring-accent/15 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="you@example.com"
               />
             </div>
@@ -64,7 +64,7 @@
                 required
                 :disabled="isSubmitting"
                 rows="5"
-                class="w-full px-4 py-3 rounded-lg border border-foreground/[0.12] bg-[oklch(0.99_0.005_90)] text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-foreground/25 focus:ring-2 focus:ring-foreground/10 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full px-4 py-3 rounded-lg border border-accent/15 bg-accent-fg text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-accent/45 focus:ring-2 focus:ring-accent/15 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="What are you building?"
               />
             </div>
@@ -72,7 +72,7 @@
             <button
               type="submit"
               :disabled="isSubmitting"
-              class="w-full px-8 py-3.5 bg-foreground text-[oklch(0.99_0.01_90)] rounded-lg font-semibold transition-[transform,opacity,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/92 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              class="w-full px-8 py-3.5 bg-accent text-accent-fg rounded-lg font-semibold transition-[transform,opacity,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-hover hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <span v-if="isSubmitting">Sending…</span>
               <span v-else>Send message</span>
@@ -91,22 +91,22 @@
                   :href="social.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex items-center gap-4 px-4 py-3.5 rounded-xl border border-foreground/[0.08] bg-[oklch(0.99_0.008_90/0.5)] transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/18 hover:-translate-y-0.5"
+                  class="flex items-center gap-4 px-4 py-3.5 rounded-xl border border-accent/12 bg-accent-fg/50 transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/35 hover:bg-accent-subtle/90 hover:-translate-y-0.5"
                 >
-                  <component :is="social.icon" :size="22" class="text-foreground/45" />
+                  <component :is="social.icon" :size="22" class="text-accent/70" />
                   <span class="font-medium text-foreground">{{ social.name }}</span>
                 </a>
               </li>
             </ul>
           </div>
 
-          <div class="pt-8 border-t border-foreground/[0.08]">
+          <div class="pt-8 border-t border-accent/12">
             <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-2">
               Direct email
             </h3>
             <a
               :href="`mailto:${EMAIL}`"
-              class="text-lg font-medium text-foreground hover:text-foreground-light transition-colors break-all"
+              class="text-lg font-medium text-accent hover:text-accent-hover transition-colors break-all"
             >
               {{ EMAIL }}
             </a>

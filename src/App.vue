@@ -11,7 +11,7 @@
     </main>
 
     <footer
-      class="section-y section-x border-t border-foreground/[0.08] bg-[oklch(0.99_0.01_85/0.65)]"
+      class="section-y section-x border-t border-accent/10 bg-accent-subtle/50"
     >
       <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left">
         <p class="text-sm text-foreground-light">

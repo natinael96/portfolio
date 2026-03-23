@@ -10,19 +10,19 @@
         <div class="flex-shrink-0 lg:w-[42%] flex justify-center lg:justify-start" v-motion-slide-right>
           <div class="relative">
             <div
-              class="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-foreground/[0.07] to-transparent blur-2xl opacity-80"
+              class="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-accent/20 to-transparent blur-2xl opacity-90"
             />
             <div
-              class="relative w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 rounded-[2rem] bg-[oklch(0.99_0.01_90/0.85)] border border-foreground/[0.08] shadow-[0_20px_50px_-20px_oklch(0.25_0.02_55/0.2)] flex items-center justify-center"
+              class="relative w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 rounded-[2rem] bg-accent-fg/90 border border-accent/30 shadow-[0_22px_56px_-22px_oklch(0.36_0.16_168/0.45)] flex items-center justify-center"
             >
-              <User :size="72" class="text-foreground/35" stroke-width="1.25" />
+              <User :size="72" class="text-accent/40" stroke-width="1.25" />
             </div>
           </div>
         </div>
 
         <div class="flex-1 min-w-0 flex flex-col items-center lg:items-start text-center lg:text-left lg:pb-2">
           <p
-            class="text-sm font-medium tracking-[0.12em] uppercase text-foreground-light mb-4"
+            class="text-sm font-semibold tracking-[0.12em] uppercase text-accent mb-4"
             v-motion-fade
           >
             Backend & full-stack
@@ -47,14 +47,14 @@
           >
             <button
               type="button"
-              class="px-7 py-3 bg-foreground text-[oklch(0.99_0.01_90)] rounded-lg font-medium shadow-sm transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/92 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+              class="px-7 py-3 bg-accent text-accent-fg rounded-lg font-medium shadow-sm transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-hover hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
               @click="scrollTo('projects')"
             >
               View work
             </button>
             <button
               type="button"
-              class="px-7 py-3 border border-foreground/15 text-foreground rounded-lg font-medium transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/30 hover:bg-foreground/[0.03] hover:-translate-y-0.5 active:translate-y-0"
+              class="px-7 py-3 border border-accent/25 text-foreground rounded-lg font-medium transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/45 hover:bg-accent-subtle hover:-translate-y-0.5 active:translate-y-0"
               @click="scrollTo('contact')"
             >
               Get in touch
@@ -68,7 +68,7 @@
             <span
               v-for="tech in techStack"
               :key="tech"
-              class="px-3.5 py-1.5 text-sm text-foreground-light font-medium rounded-full border border-foreground/[0.1] bg-[oklch(0.99_0.008_90/0.6)] transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/25"
+              class="px-3.5 py-1.5 text-sm text-foreground-light font-medium rounded-full border border-accent/15 bg-accent-subtle/80 transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/35 hover:bg-accent-muted/60"
             >
               {{ tech }}
             </span>
