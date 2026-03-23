@@ -8,16 +8,17 @@ export default {
     extend: {
       colors: {
         background: {
-          DEFAULT: '#fafafa',
+          DEFAULT: 'oklch(0.98 0.012 85)',
           dark: '#1a1a1a',
         },
         foreground: {
-          DEFAULT: '#2d2d2d',
-          light: '#6b6b6b',
+          DEFAULT: 'oklch(0.28 0.02 55)',
+          light: 'oklch(0.48 0.02 60)',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
       },
     },
   },

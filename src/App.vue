@@ -2,18 +2,23 @@
   <div id="app" class="min-h-screen">
     <AnimatedBackground />
     <Navigation />
-    <main>
+    <main class="relative">
       <HeroSection />
       <ProjectsSection />
       <ExperienceSection />
       <TechStackSection />
       <ContactSection />
     </main>
-    
-    <footer class="py-12 px-6 sm:px-8 lg:px-12 border-t border-gray-200/50 bg-white/40">
-      <div class="max-w-7xl mx-auto text-center">
+
+    <footer
+      class="section-y section-x border-t border-foreground/[0.08] bg-[oklch(0.99_0.01_85/0.65)]"
+    >
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left">
         <p class="text-sm text-foreground-light">
-          © {{ new Date().getFullYear() }} Portfolio. Built with Vue 3 & Tailwind CSS.
+          © {{ new Date().getFullYear() }} Natinael M.
+        </p>
+        <p class="text-sm text-foreground-light/80">
+          Vue 3 · TypeScript · Tailwind CSS
         </p>
       </div>
     </footer>

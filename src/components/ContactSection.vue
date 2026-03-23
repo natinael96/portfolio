@@ -1,30 +1,31 @@
 <template>
-  <section id="contact" class="py-24 px-6 sm:px-8 lg:px-12 bg-white/40">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl sm:text-5xl font-light text-foreground mb-4 text-center">
-        Get in Touch
-      </h2>
-      <p class="text-foreground-light text-center mb-16 max-w-2xl mx-auto">
-        Let's discuss your next project or just say hello.
-      </p>
+  <section id="contact" class="section-y section-x bg-[oklch(0.985_0.01_88/0.45)]">
+    <div class="max-w-7xl mx-auto">
+      <header class="mb-12 sm:mb-16 max-w-3xl">
+        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
+          Get in touch
+        </h2>
+        <p class="text-foreground-light text-lg leading-relaxed max-w-2xl">
+          Share a short note about your project or role—I read everything.
+        </p>
+      </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <!-- Contact Form -->
-        <div class="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-8">
-          <form @submit.prevent="handleSubmit" class="space-y-6">
-            <div v-if="submitStatus === 'success'" class="p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p class="text-green-700 text-sm font-medium">
-                ✓ Thank you! Your message has been sent successfully.
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div class="lg:col-span-7 border border-foreground/[0.09] rounded-2xl p-7 sm:p-8 bg-[oklch(0.99_0.008_90/0.65)]">
+          <form class="space-y-6" @submit.prevent="handleSubmit">
+            <div v-if="submitStatus === 'success'" class="p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/90">
+              <p class="text-emerald-800 text-sm font-medium">
+                Thanks—your message went through.
               </p>
             </div>
-            <div v-if="submitStatus === 'error'" class="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p class="text-red-700 text-sm font-medium">
-                ✗ Something went wrong. Please try again or email directly.
+            <div v-if="submitStatus === 'error'" class="p-4 rounded-xl border border-red-200/80 bg-red-50/90">
+              <p class="text-red-800 text-sm font-medium">
+                Something failed. Try again or email directly below.
               </p>
             </div>
 
             <div>
-              <label for="name" class="block text-sm font-medium text-foreground mb-2">
+              <label for="name" class="block text-sm font-semibold text-foreground mb-2">
                 Name
               </label>
               <input
@@ -33,13 +34,13 @@
                 type="text"
                 required
                 :disabled="isSubmitting"
-                class="w-full px-4 py-3 bg-white border border-gray-200/50 rounded-lg focus:outline-none focus:border-foreground/30 transition-colors text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full px-4 py-3 rounded-lg border border-foreground/[0.12] bg-[oklch(0.99_0.005_90)] text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-foreground/25 focus:ring-2 focus:ring-foreground/10 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Your name"
               />
             </div>
-            
+
             <div>
-              <label for="email" class="block text-sm font-medium text-foreground mb-2">
+              <label for="email" class="block text-sm font-semibold text-foreground mb-2">
                 Email
               </label>
               <input
@@ -48,13 +49,13 @@
                 type="email"
                 required
                 :disabled="isSubmitting"
-                class="w-full px-4 py-3 bg-white border border-gray-200/50 rounded-lg focus:outline-none focus:border-foreground/30 transition-colors text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
-                placeholder="your.email@example.com"
+                class="w-full px-4 py-3 rounded-lg border border-foreground/[0.12] bg-[oklch(0.99_0.005_90)] text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-foreground/25 focus:ring-2 focus:ring-foreground/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                placeholder="you@example.com"
               />
             </div>
-            
+
             <div>
-              <label for="message" class="block text-sm font-medium text-foreground mb-2">
+              <label for="message" class="block text-sm font-semibold text-foreground mb-2">
                 Message
               </label>
               <textarea
@@ -63,47 +64,54 @@
                 required
                 :disabled="isSubmitting"
                 rows="5"
-                class="w-full px-4 py-3 bg-white border border-gray-200/50 rounded-lg focus:outline-none focus:border-foreground/30 transition-colors text-foreground resize-none disabled:opacity-50 disabled:cursor-not-allowed"
-                placeholder="Your message..."
-              ></textarea>
+                class="w-full px-4 py-3 rounded-lg border border-foreground/[0.12] bg-[oklch(0.99_0.005_90)] text-foreground placeholder:text-foreground-light/50 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-foreground/25 focus:ring-2 focus:ring-foreground/10 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                placeholder="What are you building?"
+              />
             </div>
-            
+
             <button
               type="submit"
               :disabled="isSubmitting"
-              class="w-full px-8 py-3 bg-foreground text-white rounded-lg font-medium hover:bg-foreground/90 transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              class="w-full px-8 py-3.5 bg-foreground text-[oklch(0.99_0.01_90)] rounded-lg font-semibold transition-[transform,opacity,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/92 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <span v-if="isSubmitting">Sending...</span>
-              <span v-else>Send Message</span>
+              <span v-if="isSubmitting">Sending…</span>
+              <span v-else>Send message</span>
             </button>
           </form>
         </div>
 
-        <!-- Social Links -->
-        <div class="space-y-8">
+        <aside class="lg:col-span-5 flex flex-col gap-10">
           <div>
-            <h3 class="text-xl font-semibold text-foreground mb-6">Connect</h3>
-            <div class="space-y-4">
-              <a
-                v-for="social in socialLinks"
-                :key="social.name"
-                :href="social.url"
-                target="_blank"
-                class="flex items-center gap-4 p-4 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-lg hover:shadow-lg hover:border-foreground/20 transition-all duration-300 group"
-              >
-                <component :is="social.icon" :size="24" class="text-foreground-light group-hover:text-foreground transition-colors" />
-                <span class="text-foreground font-medium">{{ social.name }}</span>
-              </a>
-            </div>
+            <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-5">
+              Connect
+            </h3>
+            <ul class="flex flex-col gap-2">
+              <li v-for="social in socialLinks" :key="social.name">
+                <a
+                  :href="social.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-4 px-4 py-3.5 rounded-xl border border-foreground/[0.08] bg-[oklch(0.99_0.008_90/0.5)] transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/18 hover:-translate-y-0.5"
+                >
+                  <component :is="social.icon" :size="22" class="text-foreground/45" />
+                  <span class="font-medium text-foreground">{{ social.name }}</span>
+                </a>
+              </li>
+            </ul>
           </div>
 
-          <div class="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-lg p-6">
-            <h3 class="text-lg font-semibold text-foreground mb-3">Email</h3>
-            <a :href="`mailto:${EMAIL}`" class="text-foreground-light hover:text-foreground transition-colors">
+          <div class="pt-8 border-t border-foreground/[0.08]">
+            <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-2">
+              Direct email
+            </h3>
+            <a
+              :href="`mailto:${EMAIL}`"
+              class="text-lg font-medium text-foreground hover:text-foreground-light transition-colors break-all"
+            >
               {{ EMAIL }}
             </a>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </section>
@@ -113,9 +121,6 @@
 import { ref } from 'vue'
 import { Github, Linkedin, Twitter, Mail } from 'lucide-vue-next'
 
-// Formspree Configuration
-// Set VITE_FORMSPREE_ENDPOINT in your .env file
-// Emails will be sent to: natinael.96@gmail.com
 const FORM_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || ''
 const USE_FORMSPREE = !!FORM_ENDPOINT
 
@@ -145,12 +150,11 @@ const handleSubmit = async () => {
 
   try {
     if (USE_FORMSPREE) {
-      // Use Formspree to send email
       const response = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           name: form.value.name,
@@ -166,8 +170,6 @@ const handleSubmit = async () => {
       if (response.ok) {
         submitStatus.value = 'success'
         form.value = { name: '', email: '', message: '' }
-        
-        // Hide success message after 5 seconds
         setTimeout(() => {
           submitStatus.value = 'idle'
         }, 5000)
@@ -175,17 +177,15 @@ const handleSubmit = async () => {
         throw new Error(data.error || 'Form submission failed')
       }
     } else {
-      // Fallback: Use mailto (opens email client)
       const subject = encodeURIComponent(`Portfolio Contact: ${form.value.name}`)
       const body = encodeURIComponent(
         `Name: ${form.value.name}\nEmail: ${form.value.email}\n\nMessage:\n${form.value.message}`
       )
       window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`
-      
+
       submitStatus.value = 'success'
       form.value = { name: '', email: '', message: '' }
-      
-      // Hide success message after 5 seconds
+
       setTimeout(() => {
         submitStatus.value = 'idle'
       }, 5000)
@@ -193,8 +193,7 @@ const handleSubmit = async () => {
   } catch (error) {
     console.error('Error submitting form:', error)
     submitStatus.value = 'error'
-    
-    // Hide error message after 5 seconds
+
     setTimeout(() => {
       submitStatus.value = 'idle'
     }, 5000)
@@ -203,4 +202,3 @@ const handleSubmit = async () => {
   }
 }
 </script>
-

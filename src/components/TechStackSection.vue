@@ -1,35 +1,37 @@
 <template>
-  <section id="tech" class="py-24 px-6 sm:px-8 lg:px-12">
+  <section id="tech" class="section-y section-x">
     <div class="max-w-7xl mx-auto">
-      <h2 class="text-4xl sm:text-5xl font-light text-foreground mb-4 text-center">
-        Tech Stack
-      </h2>
-      <p class="text-foreground-light text-center mb-16 max-w-2xl mx-auto">
-        Technologies and tools I work with to build robust applications.
-      </p>
+      <header class="mb-12 sm:mb-16 max-w-3xl">
+        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
+          Tech stack
+        </h2>
+        <p class="text-foreground-light text-lg leading-relaxed max-w-2xl">
+          Tools I reach for most often—grouped by how I think about the stack.
+        </p>
+      </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6">
         <div
           v-for="(category, index) in techCategories"
           :key="category.name"
-          class="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-8 hover:shadow-xl hover:border-foreground/20 transition-all duration-300"
+          class="flex flex-col border border-foreground/[0.09] rounded-2xl p-7 bg-[oklch(0.99_0.008_90/0.45)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/18 hover:shadow-[0_20px_40px_-24px_oklch(0.25_0.02_55/0.15)]"
           v-motion-slide-visible-once-bottom
-          :delay="index * 100"
+          :delay="index * 90"
         >
-          <h3 class="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-            <component :is="category.icon" :size="20" />
+          <h3 class="text-base font-semibold text-foreground mb-6 flex items-center gap-2.5">
+            <component :is="category.icon" :size="20" class="text-foreground/55" stroke-width="2" />
             {{ category.name }}
           </h3>
-          <div class="space-y-3">
-            <div
+          <ul class="space-y-3 flex-1">
+            <li
               v-for="tech in category.items"
               :key="tech"
-              class="flex items-center gap-3 text-foreground-light hover:text-foreground transition-colors"
+              class="flex items-center gap-3 text-foreground-light hover:text-foreground transition-colors duration-200"
             >
-              <TechIcon :name="tech" :size="20" class="flex-shrink-0" />
+              <TechIcon :name="tech" :size="20" class="flex-shrink-0 opacity-90" />
               <span class="text-sm font-medium">{{ tech }}</span>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -37,12 +39,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from 'vue'
 import { Server, Code, Database, Settings } from 'lucide-vue-next'
 import TechIcon from './TechIcon.vue'
 
 interface TechCategory {
   name: string
-  icon: any
+  icon: Component
   items: string[]
 }
 
@@ -69,4 +72,3 @@ const techCategories: TechCategory[] = [
   },
 ]
 </script>
-

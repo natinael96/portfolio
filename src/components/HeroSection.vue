@@ -1,66 +1,74 @@
 <template>
-  <section id="hero" class="min-h-screen flex items-center justify-center px-6 sm:px-8 lg:px-12 pt-16">
-    <div class="max-w-6xl mx-auto">
-      <div class="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16">
-        <!-- Photo Section -->
-        <div
-          class="flex-shrink-0"
-          v-motion-slide-right
-        >
+  <section
+    id="hero"
+    class="min-h-[100dvh] flex items-center section-x pt-24 pb-16 sm:pb-24"
+  >
+    <div class="w-full max-w-7xl mx-auto">
+      <div
+        class="flex flex-col lg:flex-row lg:items-end gap-12 lg:gap-16 xl:gap-24"
+      >
+        <div class="flex-shrink-0 lg:w-[42%] flex justify-center lg:justify-start" v-motion-slide-right>
           <div class="relative">
-            <div class="absolute inset-0 bg-gradient-to-br from-foreground/20 to-foreground/5 rounded-full blur-2xl transform scale-110"></div>
-            <div class="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full bg-white/80 border-4 border-white/80 shadow-2xl flex items-center justify-center">
-              <User :size="80" class="text-foreground/40" />
+            <div
+              class="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-foreground/[0.07] to-transparent blur-2xl opacity-80"
+            />
+            <div
+              class="relative w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 rounded-[2rem] bg-[oklch(0.99_0.01_90/0.85)] border border-foreground/[0.08] shadow-[0_20px_50px_-20px_oklch(0.25_0.02_55/0.2)] flex items-center justify-center"
+            >
+              <User :size="72" class="text-foreground/35" stroke-width="1.25" />
             </div>
           </div>
         </div>
 
-        <!-- Content Section -->
-        <div class="flex-1 text-center lg:text-left max-w-2xl">
+        <div class="flex-1 min-w-0 flex flex-col items-center lg:items-start text-center lg:text-left lg:pb-2">
+          <p
+            class="text-sm font-medium tracking-[0.12em] uppercase text-foreground-light mb-4"
+            v-motion-fade
+          >
+            Backend & full-stack
+          </p>
           <h1
-            class="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-6 tracking-tight"
+            class="font-display text-[clamp(2.5rem,6vw,4.25rem)] font-light text-foreground tracking-tight text-balance mb-6"
             v-motion-slide-top
           >
             Natinael M.
           </h1>
-          
+
           <p
-            class="text-lg sm:text-xl text-foreground-light mb-8 leading-relaxed"
+            class="text-lg sm:text-xl text-foreground-light max-w-xl leading-relaxed mb-10"
             v-motion-slide-bottom
           >
-            Backend Engineer & React Developer
-            <br />
-            Crafting scalable backend systems and elegant frontend experiences.
-            Building robust APIs, microservices, and modern web applications.
+            Backend engineer and React developer building scalable APIs, services, and interfaces that stay maintainable as they grow.
           </p>
 
           <div
-            class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-12"
+            class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-12"
             v-motion-fade
           >
             <button
-              class="px-8 py-3 bg-foreground text-white rounded-lg font-medium hover:bg-foreground/90 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+              type="button"
+              class="px-7 py-3 bg-foreground text-[oklch(0.99_0.01_90)] rounded-lg font-medium shadow-sm transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/92 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
               @click="scrollTo('projects')"
             >
-              View Work
+              View work
             </button>
             <button
-              class="px-8 py-3 border-2 border-foreground/20 text-foreground rounded-lg font-medium hover:border-foreground/40 transition-all duration-300 hover:shadow-md"
+              type="button"
+              class="px-7 py-3 border border-foreground/15 text-foreground rounded-lg font-medium transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/30 hover:bg-foreground/[0.03] hover:-translate-y-0.5 active:translate-y-0"
               @click="scrollTo('contact')"
             >
-              Get in Touch
+              Get in touch
             </button>
           </div>
 
-          <!-- Tech badges -->
           <div
-            class="flex flex-wrap items-center justify-center lg:justify-start gap-3"
+            class="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-2.5"
             v-motion-fade
           >
             <span
               v-for="tech in techStack"
               :key="tech"
-              class="px-4 py-2 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-full text-sm text-foreground-light font-medium hover:border-foreground/30 transition-all duration-300"
+              class="px-3.5 py-1.5 text-sm text-foreground-light font-medium rounded-full border border-foreground/[0.1] bg-[oklch(0.99_0.008_90/0.6)] transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-foreground/25"
             >
               {{ tech }}
             </span>
@@ -83,4 +91,3 @@ const scrollTo = (id: string) => {
   }
 }
 </script>
-

@@ -1,40 +1,47 @@
 <template>
-  <section id="experience" class="py-24 px-6 sm:px-8 lg:px-12 bg-white/40">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl sm:text-5xl font-light text-foreground mb-4 text-center">
-        Experience & Skills
-      </h2>
-      <p class="text-foreground-light text-center mb-16 max-w-2xl mx-auto">
-        Years of building scalable systems and modern applications.
-      </p>
+  <section id="experience" class="section-y section-x bg-[oklch(0.985_0.01_88/0.5)] border-y border-foreground/[0.06]">
+    <div class="max-w-3xl mx-auto lg:max-w-6xl lg:mx-auto lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16 xl:gap-24 items-start">
+      <header class="mb-14 lg:mb-0 lg:sticky lg:top-28">
+        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
+          Experience
+        </h2>
+        <p class="text-foreground-light text-lg leading-relaxed max-w-md">
+          Roles where I owned backend architecture, delivery, and mentoring.
+        </p>
+      </header>
 
-      <!-- Timeline -->
-      <div class="relative">
-        <div class="absolute left-4 sm:left-8 top-0 bottom-0 w-0.5 bg-gray-200/50"></div>
-        
+      <div class="relative pl-8 sm:pl-10">
+        <div
+          class="absolute left-[0.55rem] sm:left-[0.65rem] top-2 bottom-2 w-px bg-gradient-to-b from-foreground/15 via-foreground/10 to-transparent"
+          aria-hidden="true"
+        />
+
         <div
           v-for="(exp, index) in experiences"
           :key="exp.id"
-          :ref="el => expRefs[index] = el as HTMLElement"
-          class="relative pl-12 sm:pl-20 pb-12 last:pb-0"
+          :ref="(el) => setExpRef(el, index)"
+          class="relative pb-14 last:pb-2 pl-6 sm:pl-8"
           :class="{ 'animate-fade-in-left': visibleExps[index] }"
-          :style="{ transitionDelay: visibleExps[index] ? `${index * 100}ms` : '0ms' }"
+          :style="{ transitionDelay: visibleExps[index] ? `${index * 90}ms` : '0ms' }"
         >
-          <div class="absolute left-2 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-foreground rounded-full border-2 sm:border-4 border-white"></div>
-          
-          <div class="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-              <h3 class="text-xl font-semibold text-foreground">
+          <div
+            class="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-foreground border-[3px] border-[oklch(0.99_0.01_90)] shadow-sm"
+            aria-hidden="true"
+          />
+
+          <div class="space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+              <h3 class="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
                 {{ exp.role }}
               </h3>
-              <span class="text-sm text-foreground-light font-medium">
+              <span class="text-sm font-medium text-foreground-light tabular-nums shrink-0">
                 {{ exp.period }}
               </span>
             </div>
-            <p class="text-foreground-light font-medium mb-3">
+            <p class="text-sm font-semibold text-foreground/80">
               {{ exp.company }}
             </p>
-            <p class="text-foreground-light leading-relaxed">
+            <p class="text-foreground-light leading-relaxed max-w-prose">
               {{ exp.description }}
             </p>
           </div>
@@ -45,42 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
-const expRefs = ref<(HTMLElement | null)[]>([])
-const visibleExps = ref<boolean[]>(new Array(3).fill(false))
-
-const observeExperiences = () => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const index = expRefs.value.findIndex((ref) => ref === entry.target)
-          if (index !== -1) {
-            visibleExps.value[index] = true
-            observer.unobserve(entry.target)
-          }
-        }
-      })
-    },
-    {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
-    }
-  )
-
-  expRefs.value.forEach((ref) => {
-    if (ref) {
-      observer.observe(ref)
-    }
-  })
-}
-
-onMounted(() => {
-  setTimeout(() => {
-    observeExperiences()
-  }, 100)
-})
+import { ref, onMounted, onUnmounted } from 'vue'
 
 interface Experience {
   id: string
@@ -95,23 +67,65 @@ const experiences: Experience[] = [
     id: '1',
     role: 'Senior Backend Engineer',
     company: 'Tech Company',
-    period: '2022 - Present',
-    description: 'Leading development of microservices architecture, optimizing API performance, and mentoring junior developers.',
+    period: '2022 — Present',
+    description:
+      'Microservices, API performance, and mentoring—shipping reliable systems without sacrificing clarity.',
   },
   {
     id: '2',
     role: 'Full-Stack Developer',
     company: 'Startup Inc.',
-    period: '2020 - 2022',
-    description: 'Built end-to-end features for web applications, implemented CI/CD pipelines, and improved system reliability.',
+    period: '2020 — 2022',
+    description: 'End-to-end features, CI/CD, and keeping production calm under growth.',
   },
   {
     id: '3',
     role: 'Backend Developer',
     company: 'Digital Agency',
-    period: '2018 - 2020',
-    description: 'Developed RESTful APIs, integrated third-party services, and maintained database systems.',
+    period: '2018 — 2020',
+    description: 'REST integrations, third-party APIs, and data layers that stayed maintainable.',
   },
 ]
-</script>
 
+const expRefs = ref<(HTMLElement | null)[]>([])
+const visibleExps = ref<boolean[]>(experiences.map(() => false))
+
+let observer: IntersectionObserver | null = null
+
+function setExpRef(el: unknown, index: number) {
+  expRefs.value[index] = el instanceof HTMLElement ? el : null
+}
+
+const observeExperiences = () => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = expRefs.value.findIndex((r) => r === entry.target)
+          if (index !== -1) {
+            visibleExps.value[index] = true
+            observer?.unobserve(entry.target)
+          }
+        }
+      })
+    },
+    {
+      threshold: 0.15,
+      rootMargin: '0px 0px -10% 0px',
+    }
+  )
+
+  expRefs.value.forEach((r) => {
+    if (r) observer?.observe(r)
+  })
+}
+
+onMounted(() => {
+  requestAnimationFrame(() => observeExperiences())
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+  observer = null
+})
+</script>
