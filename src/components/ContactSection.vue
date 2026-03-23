@@ -1,17 +1,63 @@
 <template>
-  <section id="contact" class="section-y section-x bg-accent-muted/30">
-    <div class="max-w-7xl mx-auto">
-      <header class="mb-12 sm:mb-16 max-w-3xl">
-        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
-          Get in touch
-        </h2>
-        <p class="text-foreground-light text-lg leading-relaxed max-w-2xl">
-          Hiring, collaboration, or a technical question—send a note and I’ll reply when I can.
-        </p>
+  <section id="contact" class="section-y-loose section-x bg-accent-muted/30">
+    <div class="max-w-[90rem] mx-auto">
+      <header
+        class="mb-12 sm:mb-16 lg:mb-20 lg:grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-16 items-end"
+      >
+        <div>
+          <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
+            Contact
+          </p>
+          <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
+            Get in touch
+          </h2>
+          <p class="text-foreground-light text-base sm:text-lg leading-relaxed max-w-xl">
+            Hiring, collaboration, or a technical question—send a note and I’ll reply when I can.
+          </p>
+        </div>
       </header>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-        <div class="lg:col-span-7 border border-accent/12 rounded-2xl p-7 sm:p-8 bg-accent-fg/70">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-start"
+      >
+        <aside
+          class="lg:col-span-4 lg:col-start-1 lg:row-start-1 flex flex-col gap-10 order-2 lg:order-1"
+        >
+          <div v-if="profileLinks.length > 0">
+            <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-5">
+              Profiles
+            </h3>
+            <ul class="flex flex-col gap-2">
+              <li v-for="social in profileLinks" :key="social.name">
+                <a
+                  :href="social.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="profile-link-card"
+                >
+                  <component :is="social.icon" :size="22" class="text-accent/70" />
+                  <span class="font-medium text-foreground">{{ social.name }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div :class="profileLinks.length > 0 ? 'pt-8 border-t border-accent/12' : ''">
+            <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-2">
+              Direct email
+            </h3>
+            <a
+              :href="`mailto:${EMAIL}`"
+              class="link-inline break-all py-1 text-lg font-medium text-accent underline-offset-4 hover:text-accent-hover hover:underline"
+            >
+              {{ EMAIL }}
+            </a>
+          </div>
+        </aside>
+
+        <div
+          class="lg:col-span-7 lg:col-start-6 xl:col-start-6 border border-accent/12 rounded-2xl sm:rounded-3xl p-7 sm:p-8 lg:p-10 bg-accent-fg/70 order-1 lg:order-2"
+        >
           <form class="space-y-6" @submit.prevent="handleSubmit">
             <div
               v-if="submitStatus === 'success'"
@@ -98,39 +144,6 @@
             </button>
           </form>
         </div>
-
-        <aside class="lg:col-span-5 flex flex-col gap-10">
-          <div v-if="profileLinks.length > 0">
-            <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-5">
-              Profiles
-            </h3>
-            <ul class="flex flex-col gap-2">
-              <li v-for="social in profileLinks" :key="social.name">
-                <a
-                  :href="social.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="profile-link-card"
-                >
-                  <component :is="social.icon" :size="22" class="text-accent/70" />
-                  <span class="font-medium text-foreground">{{ social.name }}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div :class="profileLinks.length > 0 ? 'pt-8 border-t border-accent/12' : ''">
-            <h3 class="text-xs font-semibold tracking-[0.14em] uppercase text-foreground-light mb-2">
-              Direct email
-            </h3>
-            <a
-              :href="`mailto:${EMAIL}`"
-              class="link-inline break-all py-1 text-lg font-medium text-accent underline-offset-4 hover:text-accent-hover hover:underline"
-            >
-              {{ EMAIL }}
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </section>
@@ -138,7 +151,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { Github, Linkedin, Twitter } from 'lucide-vue-next'
+import { Code2, Github, Linkedin, Send, Twitter } from 'lucide-vue-next'
 import { site } from '../content/site'
 
 const FORM_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || ''
@@ -151,6 +164,8 @@ const profileLinks = computed(() => {
     { name: 'GitHub', url: site.social.github, icon: Github },
     { name: 'LinkedIn', url: site.social.linkedin, icon: Linkedin },
     { name: 'Twitter / X', url: site.social.twitter, icon: Twitter },
+    { name: 'LeetCode', url: site.social.leetcode, icon: Code2 },
+    { name: 'Telegram', url: site.social.telegram, icon: Send },
   ]
   return entries.filter(
     (e) => typeof e.url === 'string' && e.url.length > 0 && e.url.startsWith('http')

@@ -9,7 +9,7 @@
           class="brand-mark -ml-2"
           @click.prevent="scrollTo('hero')"
         >
-          NM
+          NMS
         </a>
         <div class="hidden md:flex items-center gap-6 lg:gap-8">
           <a

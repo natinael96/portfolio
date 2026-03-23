@@ -1,5 +1,4 @@
 <template>
-  <!-- AWS S3 Icon -->
   <img
     v-if="props.name === 'AWS S3' && awsS3Icon"
     :src="awsS3Icon"
@@ -8,7 +7,6 @@
     alt="AWS S3"
     class="tech-icon"
   />
-  <!-- AWS CodePipeline Icon -->
   <img
     v-else-if="props.name === 'AWS CodePipeline' && awsCodePipelineIcon"
     :src="awsCodePipelineIcon"
@@ -17,7 +15,14 @@
     alt="AWS CodePipeline"
     class="tech-icon"
   />
-  <!-- Other icons from simple-icons -->
+  <img
+    v-else-if="props.name === 'AWS' && awsEc2Icon"
+    :src="awsEc2Icon"
+    :width="size"
+    :height="size"
+    alt="AWS"
+    class="tech-icon"
+  />
   <svg
     v-else-if="iconData"
     :width="size"
@@ -33,16 +38,38 @@
     v-else
     :style="{ width: size + 'px', height: size + 'px' }"
     class="rounded bg-foreground/10"
-  ></div>
+  />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import * as si from 'simple-icons'
+import type { SimpleIcon } from 'simple-icons'
+import {
+  siNodedotjs,
+  siNestjs,
+  siPython,
+  siFastapi,
+  siExpress,
+  siGraphql,
+  siReact,
+  siNextdotjs,
+  siVuedotjs,
+  siTypescript,
+  siTailwindcss,
+  siPostgresql,
+  siMongodb,
+  siRedis,
+  siMysql,
+  siElasticsearch,
+  siDocker,
+  siKubernetes,
+  siGithubactions,
+  siTerraform,
+} from 'simple-icons'
 
-// AWS Icons from aws-svg-icons
 import awsS3Icon from 'aws-svg-icons/lib/Architecture-Service-Icons_07302021/Arch_Storage/64/Arch_Amazon-Simple-Storage-Service_64.svg'
 import awsCodePipelineIcon from 'aws-svg-icons/lib/Architecture-Service-Icons_07302021/Arch_Developer-Tools/64/Arch_AWS-CodePipeline_64.svg'
+import awsEc2Icon from 'aws-svg-icons/lib/Architecture-Service-Icons_07302021/Arch_Compute/64/Arch_Amazon-EC2_64.svg'
 
 interface Props {
   name: string
@@ -53,48 +80,33 @@ const props = withDefaults(defineProps<Props>(), {
   size: 20,
 })
 
-// Map tech names to simple-icons slugs (exact property names in simple-icons)
-const iconSlugMap: Record<string, string> = {
-  'Node.js': 'siNodedotjs',
-  'NestJS': 'siNestjs',
-  'Python': 'siPython',
-  'FastAPI': 'siFastapi',
-  'Express': 'siExpress',
-  'GraphQL': 'siGraphql',
-  'React': 'siReact',
-  'Next.js': 'siNextdotjs',
-  'Vue.js': 'siVuedotjs',
-  'TypeScript': 'siTypescript',
-  'Tailwind CSS': 'siTailwindcss',
-  'PostgreSQL': 'siPostgresql',
-  'MongoDB': 'siMongodb',
-  'Redis': 'siRedis',
-  'MySQL': 'siMysql',
-  'Elasticsearch': 'siElasticsearch',
-  'Docker': 'siDocker',
-  'Kubernetes': 'siKubernetes',
-  'AWS': 'siAmazonaws',
-  'GitHub Actions': 'siGithubactions',
-  'Terraform': 'siTerraform',
+const iconMap: Record<string, SimpleIcon> = {
+  'Node.js': siNodedotjs,
+  NestJS: siNestjs,
+  Python: siPython,
+  FastAPI: siFastapi,
+  Express: siExpress,
+  GraphQL: siGraphql,
+  React: siReact,
+  'Next.js': siNextdotjs,
+  'Vue.js': siVuedotjs,
+  TypeScript: siTypescript,
+  'Tailwind CSS': siTailwindcss,
+  PostgreSQL: siPostgresql,
+  MongoDB: siMongodb,
+  Redis: siRedis,
+  MySQL: siMysql,
+  Elasticsearch: siElasticsearch,
+  Docker: siDocker,
+  Kubernetes: siKubernetes,
+  'GitHub Actions': siGithubactions,
+  Terraform: siTerraform,
 }
 
 const iconData = computed(() => {
-  const iconKey = iconSlugMap[props.name]
-  if (!iconKey) return null
-
-  try {
-    const icon = (si as any)[iconKey]
-    
-    if (icon && icon.path) {
-      return {
-        path: icon.path,
-        hex: icon.hex,
-      }
-    }
-  } catch (error) {
-    console.warn(`Icon not found for: ${props.name}`, error)
-  }
-  return null
+  const icon = iconMap[props.name]
+  if (!icon?.path) return null
+  return { path: icon.path, hex: icon.hex }
 })
 </script>
 
@@ -104,4 +116,3 @@ const iconData = computed(() => {
   vertical-align: middle;
 }
 </style>
-

@@ -1,18 +1,26 @@
 <template>
-  <section id="experience" class="section-y section-x bg-accent-muted/35 border-y border-accent/12">
-    <div class="max-w-3xl mx-auto lg:max-w-6xl lg:mx-auto lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16 xl:gap-24 items-start">
-      <header class="mb-14 lg:mb-0 lg:sticky lg:top-28">
-        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-4 tracking-tight">
+  <section
+    id="experience"
+    class="section-y-tight section-x bg-accent-muted/35 border-y border-accent/12"
+  >
+    <div
+      class="max-w-3xl mx-auto lg:max-w-[88rem] lg:mx-auto lg:grid lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.28fr)] lg:gap-x-12 xl:gap-x-20 2xl:gap-x-28 items-start"
+    >
+      <header class="mb-14 lg:mb-0 lg:sticky lg:top-28 lg:pt-2 lg:pr-8 xl:pr-12">
+        <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
+          Timeline
+        </p>
+        <h2 class="font-display text-4xl sm:text-5xl font-light text-foreground mb-5 tracking-tight">
           Experience
         </h2>
-        <p class="text-foreground-light text-lg leading-relaxed max-w-md">
-          Where I’ve focused on reliability, delivery, and helping others level up—without naming employers I can’t share publicly.
+        <p class="text-foreground-light text-base sm:text-lg leading-relaxed max-w-sm xl:max-w-xs">
+          Venture studios, product work, internships—then A2SV and university.
         </p>
       </header>
 
-      <div class="relative pl-8 sm:pl-10">
+      <div class="relative pl-8 sm:pl-10 lg:pl-6">
         <div
-          class="absolute left-[0.55rem] sm:left-[0.65rem] top-2 bottom-2 w-px bg-gradient-to-b from-accent/35 via-accent/15 to-transparent"
+          class="absolute left-[0.55rem] sm:left-[0.65rem] lg:left-[0.85rem] top-2 bottom-2 w-px bg-gradient-to-b from-accent/35 via-accent/15 to-transparent"
           aria-hidden="true"
         />
 
@@ -20,7 +28,7 @@
           v-for="(exp, index) in experiences"
           :key="exp.id"
           :ref="(el) => setExpRef(el, index)"
-          class="relative pb-14 last:pb-2 pl-6 sm:pl-8"
+          class="relative pb-12 sm:pb-16 last:pb-3 pl-6 sm:pl-8"
           :class="{ 'animate-fade-in-left': visibleExps[index] }"
           :style="{ transitionDelay: visibleExps[index] ? `${index * 90}ms` : '0ms' }"
         >
@@ -39,10 +47,36 @@
               </span>
             </div>
             <p class="text-sm font-semibold text-foreground/80">
-              {{ exp.company }}
+              <a
+                v-if="exp.companyUrl"
+                :href="exp.companyUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-inline underline-offset-4 hover:text-accent hover:underline"
+              >
+                {{ exp.company }}
+              </a>
+              <template v-else>{{ exp.company }}</template>
             </p>
-            <p class="text-foreground-light leading-relaxed max-w-prose">
-              {{ exp.description }}
+            <p
+              v-if="exp.location"
+              class="text-xs text-foreground-light/90 -mt-1"
+            >
+              {{ exp.location }}
+            </p>
+            <ul
+              v-if="exp.bullets?.length"
+              class="mt-2 space-y-2 text-foreground-light leading-relaxed max-w-prose list-disc pl-4 marker:text-accent/60"
+            >
+              <li v-for="(item, i) in exp.bullets" :key="i" class="pl-0.5">
+                {{ item }}
+              </li>
+            </ul>
+            <p
+              v-else-if="exp.summary"
+              class="text-foreground-light leading-relaxed max-w-prose mt-1"
+            >
+              {{ exp.summary }}
             </p>
           </div>
         </div>

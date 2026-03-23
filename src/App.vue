@@ -11,9 +11,11 @@
     </main>
 
     <footer
-      class="section-y section-x border-t border-accent/10 bg-accent-subtle/50"
+      class="section-y-tight section-x border-t border-accent/10 bg-accent-subtle/50"
     >
-      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left">
+      <div
+        class="max-w-[90rem] mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 text-center sm:text-left"
+      >
         <p class="text-sm text-foreground-light">
           © {{ new Date().getFullYear() }} {{ site.name }}
         </p>

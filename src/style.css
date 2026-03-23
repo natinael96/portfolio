@@ -155,6 +155,17 @@
     padding-right: var(--section-x);
   }
 
+  /** Tighter / looser vertical rhythm for alternating sections */
+  .section-y-tight {
+    padding-top: clamp(2.5rem, 6vw, 4.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .section-y-loose {
+    padding-top: clamp(4.5rem, 11vw, 8.5rem);
+    padding-bottom: clamp(4.5rem, 11vw, 8.5rem);
+  }
+
   .animate-fade-in-up {
     animation: fadeInUp 0.65s var(--ease-out-quint) forwards;
     opacity: 0;
