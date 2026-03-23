@@ -53,10 +53,7 @@
             :key="item.id"
             :href="`#${item.id}`"
             class="py-3 text-sm font-medium text-foreground-light hover:text-foreground transition-colors"
-            @click.prevent="
-              scrollTo(item.id)
-              mobileMenuOpen = false
-            "
+            @click.prevent="onNavClick(item.id)"
           >
             {{ item.label }}
           </a>
@@ -85,5 +82,10 @@ const scrollTo = (id: string) => {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+}
+
+const onNavClick = (id: string) => {
+  scrollTo(id)
+  mobileMenuOpen.value = false
 }
 </script>
