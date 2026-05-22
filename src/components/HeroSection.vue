@@ -24,15 +24,10 @@
           </div>
 
           <h1
-            class="font-display text-[clamp(2.35rem,5.2vw,3.9rem)] font-semibold tracking-[-0.04em] text-balance mb-5 max-w-[22ch] lg:max-w-[20ch] xl:max-w-none text-foreground"
+            class="font-display text-[clamp(2.35rem,5.2vw,3.9rem)] font-semibold tracking-[-0.04em] text-balance mb-5 text-foreground"
             v-motion-slide-top
           >
-            <span class="block">{{ heroIntro.displayName.primary }}</span>
-            <span
-              class="block text-[0.68em] sm:text-[0.72em] font-medium text-foreground-light tracking-[-0.03em] mt-1 sm:mt-1.5"
-            >
-              {{ heroIntro.displayName.secondary }}
-            </span>
+            {{ site.name }}
           </h1>
 
           <div

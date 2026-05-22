@@ -189,10 +189,6 @@ export const experiences: Experience[] = [
 
 export const heroIntro = {
   greeting: 'Hello, I\'m',
-  displayName: {
-    primary: 'Natinael',
-    secondary: 'Mequanent Shebabaw',
-  },
   manifesto: {
     location: 'Addis Ababa, Ethiopia',
     steps: [
