@@ -12,7 +12,7 @@
         >
           <div
             class="flex items-center gap-3 mb-5 w-full justify-center lg:justify-start"
-            v-motion-fade
+            v-motion="motionEnterUp(0)"
           >
             <span class="h-px w-8 sm:w-12 bg-accent/25 shrink-0" aria-hidden="true" />
             <p class="font-mono text-xs sm:text-sm font-medium tracking-[0.12em] uppercase text-accent">
@@ -25,14 +25,14 @@
 
           <h1
             class="font-display text-[clamp(2.35rem,5.2vw,3.9rem)] font-semibold tracking-[-0.04em] text-balance mb-5 text-foreground"
-            v-motion-slide-top
+            v-motion="motionEnterDown(120)"
           >
             {{ site.name }}
           </h1>
 
           <div
             class="hero-signal mb-9 lg:mb-10"
-            v-motion-fade
+            v-motion="motionEnterUp(260)"
           >
             <div class="hero-signal-accent" aria-hidden="true" />
 
@@ -71,7 +71,7 @@
 
           <div
             class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-9"
-            v-motion-fade
+            v-motion="motionEnterUp(420)"
           >
             <button type="button" class="btn-primary" @click="scrollTo('projects')">
               View work
@@ -83,7 +83,7 @@
 
           <div
             class="flex flex-wrap items-center justify-center lg:justify-start gap-x-2.5 gap-y-2.5 max-w-xl lg:max-w-2xl"
-            v-motion-fade
+            v-motion="motionEnterUp(560)"
           >
             <span
               v-for="tech in heroTech"
@@ -97,7 +97,7 @@
 
         <aside
           class="flex w-full justify-center lg:justify-start pb-2"
-          v-motion-fade
+          v-motion="motionEnterRight(180)"
           aria-label="Developer profile summary"
         >
           <div class="dev-panel dev-panel--runtime w-full max-w-[24rem]">
@@ -180,6 +180,7 @@
 
 <script setup lang="ts">
 import { devProfile, heroIntro, heroTech, site } from '../content/site'
+import { motionEnterDown, motionEnterRight, motionEnterUp } from '../motion'
 
 const scrollTo = (id: string) => {
   const element = document.getElementById(id)

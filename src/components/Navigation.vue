@@ -36,12 +36,12 @@
     </div>
 
     <Transition
-      enter-active-class="transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
-      leave-active-class="transition duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]"
-      enter-from-class="opacity-0 -translate-y-1"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-1"
+      enter-active-class="transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      leave-active-class="transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      enter-from-class="opacity-0 -translate-y-3 scale-[0.98]"
+      enter-to-class="opacity-100 translate-y-0 scale-100"
+      leave-from-class="opacity-100 translate-y-0 scale-100"
+      leave-to-class="opacity-0 -translate-y-2 scale-[0.99]"
     >
       <div
         v-if="mobileMenuOpen"

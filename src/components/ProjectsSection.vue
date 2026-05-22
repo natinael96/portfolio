@@ -2,9 +2,9 @@
   <section id="projects" class="section-y-loose section-x">
     <div class="max-w-[90rem] mx-auto">
       <header
-        class="mb-12 sm:mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-12"
+        class="mb-12 sm:mb-16 flex flex-col lg:flex-row lg:items-stretch lg:justify-between gap-8 lg:gap-12"
       >
-        <div class="max-w-xl">
+        <div class="max-w-xl" v-motion="motionVisibleOnceUp(0)">
           <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-3">
             Selected work
           </p>
@@ -15,6 +15,52 @@
             APIs, data layers, and UIs—how I’d walk through them in a technical interview.
           </p>
         </div>
+
+        <aside
+          class="project-workspace lg:max-w-md xl:max-w-lg w-full shrink-0"
+          aria-label="Project workspace"
+          v-motion="motionVisibleOnceUp(160)"
+        >
+          <div class="project-workspace-topbar">
+            <div class="dev-panel-head mb-0">
+              <span class="dev-dot dev-dot--close" aria-hidden="true" />
+              <span class="dev-dot dev-dot--min" aria-hidden="true" />
+              <span class="dev-dot dev-dot--max" aria-hidden="true" />
+            </div>
+            <span class="project-workspace-path">~/portfolio/projects</span>
+          </div>
+
+          <div class="project-workspace-body">
+            <p class="project-workspace-cmd">
+              <span class="project-workspace-prompt">$</span>
+              ls ~/portfolio/projects
+            </p>
+
+            <ul class="project-workspace-graph">
+              <li
+                v-for="(project, index) in projects"
+                :key="project.id"
+                class="project-workspace-graph-row"
+              >
+                <span class="project-workspace-graph-line" aria-hidden="true">
+                  {{ index === projects.length - 1 ? '└─' : '├─' }}
+                </span>
+                <span class="project-workspace-id">{{ project.id }}</span>
+                <span
+                  v-if="project.status === 'live'"
+                  class="project-workspace-tag project-workspace-tag--live"
+                >
+                  live
+                </span>
+              </li>
+            </ul>
+
+            <div class="project-workspace-stats">
+              <span>{{ projects.length }} repos</span>
+              <span>{{ liveProjectCount }} deployed</span>
+            </div>
+          </div>
+        </aside>
       </header>
 
       <!-- Featured (first project with demo) -->
@@ -53,9 +99,7 @@
               {{ featuredProject.title }}
             </h3>
 
-            <p
-              class="text-base text-foreground-light leading-relaxed max-w-2xl mb-6"
-            >
+            <p class="text-base text-foreground-light leading-relaxed max-w-2xl mb-6">
               {{ featuredProject.description }}
             </p>
 
@@ -74,13 +118,13 @@
               :href="featuredProject.demo"
               target="_blank"
               rel="noopener noreferrer"
-              class="btn-primary w-full sm:w-auto lg:w-full justify-center"
+              class="btn-primary w-full sm:w-auto xl:w-full justify-center"
             >
               <ExternalLink :size="18" stroke-width="2" aria-hidden="true" />
               View live demo
             </a>
 
-            <div class="flex flex-col gap-2">
+            <div v-if="projectCodeLinks(featuredProject).length" class="flex flex-col gap-2">
               <a
                 v-for="link in projectCodeLinks(featuredProject)"
                 :key="link.href"
@@ -100,7 +144,7 @@
       <!-- Rest of projects -->
       <div
         v-if="otherProjects.length > 0"
-          class="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5"
+        class="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5"
       >
         <article
           v-for="(project, i) in otherProjects"
@@ -109,7 +153,7 @@
           class="project-card group"
           :class="{ 'animate-fade-in-up': visibleProjects[i + 1] }"
           :style="{
-            transitionDelay: visibleProjects[i + 1] ? `${(i + 1) * 60}ms` : '0ms',
+            transitionDelay: visibleProjects[i + 1] ? `${(i + 1) * 130}ms` : '0ms',
           }"
         >
           <div class="project-terminal-head mb-4">
@@ -131,7 +175,7 @@
             {{ project.description }}
           </p>
 
-          <ul class="flex flex-wrap gap-1.5 mb-6" aria-label="Technologies">
+          <ul class="flex flex-wrap gap-1.5 mb-5" aria-label="Technologies">
             <li v-for="tech in project.tech" :key="tech">
               <span class="project-chip project-chip--sm">{{ tech }}</span>
             </li>
@@ -171,9 +215,14 @@ import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Github, ExternalLink } from 'lucide-vue-next'
 
 import { projects, type Project } from '../content/site'
+import { motionVisibleOnceUp } from '../motion'
 
 const featuredProject = computed(() => projects[0] ?? null)
 const otherProjects = computed(() => projects.slice(1))
+
+const liveProjectCount = computed(
+  () => projects.filter((project) => project.status === 'live' || project.demo).length
+)
 
 function projectCodeLinks(project: Project): { label: string; href: string }[] {
   if (project.githubRepos?.length) return project.githubRepos

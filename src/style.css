@@ -34,9 +34,9 @@
   /* Primary CTA — min 44px hit area, keyboard focus, motion-safe lift */
   .btn-primary {
     @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg px-7 font-medium text-accent-fg bg-accent
-      transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:bg-accent-hover motion-safe:hover:-translate-y-px
-      active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:bg-accent-hover motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02]
+      active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:active:scale-100
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]
       disabled:pointer-events-none disabled:opacity-50 disabled:motion-safe:hover:translate-y-0;
     box-shadow: 0 10px 24px -18px oklch(0.24 0.05 168 / 0.34);
@@ -44,9 +44,9 @@
 
   .btn-secondary {
     @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg border border-solid px-7 font-medium text-foreground bg-transparent
-      transition-[transform,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:bg-accent-subtle motion-safe:hover:-translate-y-px
-      active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:bg-accent-subtle motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02]
+      active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:active:scale-100
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]
       disabled:pointer-events-none disabled:opacity-50;
     border-color: color-mix(in oklch, var(--accent) 30%, transparent);
@@ -126,6 +126,7 @@
     @apply relative inline-flex h-2 w-2 shrink-0 rounded-full;
     background-color: color-mix(in oklch, var(--accent) 72%, transparent);
     box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent);
+    animation: hero-signal-pulse 2.2s ease-in-out infinite;
   }
 
   .hero-signal-steps {
@@ -366,7 +367,7 @@
   .project-card {
     @apply relative flex flex-col rounded-2xl border border-solid p-6 sm:p-7
       transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-px motion-reduce:hover:translate-y-0
+      motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.008] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100
       focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-[var(--page-bg)];
     border-color: color-mix(in oklch, var(--accent) 10%, transparent);
     background-color: color-mix(in oklch, var(--accent-fg) 88%, transparent);
@@ -447,6 +448,68 @@
     @apply text-accent-hover;
   }
 
+  .project-workspace {
+    @apply rounded-2xl border border-solid overflow-hidden;
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 84%, transparent);
+    box-shadow: 0 16px 40px -34px oklch(0.24 0.05 168 / 0.32);
+  }
+
+  .project-workspace-topbar {
+    @apply flex items-center gap-2 border-b border-solid px-3 py-2.5;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 35%, var(--accent-fg));
+  }
+
+  .project-workspace-path {
+    @apply font-mono text-[0.68rem] font-medium tracking-[0.06em] text-foreground-light truncate;
+  }
+
+  .project-workspace-body {
+    @apply p-4 sm:p-5;
+  }
+
+  .project-workspace-cmd {
+    @apply font-mono text-[0.72rem] sm:text-xs font-medium text-foreground-light mb-4;
+  }
+
+  .project-workspace-prompt {
+    @apply mr-1.5;
+    color: color-mix(in oklch, var(--accent) 75%, transparent);
+  }
+
+  .project-workspace-graph {
+    @apply space-y-1.5 mb-4;
+  }
+
+  .project-workspace-graph-row {
+    @apply flex items-center gap-2 font-mono text-[0.68rem] sm:text-xs min-w-0;
+  }
+
+  .project-workspace-graph-line {
+    @apply shrink-0;
+    color: color-mix(in oklch, var(--foreground-muted) 70%, transparent);
+  }
+
+  .project-workspace-id {
+    @apply truncate text-foreground-light;
+  }
+
+  .project-workspace-tag {
+    @apply shrink-0 rounded px-1.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em];
+    background-color: color-mix(in oklch, var(--accent) 8%, var(--accent-fg));
+    border: 1px solid color-mix(in oklch, var(--accent) 14%, transparent);
+  }
+
+  .project-workspace-tag--live {
+    @apply text-accent;
+  }
+
+  .project-workspace-stats {
+    @apply flex flex-wrap gap-x-4 gap-y-1 pt-3 border-t border-solid font-mono text-[0.68rem] font-medium uppercase tracking-[0.1em] text-foreground-light;
+    border-color: color-mix(in oklch, var(--accent) 9%, transparent);
+  }
+
   .experience-panel {
     @apply relative rounded-2xl sm:rounded-3xl border border-solid p-7 sm:p-8 overflow-hidden;
     border-color: color-mix(in oklch, var(--accent) 10%, transparent);
@@ -475,7 +538,7 @@
 
   .experience-card {
     @apply relative rounded-2xl border border-solid p-6 sm:p-7 overflow-hidden transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-px motion-reduce:hover:translate-y-0;
+      motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.008] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100;
     border-color: color-mix(in oklch, var(--accent) 10%, transparent);
     background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
     box-shadow: 0 12px 34px -30px oklch(0.24 0.05 168 / 0.25);
@@ -540,8 +603,8 @@
 
   .profile-link-card {
     @apply flex min-h-[2.75rem] cursor-pointer items-center gap-4 rounded-xl border border-solid px-4 py-3
-      transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-px active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.01] active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:active:scale-100
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
     border-color: color-mix(in oklch, var(--accent) 9%, transparent);
     background-color: color-mix(in oklch, var(--accent-fg) 76%, transparent);
@@ -591,12 +654,12 @@
   }
 
   .animate-fade-in-up {
-    animation: fadeInUp 0.5s var(--ease-out-quint) forwards;
+    animation: fadeInUp 0.78s var(--ease-out-quint) forwards;
     opacity: 0;
   }
 
   .animate-fade-in-left {
-    animation: fadeInLeft 0.5s var(--ease-out-quint) forwards;
+    animation: fadeInLeft 0.78s var(--ease-out-quint) forwards;
     opacity: 0;
   }
 }
@@ -604,7 +667,18 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translate3d(0, 12px, 0);
+    transform: translate3d(0, 40px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-36px, 0, 0);
   }
   to {
     opacity: 1;
@@ -612,14 +686,15 @@
   }
 }
 
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translate3d(-10px, 0, 0);
+@keyframes hero-signal-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent);
   }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px color-mix(in oklch, var(--accent) 8%, transparent);
   }
 }
 
@@ -658,7 +733,8 @@
   }
 
   .dev-cursor,
-  .dev-status-dot {
+  .dev-status-dot,
+  .hero-signal-dot {
     animation: none !important;
   }
 }

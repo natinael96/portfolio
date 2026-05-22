@@ -14,7 +14,7 @@
 
     <div class="max-w-3xl mx-auto lg:max-w-[90rem]">
       <header class="mb-10 sm:mb-12 lg:mb-14">
-        <div class="experience-panel max-w-2xl">
+        <div class="experience-panel max-w-2xl" v-motion="motionVisibleOnceUp(0)">
           <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-3">
             Career signal
           </p>
@@ -66,7 +66,7 @@
             :ref="(el) => setExpRef(el, entry.index)"
             class="relative pb-7 sm:pb-8 last:pb-0 pl-6 sm:pl-8"
             :class="{ 'animate-fade-in-left': visibleExps[entry.index] }"
-            :style="{ transitionDelay: visibleExps[entry.index] ? `${entry.index * 90}ms` : '0ms' }"
+            :style="{ transitionDelay: visibleExps[entry.index] ? `${entry.index * 150}ms` : '0ms' }"
           >
             <div class="experience-node" aria-hidden="true">
               {{ String(localIndex + 1).padStart(2, '0') }}
@@ -135,6 +135,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 
 import { experiences } from '../content/site'
+import { motionVisibleOnceUp } from '../motion'
 
 const professionalExperiences = computed(() =>
   experiences.filter((exp) => exp.category !== 'education')

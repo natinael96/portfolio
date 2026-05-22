@@ -1,7 +1,7 @@
 <template>
   <section id="contact" class="section-y-loose section-x bg-accent-subtle/35">
     <div class="max-w-[90rem] mx-auto">
-      <header class="mb-12 sm:mb-16 lg:mb-20 max-w-2xl">
+      <header class="mb-12 sm:mb-16 lg:mb-20 max-w-2xl" v-motion="motionVisibleOnceUp(0)">
         <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-3">
           Contact
         </p>
@@ -31,12 +31,13 @@
             Profiles
           </h3>
           <ul class="flex flex-col gap-2">
-            <li v-for="social in profileLinks" :key="social.name">
+            <li v-for="(social, index) in profileLinks" :key="social.name">
               <a
                 :href="social.url"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="profile-link-card"
+                v-motion="motionVisibleOnceUp(120 + index * 90)"
               >
                 <component :is="social.icon" :size="22" class="text-accent/55" />
                 <span class="font-medium text-foreground">{{ social.name }}</span>
@@ -53,6 +54,7 @@
 import { computed } from 'vue'
 import { Code2, Github, Linkedin, Send, Twitter } from 'lucide-vue-next'
 import { site } from '../content/site'
+import { motionVisibleOnceUp } from '../motion'
 
 const EMAIL = site.email
 

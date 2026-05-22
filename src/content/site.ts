@@ -34,6 +34,7 @@ export interface Project {
   /** Multiple repos (e.g. API + web). When set, used instead of `github` for links. */
   githubRepos?: ProjectCodeLink[]
   demo?: string
+  status?: 'live' | 'completed'
 }
 
 const projectsUnordered: Project[] = [
@@ -41,21 +42,19 @@ const projectsUnordered: Project[] = [
     id: 'air-qua',
     title: 'Air Qua',
     description:
-      'Air quality monitoring for Addis Ababa: real-time map, stations, and dashboard. Live demo on Vercel; API and web repos on GitHub.',
+      'Air quality monitoring for Addis Ababa: real-time map, stations, and dashboard. Live demo on Vercel.',
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
-    githubRepos: [
-      { label: 'API', href: 'https://github.com/natinael96/air-qua-monitor-back' },
-      { label: 'Web', href: 'https://github.com/natinael96/air-qua-monitor-front' },
-    ],
     demo: 'https://air-qua-monitor-front.vercel.app',
+    status: 'live',
   },
   {
-    id: 'nexus',
-    title: 'ALX Project Nexus',
+    id: 'job-board-api',
+    title: 'Job Board Platform Backend API',
     description:
-      'Product work across a dedicated API/backend repo and a separate frontend app—end-to-end features, integration, and delivery.',
-    tech: ['Node.js', 'TypeScript', 'React', 'GraphQL'],
-    github: 'https://github.com/natinael96/alx-project-nexus',
+      'Backend API for a job board platform—listings, applications, auth, and employer workflows.',
+    tech: ['Node.js', 'TypeScript', 'PostgreSQL', 'REST'],
+    github: 'https://github.com/natinael96/Job-Board-Platform-Backend-API',
+    status: 'completed',
   },
   {
     id: 'graphql-crm',
@@ -64,6 +63,7 @@ const projectsUnordered: Project[] = [
       'Backend specialization project focused on GraphQL APIs and CRM-style domains (ALX backend track).',
     tech: ['Python', 'GraphQL', 'PostgreSQL'],
     github: 'https://github.com/natinael96/alx-backend-graphql_crm',
+    status: 'completed',
   },
   {
     id: 'travel',
@@ -72,6 +72,7 @@ const projectsUnordered: Project[] = [
       'Multi-milestone travel-app backend and services from the ALX backend curriculum.',
     tech: ['Python', 'PostgreSQL', 'Docker'],
     github: 'https://github.com/natinael96/alx_travel_app_0x03',
+    status: 'completed',
   },
   {
     id: 'security',
@@ -80,6 +81,7 @@ const projectsUnordered: Project[] = [
       'Security-focused backend exercises: hardening patterns, safe defaults, and defensive design.',
     tech: ['Python', 'Node.js', 'Docker'],
     github: 'https://github.com/natinael96/alx-backend-security',
+    status: 'completed',
   },
   {
     id: 'listings-cache',
@@ -88,6 +90,7 @@ const projectsUnordered: Project[] = [
       'Performance-oriented API work with caching for listing-heavy workloads (ALX backend).',
     tech: ['Python', 'Redis', 'PostgreSQL'],
     github: 'https://github.com/natinael96/alx-backend-caching_property_listings',
+    status: 'completed',
   },
 ]
 

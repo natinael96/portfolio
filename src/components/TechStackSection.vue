@@ -4,7 +4,7 @@
       <header
         class="mb-12 sm:mb-16 lg:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-12"
       >
-        <div class="max-w-xl">
+        <div class="max-w-xl" v-motion="motionVisibleOnceUp(0)">
           <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-3">
             Toolkit
           </p>
@@ -26,10 +26,9 @@
           <div
             v-for="(category, index) in leftColumn"
             :key="category.name"
-            class="flex flex-col border border-accent/10 rounded-2xl p-6 sm:p-7 bg-accent-fg/70 transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/20 hover:bg-accent-fg/85"
+            class="flex flex-col border border-accent/10 rounded-2xl p-6 sm:p-7 bg-accent-fg/70 transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/20 hover:bg-accent-fg/85 motion-safe:hover:-translate-y-1"
+            v-motion="motionVisibleOnceUp(index * 160)"
             :class="index === 0 ? 'lg:rounded-3xl' : ''"
-            v-motion-slide-visible-once-bottom
-            :delay="index * 90"
           >
             <h3 class="text-base font-semibold text-foreground mb-5 flex items-center gap-2.5">
               <component :is="category.icon" :size="20" class="text-accent" stroke-width="2" />
@@ -53,10 +52,9 @@
           <div
             v-for="(category, index) in rightColumn"
             :key="category.name"
-            class="flex flex-col border border-accent/10 rounded-2xl p-6 sm:p-7 bg-accent-fg/70 transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/20 hover:bg-accent-fg/85"
+            class="flex flex-col border border-accent/10 rounded-2xl p-6 sm:p-7 bg-accent-fg/70 transition-[transform,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/20 hover:bg-accent-fg/85 motion-safe:hover:-translate-y-1"
+            v-motion="motionVisibleOnceUp((index + 2) * 160)"
             :class="index === 1 ? 'lg:rounded-3xl' : ''"
-            v-motion-slide-visible-once-bottom
-            :delay="(index + 2) * 90"
           >
             <h3 class="text-base font-semibold text-foreground mb-5 flex items-center gap-2.5">
               <component :is="category.icon" :size="20" class="text-accent" stroke-width="2" />
@@ -83,6 +81,7 @@
 import type { Component } from 'vue'
 import { Server, Code, Database, Settings } from 'lucide-vue-next'
 import TechIcon from './TechIcon.vue'
+import { motionVisibleOnceUp } from '../motion'
 
 interface TechCategory {
   name: string

@@ -11,8 +11,8 @@
     <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="lineGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color: oklch(0.48 0.08 168); stop-opacity: 0.055" />
-          <stop offset="50%" style="stop-color: oklch(0.40 0.09 168); stop-opacity: 0.075" />
+          <stop offset="0%" style="stop-color: oklch(0.48 0.08 168); stop-opacity: 0.09" />
+          <stop offset="50%" style="stop-color: oklch(0.40 0.09 168); stop-opacity: 0.12" />
           <stop offset="100%" style="stop-color: oklch(0.48 0.08 168); stop-opacity: 0" />
         </linearGradient>
         <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -69,7 +69,7 @@ onMounted(() => {
           { x: 0 },
           {
             x: w + 300,
-            duration: 38,
+            duration: 26,
             repeat: -1,
             ease: 'none',
           }
@@ -81,7 +81,7 @@ onMounted(() => {
           { x: w + 280 },
           {
             x: -280,
-            duration: 44,
+            duration: 30,
             repeat: -1,
             ease: 'none',
           }
@@ -93,7 +93,7 @@ onMounted(() => {
           { x: -200 },
           {
             x: w + 200,
-            duration: 50,
+            duration: 34,
             repeat: -1,
             ease: 'none',
             delay: 1.5,
@@ -125,10 +125,10 @@ onUnmounted(() => {
   transform-origin: 50% 50%;
   transform: rotateX(72deg) translateZ(-120px);
   background-image:
-    linear-gradient(oklch(0.42 0.08 168 / 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.42 0.08 168 / 0.045) 1px, transparent 1px);
+    linear-gradient(oklch(0.42 0.08 168 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.42 0.08 168 / 0.07) 1px, transparent 1px);
   background-size: 72px 72px;
-  animation: grid-drift 80s linear infinite;
+  animation: grid-drift 52s linear infinite;
   mask-image: radial-gradient(ellipse 48% 62% at 50% 45%, black 8%, transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse 48% 62% at 50% 45%, black 8%, transparent 70%);
 }
