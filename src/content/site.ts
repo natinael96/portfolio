@@ -164,7 +164,7 @@ export const experiences: Experience[] = [
     companyUrl: 'https://www.aau.edu.et/',
     period: '2022 — 2026',
     summary:
-      'Biomedical engineering degree—engineering and life-science fundamentals, instrumentation, and quantitative methods; software and product work through A2SV and industry roles.',
+      'Completed a BSc in biomedical engineering with foundations in instrumentation, quantitative methods, and applied engineering—complemented by software and product experience through A2SV and industry roles.',
   },
   {
     id: 'alx-pro-backend',
