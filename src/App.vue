@@ -11,7 +11,7 @@
     </main>
 
     <footer
-      class="section-y-tight section-x border-t border-accent/10 bg-accent-subtle/50"
+      class="section-y-tight section-x border-t border-accent/10 bg-accent-fg/65"
     >
       <div class="max-w-[90rem] mx-auto flex flex-col gap-6 sm:gap-5">
         <div
@@ -32,7 +32,6 @@
             class="btn-secondary inline-flex items-center gap-2.5 text-sm font-semibold w-full sm:w-auto justify-center"
             @click="gameOpen = true"
           >
-            <span class="text-lg leading-none" aria-hidden="true">🎮</span>
             Play mini game
           </button>
           <p class="text-xs sm:text-sm font-medium text-foreground-light text-center sm:text-right max-w-md">

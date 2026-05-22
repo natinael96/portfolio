@@ -2,134 +2,164 @@
   <section id="projects" class="section-y-loose section-x">
     <div class="max-w-[90rem] mx-auto">
       <header
-        class="mb-14 sm:mb-20 lg:mb-24 max-w-2xl lg:max-w-none lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-12 xl:gap-20 items-end"
+        class="mb-12 sm:mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-12"
       >
-        <div>
-          <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
+        <div class="max-w-xl">
+          <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-3">
             Selected work
           </p>
-          <h2 class="font-display text-4xl sm:text-5xl lg:text-[3.25rem] font-normal text-foreground mb-4 tracking-display">
+          <h2 class="font-display text-4xl sm:text-5xl font-medium text-foreground mb-3 tracking-tight">
             Featured projects
           </h2>
+          <p class="text-foreground-light text-base sm:text-lg leading-relaxed">
+            APIs, data layers, and UIs—how I’d walk through them in a technical interview.
+          </p>
         </div>
-        <p class="text-foreground-light text-base sm:text-lg leading-relaxed lg:text-right lg:pb-1">
-          APIs, data layers, and UIs—how I’d walk through them in a technical interview.
-        </p>
       </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 md:gap-6 lg:gap-7">
-        <article
-          v-for="(project, index) in projects"
-          :key="project.id"
-          :ref="(el) => setProjectRef(el, index)"
-          class="group flex flex-col border border-foreground/[0.09] border-l-[6px] border-l-accent bg-accent-fg/55 transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/40 hover:border-l-accent hover:shadow-[0_24px_48px_-28px_oklch(0.36_0.16_168/0.28)] hover:-translate-y-0.5"
-          :class="[
-            projectColClass(index),
-            projectCardShape(index),
-            { 'animate-fade-in-up': visibleProjects[index] },
-          ]"
-          :style="{ transitionDelay: visibleProjects[index] ? `${index * 80}ms` : '0ms' }"
+      <!-- Featured (first project with demo) -->
+      <article
+        v-if="featuredProject"
+        :ref="(el) => setProjectRef(el, 0)"
+        class="project-card project-card--featured"
+        :class="{ 'animate-fade-in-up': visibleProjects[0] }"
+        :style="{ transitionDelay: visibleProjects[0] ? '0ms' : '0ms' }"
+      >
+        <div class="project-card-accent-bar" aria-hidden="true" />
+
+        <div
+          class="relative flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12 xl:gap-16"
         >
-          <template v-if="index === 0">
-            <div
-              class="flex flex-col lg:flex-row lg:items-stretch lg:gap-12 xl:gap-16 w-full"
-            >
-              <div class="flex-1 min-w-0 lg:pr-4">
-                <h3
-                  class="font-display text-xl sm:text-2xl font-bold text-foreground mb-3 tracking-display group-hover:text-accent transition-colors"
-                >
-                  {{ project.title }}
-                </h3>
-                <p class="text-sm sm:text-base text-foreground-light leading-relaxed max-w-3xl">
-                  {{ project.description }}
-                </p>
+          <div class="min-w-0">
+            <div class="project-terminal-head mb-6">
+              <div class="dev-panel-head mb-0">
+                <span class="dev-dot" aria-hidden="true" />
+                <span class="dev-dot" aria-hidden="true" />
+                <span class="dev-dot" aria-hidden="true" />
               </div>
-              <div
-                class="flex flex-col justify-end gap-8 mt-8 lg:mt-0 pt-8 lg:pt-0 border-t lg:border-t-0 lg:border-l border-foreground/[0.08] lg:pl-10 lg:w-[min(18rem,100%)] shrink-0"
-              >
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    v-for="tech in project.tech"
-                    :key="tech"
-                    class="px-2.5 py-1 text-xs font-medium text-foreground rounded-md bg-accent-muted/45 border border-accent/10 group-hover:border-accent/25 transition-colors"
-                  >
-                    {{ tech }}
-                  </span>
-                </div>
-                <div class="flex flex-wrap items-center gap-4 sm:gap-6">
-                  <a
-                    v-for="link in projectCodeLinks(project)"
-                    :key="link.href"
-                    :href="link.href"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                  >
-                    <Github :size="16" stroke-width="2" aria-hidden="true" />
-                    {{ link.label }}
-                  </a>
-                  <a
-                    v-if="project.demo"
-                    :href="project.demo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                  >
-                    <ExternalLink :size="16" stroke-width="2" />
-                    Demo
-                  </a>
-                </div>
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="mb-5 flex-1">
-              <h3
-                class="font-display text-xl font-bold text-foreground mb-2 tracking-display group-hover:text-accent transition-colors"
-              >
-                {{ project.title }}
-              </h3>
-              <p class="text-sm sm:text-[0.9375rem] text-foreground-light leading-relaxed">
-                {{ project.description }}
-              </p>
+              <span class="project-terminal-label">{{ `projects/${featuredProject.id}.ts` }}</span>
             </div>
 
-            <div class="flex flex-wrap gap-2 mb-8">
-              <span
-                v-for="tech in project.tech"
-                :key="tech"
-                class="px-2.5 py-1 text-xs font-medium text-foreground rounded-md bg-accent-muted/45 border border-accent/10 group-hover:border-accent/25 transition-colors"
-              >
-                {{ tech }}
+            <div class="flex flex-wrap items-center gap-2.5 mb-5">
+              <span class="project-badge">Featured</span>
+              <span v-if="featuredProject.demo" class="project-badge project-badge--live">
+                Live demo
               </span>
             </div>
 
-            <div
-              class="mt-auto flex flex-wrap items-center gap-4 sm:gap-6 pt-2 border-t border-foreground/[0.06]"
+            <h3
+              class="font-display text-2xl sm:text-3xl lg:text-[2.35rem] font-medium text-foreground tracking-tight mb-4"
             >
+              {{ featuredProject.title }}
+            </h3>
+
+            <p
+              class="text-base text-foreground-light leading-relaxed max-w-2xl mb-6"
+            >
+              {{ featuredProject.description }}
+            </p>
+
+            <ul class="flex flex-wrap gap-2" aria-label="Technologies">
+              <li v-for="tech in featuredProject.tech" :key="tech">
+                <span class="project-chip">{{ tech }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="mt-8 lg:mt-0 flex flex-col gap-4 lg:items-stretch lg:justify-center lg:min-w-[14rem] xl:min-w-[16rem] pt-8 lg:pt-0 border-t lg:border-t-0 lg:border-l border-foreground/[0.08] lg:pl-10 xl:pl-12"
+          >
+            <a
+              v-if="featuredProject.demo"
+              :href="featuredProject.demo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary w-full sm:w-auto lg:w-full justify-center"
+            >
+              <ExternalLink :size="18" stroke-width="2" aria-hidden="true" />
+              View live demo
+            </a>
+
+            <div class="flex flex-col gap-2">
               <a
-                v-for="link in projectCodeLinks(project)"
+                v-for="link in projectCodeLinks(featuredProject)"
                 :key="link.href"
                 :href="link.href"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="project-link"
+                class="project-link-row"
               >
-                <Github :size="16" stroke-width="2" aria-hidden="true" />
+                <Github :size="18" stroke-width="2" aria-hidden="true" />
                 {{ link.label }}
               </a>
-              <a
-                v-if="project.demo"
-                :href="project.demo"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-link"
-              >
-                <ExternalLink :size="16" stroke-width="2" />
-                Demo
-              </a>
             </div>
-          </template>
+          </div>
+        </div>
+      </article>
+
+      <!-- Rest of projects -->
+      <div
+        v-if="otherProjects.length > 0"
+          class="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5"
+      >
+        <article
+          v-for="(project, i) in otherProjects"
+          :key="project.id"
+          :ref="(el) => setProjectRef(el, i + 1)"
+          class="project-card group"
+          :class="{ 'animate-fade-in-up': visibleProjects[i + 1] }"
+          :style="{
+            transitionDelay: visibleProjects[i + 1] ? `${(i + 1) * 60}ms` : '0ms',
+          }"
+        >
+          <div class="project-terminal-head mb-4">
+            <div class="dev-panel-head mb-0">
+              <span class="dev-dot" aria-hidden="true" />
+              <span class="dev-dot" aria-hidden="true" />
+              <span class="dev-dot" aria-hidden="true" />
+            </div>
+            <span class="project-terminal-label">{{ `projects/${project.id}.ts` }}</span>
+          </div>
+
+          <h3
+            class="font-display text-lg sm:text-xl font-medium text-foreground tracking-tight mb-2 group-hover:text-accent transition-colors"
+          >
+            {{ project.title }}
+          </h3>
+
+          <p class="text-sm text-foreground-light leading-relaxed mb-5 flex-1">
+            {{ project.description }}
+          </p>
+
+          <ul class="flex flex-wrap gap-1.5 mb-6" aria-label="Technologies">
+            <li v-for="tech in project.tech" :key="tech">
+              <span class="project-chip project-chip--sm">{{ tech }}</span>
+            </li>
+          </ul>
+
+          <div class="mt-auto flex flex-wrap items-center gap-3 pt-5 border-t border-foreground/[0.06]">
+            <a
+              v-if="project.demo"
+              :href="project.demo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link-row project-link-row--primary"
+            >
+              <ExternalLink :size="16" stroke-width="2" aria-hidden="true" />
+              Demo
+            </a>
+            <a
+              v-for="link in projectCodeLinks(project)"
+              :key="link.href"
+              :href="link.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link-row"
+            >
+              <Github :size="16" stroke-width="2" aria-hidden="true" />
+              {{ link.label }}
+            </a>
+          </div>
         </article>
       </div>
     </div>
@@ -137,10 +167,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Github, ExternalLink } from 'lucide-vue-next'
 
 import { projects, type Project } from '../content/site'
+
+const featuredProject = computed(() => projects[0] ?? null)
+const otherProjects = computed(() => projects.slice(1))
 
 function projectCodeLinks(project: Project): { label: string; href: string }[] {
   if (project.githubRepos?.length) return project.githubRepos
@@ -155,29 +188,6 @@ let observer: IntersectionObserver | null = null
 
 function setProjectRef(el: unknown, index: number) {
   projectRefs.value[index] = el instanceof HTMLElement ? el : null
-}
-
-/** Bento-style spans: lead project full width; pairs stagger */
-function projectColClass(index: number): string {
-  const map: Record<number, string> = {
-    0: 'lg:col-span-12',
-    1: 'lg:col-span-5',
-    2: 'lg:col-span-7',
-    3: 'lg:col-span-7',
-    4: 'lg:col-span-5',
-    5: 'lg:col-span-12',
-  }
-  return map[index] ?? 'lg:col-span-6'
-}
-
-function projectCardShape(index: number): string {
-  if (index === 0) {
-    return 'rounded-2xl p-7 sm:p-8 lg:p-10'
-  }
-  if (index === 5) {
-    return 'rounded-2xl p-7 sm:p-8 lg:rounded-3xl lg:p-9'
-  }
-  return 'rounded-2xl p-7 sm:p-8'
 }
 
 const observeProjects = () => {

@@ -5,12 +5,12 @@
 export const site = {
   name: 'Natinael Mequanent Shebabaw',
   roleLabel: 'Full-stack software engineer',
-  bio: 'I build APIs, backends, and web UIs with TypeScript, Python, and Node—plus React, Next.js, or Vue. Based in Addis Ababa, Ethiopia. Full-stack experience at Amplitude Ventures and XyberLabs; front-end engineering internship at Eskalate.io; A2SV alumnus; biomedical engineering student at Addis Ababa University.',
+  bio: 'I build APIs, backend systems, and web interfaces with TypeScript, Python, and Node.js—shipping with React, Next.js, and Vue. Based in Addis Ababa, Ethiopia. Full-stack experience at Amplitude Ventures and XyberLabs, front-end engineering internship at Eskalate.io, A2SV alumnus, and biomedical engineer.',
   email: 'natinael.96@gmail.com',
   meta: {
     title: 'Natinael Mequanent Shebabaw · Full-stack engineer',
     description:
-      'Full-stack engineer in Addis Ababa. Amplitude Ventures, XyberLabs, Eskalate.io; A2SV alumnus; AAU biomedical engineering. TypeScript, Python, Node.js, React, Next.js, Vue.',
+      'Full-stack engineer in Addis Ababa building APIs, backend systems, and web interfaces with TypeScript, Python, Node.js, React, Next.js, and Vue.',
   },
   social: {
     github: 'https://github.com/natinael96',
@@ -102,6 +102,7 @@ export interface Experience {
   id: string
   role: string
   company: string
+  category?: 'professional' | 'education'
   /** Official site (e.g. company homepage) */
   companyUrl?: string
   period: string
@@ -117,6 +118,7 @@ export const experiences: Experience[] = [
     id: 'amplitude',
     role: 'Full-stack developer',
     company: 'Amplitude Ventures',
+    category: 'professional',
     companyUrl: 'https://www.amplitude.ventures/',
     period: 'Feb 2025 — Nov 2025',
     location: 'Remote · Norway',
@@ -130,6 +132,7 @@ export const experiences: Experience[] = [
     id: 'xyberlabs',
     role: 'Full-stack developer',
     company: 'XyberLabs',
+    category: 'professional',
     companyUrl: 'https://xyberlabs.et/',
     period: 'Dec 2024 — Sep 2025',
     location: 'Remote · Ethiopia',
@@ -143,6 +146,7 @@ export const experiences: Experience[] = [
     id: 'eskalate',
     role: 'Front-end engineering intern',
     company: 'Eskalate.io',
+    category: 'professional',
     companyUrl: 'https://eskalate.io/',
     period: 'Jun 2024 — Sep 2024',
     location: 'Addis Ababa, Ethiopia',
@@ -153,23 +157,52 @@ export const experiences: Experience[] = [
     ],
   },
   {
+    id: 'aau',
+    role: 'BSc, Biomedical engineering',
+    company: 'Addis Ababa University',
+    category: 'education',
+    companyUrl: 'https://www.aau.edu.et/',
+    period: '2022 — 2026',
+    summary:
+      'Biomedical engineering degree—engineering and life-science fundamentals, instrumentation, and quantitative methods; software and product work through A2SV and industry roles.',
+  },
+  {
+    id: 'alx-pro-backend',
+    role: 'Pro Backend Dev · Software Engineering (completed)',
+    company: 'ALX Africa',
+    category: 'education',
+    companyUrl: 'https://www.alx.africa/',
+    period: 'Completed',
+    summary:
+      'Completed ALX Africa’s Pro Backend Dev software engineering program—backend APIs, databases, system design, and production-ready delivery.',
+  },
+  {
     id: 'a2sv',
     role: 'Software engineering trainee',
     company: 'A2SV (Africa to Silicon Valley)',
+    category: 'education',
     companyUrl: 'https://a2sv.org/',
     period: 'Feb 2024 — Nov 2024',
     summary:
       'Intensive training in data structures & algorithms, system design, and collaborative engineering with industry-style code review.',
   },
-  {
-    id: 'aau',
-    role: 'BSc, Biomedical engineering (in progress)',
-    company: 'Addis Ababa University',
-    companyUrl: 'https://www.aau.edu.et/',
-    period: '2022 — Present',
-    summary:
-      'Undergraduate biomedical engineering—engineering and life-science fundamentals, instrumentation, and quantitative methods; software and product work through A2SV and industry roles.',
-  },
 ]
 
 export const heroTech = ['TypeScript', 'Python', 'Node.js', 'GraphQL', 'React', 'Vue.js'] as const
+
+export const devProfile = {
+  path: 'dev/profile.runtime',
+  version: '1.0.0',
+  status: 'online',
+  statusLabel: 'open_to_remote_roles',
+  fields: [
+    { key: 'role', value: 'full_stack_software_engineer' },
+    { key: 'location', value: 'addis_ababa_ethiopia' },
+    { key: 'focus', values: ['apis', 'backend', 'web_ui', 'system_design'] },
+    { key: 'stack', values: ['typescript', 'python', 'node.js', 'react', 'next.js', 'vue'] },
+    { key: 'education', value: 'bsc_biomedical_engineering' },
+    { key: 'training', values: ['alx_pro_backend', 'a2sv'] },
+    { key: 'experience', value: '3_years_industry' },
+    { key: 'status', value: 'open_to_remote_roles', highlight: true },
+  ],
+} as const

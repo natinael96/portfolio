@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 border-b border-accent/10 bg-accent-fg/70 backdrop-blur-md supports-[backdrop-filter]:bg-accent-fg/55"
+    class="fixed top-0 left-0 right-0 z-50 border-b border-accent/10 bg-accent-fg/85 backdrop-blur-sm supports-[backdrop-filter]:bg-accent-fg/75"
   >
     <div class="max-w-7xl mx-auto section-x">
       <div class="flex items-center justify-between h-16">
@@ -45,7 +45,7 @@
     >
       <div
         v-if="mobileMenuOpen"
-        class="md:hidden border-t border-accent/10 bg-accent-fg/95 backdrop-blur-md"
+        class="md:hidden border-t border-accent/10 bg-accent-fg/95 backdrop-blur-sm"
       >
         <div class="section-x flex flex-col gap-0.5 py-4">
           <a

@@ -1,83 +1,132 @@
 <template>
   <section
     id="experience"
-    class="section-y-tight section-x bg-accent-muted/35 border-y border-accent/12"
+    class="relative overflow-hidden section-y-loose section-x border-y border-accent/10"
   >
     <div
-      class="max-w-3xl mx-auto lg:max-w-[88rem] lg:mx-auto lg:grid lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.28fr)] lg:gap-x-12 xl:gap-x-20 2xl:gap-x-28 items-start"
-    >
-      <header class="mb-14 lg:mb-0 lg:sticky lg:top-28 lg:pt-2 lg:pr-8 xl:pr-12">
-        <p class="text-xs font-semibold tracking-[0.18em] uppercase text-accent/80 mb-3">
-          Timeline
-        </p>
-        <h2 class="font-display text-4xl sm:text-5xl font-normal text-foreground mb-5 tracking-display">
-          Experience
-        </h2>
-        <p class="text-foreground-light text-base sm:text-lg leading-relaxed max-w-sm xl:max-w-xs">
-          Venture studios, product work, internships—then A2SV and university.
-        </p>
+      class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,oklch(0.987_0.012_95),oklch(0.966_0.022_168))]"
+      aria-hidden="true"
+    />
+    <div
+      class="absolute left-[var(--section-x)] top-0 -z-10 h-full w-px bg-gradient-to-b from-transparent via-accent/10 to-transparent hidden lg:block"
+      aria-hidden="true"
+    />
+
+    <div class="max-w-3xl mx-auto lg:max-w-4xl xl:max-w-5xl">
+      <header class="mb-10 sm:mb-12 lg:mb-14">
+        <div class="experience-panel max-w-2xl">
+          <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-3">
+            Career signal
+          </p>
+          <h2
+            class="font-display text-4xl sm:text-5xl lg:text-[3.2rem] font-medium text-foreground mb-5 tracking-tight"
+          >
+            Experience
+          </h2>
+          <p class="text-foreground-light text-base sm:text-lg leading-relaxed max-w-md">
+            Education and training come first, then professional roles—so the timeline reads clearly
+            from foundation to industry work.
+          </p>
+
+          <div class="mt-8 grid grid-cols-2 gap-3 max-w-md">
+            <div class="experience-metric">
+              <span class="text-2xl font-medium text-foreground">{{ educationExperiences.length }}</span>
+              <span class="font-mono text-xs font-medium uppercase tracking-[0.12em] text-foreground-light">
+                Education
+              </span>
+            </div>
+            <div class="experience-metric">
+              <span class="text-2xl font-medium text-foreground">{{ professionalExperiences.length }}</span>
+              <span class="font-mono text-xs font-medium uppercase tracking-[0.12em] text-foreground-light">
+                Roles
+              </span>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <div class="relative pl-8 sm:pl-10 lg:pl-6">
+      <div class="relative pl-8 sm:pl-10 max-w-3xl">
         <div
-          class="absolute left-[0.55rem] sm:left-[0.65rem] lg:left-[0.85rem] top-2 bottom-2 w-px bg-gradient-to-b from-accent/35 via-accent/15 to-transparent"
+          class="absolute left-[0.6rem] sm:left-[0.7rem] top-3 bottom-3 w-px bg-gradient-to-b from-accent/30 via-accent/12 to-transparent"
           aria-hidden="true"
         />
 
         <div
-          v-for="(exp, index) in experiences"
-          :key="exp.id"
-          :ref="(el) => setExpRef(el, index)"
-          class="relative pb-12 sm:pb-16 last:pb-3 pl-6 sm:pl-8"
-          :class="{ 'animate-fade-in-left': visibleExps[index] }"
-          :style="{ transitionDelay: visibleExps[index] ? `${index * 90}ms` : '0ms' }"
+          v-for="group in experienceGroups"
+          :key="group.label"
+          class="mb-10 last:mb-0"
         >
-          <div
-            class="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-accent border-[3px] border-accent-fg shadow-[0_0_0_1px_oklch(0.36_0.15_168/0.4)]"
-            aria-hidden="true"
-          />
+          <p class="mb-5 font-mono text-xs font-medium uppercase tracking-[0.16em] text-foreground-light">
+            {{ group.label }}
+          </p>
 
-          <div class="space-y-3">
-            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
-              <h3 class="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
-                {{ exp.role }}
-              </h3>
-              <span class="text-sm font-medium text-foreground-light tabular-nums shrink-0">
-                {{ exp.period }}
-              </span>
+          <div
+            v-for="entry in group.items"
+            :key="entry.exp.id"
+            :ref="(el) => setExpRef(el, entry.index)"
+            class="relative pb-7 sm:pb-8 last:pb-0 pl-6 sm:pl-8"
+            :class="{ 'animate-fade-in-left': visibleExps[entry.index] }"
+            :style="{ transitionDelay: visibleExps[entry.index] ? `${entry.index * 90}ms` : '0ms' }"
+          >
+            <div
+              class="experience-node"
+              aria-hidden="true"
+            >
+              {{ String(entry.index + 1).padStart(2, '0') }}
             </div>
-            <p class="text-sm font-semibold text-foreground/80">
-              <a
-                v-if="exp.companyUrl"
-                :href="exp.companyUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-inline underline-offset-4 hover:text-accent hover:underline"
-              >
-                {{ exp.company }}
-              </a>
-              <template v-else>{{ exp.company }}</template>
-            </p>
-            <p
-              v-if="exp.location"
-              class="text-xs text-foreground-light/90 -mt-1"
-            >
-              {{ exp.location }}
-            </p>
-            <ul
-              v-if="exp.bullets?.length"
-              class="mt-2 space-y-2 text-foreground-light leading-relaxed max-w-prose list-disc pl-4 marker:text-accent/60"
-            >
-              <li v-for="(item, i) in exp.bullets" :key="i" class="pl-0.5">
-                {{ item }}
-              </li>
-            </ul>
-            <p
-              v-else-if="exp.summary"
-              class="text-foreground-light leading-relaxed max-w-prose mt-1"
-            >
-              {{ exp.summary }}
-            </p>
+
+            <div class="experience-card group">
+              <div class="experience-card-glow" aria-hidden="true" />
+              <div class="relative">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 mb-4"
+                >
+                  <div>
+                    <p class="experience-kicker">
+                      <a
+                        v-if="entry.exp.companyUrl"
+                        :href="entry.exp.companyUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-inline underline-offset-4 hover:text-accent hover:underline"
+                      >
+                        {{ entry.exp.company }}
+                      </a>
+                      <template v-else>{{ entry.exp.company }}</template>
+                    </p>
+                    <h3
+                      class="font-display text-xl sm:text-2xl font-medium text-foreground tracking-tight mt-1 group-hover:text-accent transition-colors"
+                    >
+                      {{ entry.exp.role }}
+                    </h3>
+                  </div>
+
+                  <div class="flex sm:flex-col gap-2 sm:items-end shrink-0">
+                    <span class="experience-pill">
+                      {{ entry.exp.period }}
+                    </span>
+                    <span v-if="entry.exp.location" class="experience-pill experience-pill--muted">
+                      {{ entry.exp.location }}
+                    </span>
+                  </div>
+                </div>
+
+                <ul
+                  v-if="entry.exp.bullets?.length"
+                  class="space-y-3 text-foreground-light leading-relaxed max-w-2xl"
+                >
+                  <li v-for="(item, i) in entry.exp.bullets" :key="i" class="experience-bullet">
+                    {{ item }}
+                  </li>
+                </ul>
+                <p
+                  v-else-if="entry.exp.summary"
+                  class="text-foreground-light leading-relaxed max-w-2xl"
+                >
+                  {{ entry.exp.summary }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -86,9 +135,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 
 import { experiences } from '../content/site'
+
+const professionalExperiences = computed(() =>
+  experiences.filter((exp) => exp.category !== 'education')
+)
+const educationExperiences = computed(() =>
+  experiences.filter((exp) => exp.category === 'education')
+)
+const experienceGroups = computed(() => {
+  const educationItems = educationExperiences.value.map((exp, index) => ({
+    exp,
+    index,
+  }))
+  const professionalItems = professionalExperiences.value.map((exp, index) => ({
+    exp,
+    index: educationItems.length + index,
+  }))
+
+  return [
+    { label: 'Education & training', items: educationItems },
+    { label: 'Professional experience', items: professionalItems },
+  ].filter((group) => group.items.length > 0)
+})
 
 const expRefs = ref<(HTMLElement | null)[]>([])
 const visibleExps = ref<boolean[]>(experiences.map(() => false))

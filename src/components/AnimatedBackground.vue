@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
     <div
-      class="absolute inset-0 bg-[radial-gradient(ellipse_115%_85%_at_50%_-25%,oklch(0.94_0.065_168)_0%,oklch(0.98_0.028_95)_42%,oklch(0.97_0.035_88)_100%)]"
+      class="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-18%,oklch(0.955_0.028_168)_0%,oklch(0.986_0.014_95)_46%,oklch(0.98_0.018_88)_100%)]"
     />
 
     <div class="grid-drift-wrap absolute inset-0 flex items-center justify-center overflow-hidden">
@@ -11,14 +11,14 @@
     <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="lineGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color: oklch(0.48 0.16 168); stop-opacity: 0.14" />
-          <stop offset="50%" style="stop-color: oklch(0.40 0.17 168); stop-opacity: 0.18" />
-          <stop offset="100%" style="stop-color: oklch(0.48 0.14 168); stop-opacity: 0" />
+          <stop offset="0%" style="stop-color: oklch(0.48 0.08 168); stop-opacity: 0.055" />
+          <stop offset="50%" style="stop-color: oklch(0.40 0.09 168); stop-opacity: 0.075" />
+          <stop offset="100%" style="stop-color: oklch(0.48 0.08 168); stop-opacity: 0" />
         </linearGradient>
         <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color: oklch(0.46 0.14 172); stop-opacity: 0.1" />
-          <stop offset="50%" style="stop-color: oklch(0.38 0.16 166); stop-opacity: 0.14" />
-          <stop offset="100%" style="stop-color: oklch(0.46 0.14 172); stop-opacity: 0" />
+          <stop offset="0%" style="stop-color: oklch(0.46 0.075 172); stop-opacity: 0.04" />
+          <stop offset="50%" style="stop-color: oklch(0.38 0.085 166); stop-opacity: 0.06" />
+          <stop offset="100%" style="stop-color: oklch(0.46 0.075 172); stop-opacity: 0" />
         </linearGradient>
       </defs>
       <path
@@ -69,7 +69,7 @@ onMounted(() => {
           { x: 0 },
           {
             x: w + 300,
-            duration: 22,
+            duration: 38,
             repeat: -1,
             ease: 'none',
           }
@@ -81,7 +81,7 @@ onMounted(() => {
           { x: w + 280 },
           {
             x: -280,
-            duration: 26,
+            duration: 44,
             repeat: -1,
             ease: 'none',
           }
@@ -93,7 +93,7 @@ onMounted(() => {
           { x: -200 },
           {
             x: w + 200,
-            duration: 30,
+            duration: 50,
             repeat: -1,
             ease: 'none',
             delay: 1.5,
@@ -125,12 +125,12 @@ onUnmounted(() => {
   transform-origin: 50% 50%;
   transform: rotateX(72deg) translateZ(-120px);
   background-image:
-    linear-gradient(oklch(0.42 0.15 168 / 0.11) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.42 0.15 168 / 0.11) 1px, transparent 1px);
-  background-size: 56px 56px;
-  animation: grid-drift 48s linear infinite;
-  mask-image: radial-gradient(ellipse 55% 70% at 50% 45%, black 20%, transparent 72%);
-  -webkit-mask-image: radial-gradient(ellipse 55% 70% at 50% 45%, black 20%, transparent 72%);
+    linear-gradient(oklch(0.42 0.08 168 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.42 0.08 168 / 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  animation: grid-drift 80s linear infinite;
+  mask-image: radial-gradient(ellipse 48% 62% at 50% 45%, black 8%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 48% 62% at 50% 45%, black 8%, transparent 70%);
 }
 
 @keyframes grid-drift {
@@ -138,7 +138,7 @@ onUnmounted(() => {
     transform: rotateX(72deg) translateZ(-120px) translate3d(0, 0, 0);
   }
   to {
-    transform: rotateX(72deg) translateZ(-120px) translate3d(56px, 56px, 0);
+    transform: rotateX(72deg) translateZ(-120px) translate3d(72px, 72px, 0);
   }
 }
 

@@ -17,19 +17,19 @@
       >
         <button
           type="button"
-          class="absolute inset-0 bg-foreground/40 backdrop-blur-[2px] cursor-default"
+          class="absolute inset-0 bg-foreground/25 backdrop-blur-[1px] cursor-default"
           aria-label="Close game overlay"
           @click="close"
         />
         <div
-          class="relative z-[101] w-full max-w-md rounded-2xl border border-accent/25 bg-accent-fg shadow-[0_24px_64px_-20px_oklch(0.2_0.08_168/0.35)] p-5 sm:p-6"
+          class="relative z-[101] w-full max-w-md rounded-2xl border border-accent/15 bg-accent-fg shadow-[0_20px_48px_-28px_oklch(0.2_0.06_168/0.28)] p-5 sm:p-6"
           @keydown.stop
         >
           <div class="flex items-start justify-between gap-3 mb-4">
             <div>
               <h2
                 id="egg-game-title"
-                class="font-display text-xl font-bold text-foreground tracking-display"
+                class="font-display text-xl font-bold text-foreground tracking-tight"
               >
                 Snake break
               </h2>

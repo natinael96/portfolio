@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,19 +10,18 @@
     --section-y: clamp(3.5rem, 8vw, 7rem);
     --section-x: clamp(1.25rem, 4vw, 3.5rem);
     /* Mirrors tailwind.config.js — used where @apply cannot mix opacity on theme colors */
-    --accent: oklch(0.36 0.17 168);
-    --accent-hover: oklch(0.3 0.155 168);
+    --accent: oklch(0.39 0.105 168);
+    --accent-hover: oklch(0.32 0.095 168);
     --accent-fg: oklch(0.99 0.01 95);
-    --accent-muted: oklch(0.9 0.09 168);
-    --accent-subtle: oklch(0.94 0.065 168);
-    --page-bg: oklch(0.985 0.022 95);
-    --foreground-muted: oklch(0.42 0.06 166);
+    --accent-muted: oklch(0.91 0.045 168);
+    --accent-subtle: oklch(0.955 0.028 168);
+    --page-bg: oklch(0.986 0.014 95);
+    --foreground-muted: oklch(0.43 0.035 166);
   }
 
   body {
     @apply bg-background text-foreground antialiased font-sans;
-    font-feature-settings: 'kern' 1, 'liga' 1;
-    letter-spacing: 0.01em;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
   }
 
   html {
@@ -34,19 +33,20 @@
 @layer components {
   /* Primary CTA — min 44px hit area, keyboard focus, motion-safe lift */
   .btn-primary {
-    @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg px-7 font-medium shadow-sm text-accent-fg bg-accent
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg px-7 font-medium text-accent-fg bg-accent
       transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:bg-accent-hover hover:shadow-md motion-safe:hover:-translate-y-0.5
-      active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-sm motion-reduce:active:scale-100
+      hover:bg-accent-hover motion-safe:hover:-translate-y-px
+      active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]
-      disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:motion-safe:hover:translate-y-0;
+      disabled:pointer-events-none disabled:opacity-50 disabled:motion-safe:hover:translate-y-0;
+    box-shadow: 0 10px 24px -18px oklch(0.24 0.05 168 / 0.34);
   }
 
   .btn-secondary {
     @apply inline-flex cursor-pointer items-center justify-center gap-2 min-h-[2.75rem] rounded-lg border border-solid px-7 font-medium text-foreground bg-transparent
       transition-[transform,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:bg-accent-subtle motion-safe:hover:-translate-y-0.5
-      active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      hover:bg-accent-subtle motion-safe:hover:-translate-y-px
+      active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]
       disabled:pointer-events-none disabled:opacity-50;
     border-color: color-mix(in oklch, var(--accent) 30%, transparent);
@@ -54,30 +54,6 @@
 
   .btn-secondary:hover {
     border-color: color-mix(in oklch, var(--accent) 55%, transparent);
-  }
-
-  .btn-submit {
-    @apply w-full cursor-pointer inline-flex items-center justify-center gap-2 min-h-[2.75rem] rounded-lg px-8 font-semibold text-accent-fg bg-accent
-      transition-[transform,opacity,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:bg-accent-hover hover:shadow-md active:scale-[0.99] motion-reduce:active:scale-100
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg
-      disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
-  }
-
-  .input-field {
-    @apply w-full min-h-[2.75rem] rounded-lg border border-solid bg-accent-fg px-4 py-3 text-base sm:text-[0.9375rem] leading-normal text-foreground
-      transition-[border-color,box-shadow] duration-200
-      focus-visible:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0
-      disabled:cursor-not-allowed disabled:opacity-50;
-    border-color: color-mix(in oklch, var(--accent) 20%, transparent);
-  }
-
-  .input-field::placeholder {
-    color: color-mix(in oklch, var(--foreground-muted) 55%, transparent);
-  }
-
-  .textarea-field {
-    @apply input-field min-h-[9rem] resize-none py-3;
   }
 
   .link-inline {
@@ -104,29 +80,364 @@
   }
 
   .brand-mark {
-    @apply link-inline inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-lg px-2 font-display text-lg font-semibold tracking-brand text-accent
+    @apply link-inline inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-lg px-2 font-mono text-base font-semibold tracking-tight text-accent
       transition-opacity duration-200 hover:opacity-80 active:opacity-70 focus-visible:ring-offset-accent-fg;
+  }
+
+  .dev-panel {
+    @apply rounded-2xl border border-solid overflow-hidden;
+    border-color: color-mix(in oklch, var(--accent) 14%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 82%, transparent);
+    box-shadow: 0 14px 30px -28px oklch(0.24 0.05 168 / 0.3);
+  }
+
+  .dev-panel--runtime {
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--accent) 8%, transparent),
+      0 22px 48px -32px oklch(0.24 0.05 168 / 0.38);
+  }
+
+  .dev-panel--runtime::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, color-mix(in oklch, var(--accent) 6%, transparent), transparent 28%),
+      linear-gradient(90deg, color-mix(in oklch, var(--accent) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent) 5%, transparent) 1px, transparent 1px);
+    background-size: auto, 1.5rem 1.5rem, 1.5rem 1.5rem;
+    opacity: 0.35;
+    mask-image: linear-gradient(180deg, black 40%, transparent 100%);
+  }
+
+  .dev-panel--runtime {
+    @apply relative;
+  }
+
+  .dev-panel-topbar {
+    @apply relative z-[1] flex items-center gap-2 border-b border-solid px-3 py-2.5;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 45%, var(--accent-fg));
+  }
+
+  .dev-panel-path {
+    @apply ml-auto font-mono text-[0.62rem] font-medium truncate;
+    color: color-mix(in oklch, var(--foreground-muted) 88%, transparent);
+  }
+
+  .dev-panel-version {
+    @apply font-mono text-[0.58rem] font-medium tabular-nums shrink-0;
+    color: color-mix(in oklch, var(--accent) 70%, var(--foreground-muted));
+  }
+
+  .dev-panel-head {
+    @apply flex items-center gap-1.5 shrink-0;
+  }
+
+  .dev-dot {
+    @apply h-2.5 w-2.5 rounded-full;
+  }
+
+  .dev-dot--close {
+    background-color: oklch(0.62 0.18 25 / 0.75);
+  }
+
+  .dev-dot--min {
+    background-color: oklch(0.78 0.14 85 / 0.75);
+  }
+
+  .dev-dot--max {
+    background-color: oklch(0.58 0.12 168 / 0.75);
+  }
+
+  .dev-panel-label {
+    @apply ml-1 font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-foreground-light;
+    color: color-mix(in oklch, var(--foreground-muted) 80%, transparent);
+  }
+
+  .dev-code-block {
+    @apply relative z-[1] px-3 py-3 space-y-0.5;
+    background-color: color-mix(in oklch, var(--accent-fg) 72%, transparent);
+  }
+
+  .dev-code-comment {
+    @apply font-mono text-[0.65rem] mb-2 pl-7;
+    color: color-mix(in oklch, var(--foreground-muted) 65%, transparent);
+  }
+
+  .dev-code-line {
+    @apply font-mono text-[0.68rem] leading-[1.65] flex flex-wrap items-baseline gap-x-0;
+  }
+
+  .dev-code-line--highlight {
+    @apply -mx-1 px-1 rounded-md;
+    background-color: color-mix(in oklch, var(--accent) 7%, transparent);
+  }
+
+  .dev-code-line--cursor {
+    @apply mt-1;
+  }
+
+  .dev-line-num {
+    @apply inline-block w-5 shrink-0 tabular-nums select-none mr-1.5;
+    color: color-mix(in oklch, var(--foreground-muted) 45%, transparent);
+  }
+
+  .dev-syntax-keyword {
+    color: color-mix(in oklch, var(--accent) 85%, var(--foreground));
+  }
+
+  .dev-syntax-name {
+    color: var(--foreground);
+  }
+
+  .dev-syntax-key {
+    color: color-mix(in oklch, var(--accent) 75%, var(--foreground));
+  }
+
+  .dev-syntax-punct {
+    color: color-mix(in oklch, var(--foreground-muted) 70%, transparent);
+  }
+
+  .dev-syntax-string {
+    color: color-mix(in oklch, var(--foreground) 88%, var(--accent));
+  }
+
+  .dev-syntax-string--live {
+    color: var(--accent);
+  }
+
+  .dev-cursor {
+    @apply inline-block w-[0.42rem] h-[0.85rem] ml-0.5 align-[-0.1em] rounded-[1px];
+    background-color: color-mix(in oklch, var(--accent) 80%, transparent);
+    animation: dev-cursor-blink 1.1s step-end infinite;
+  }
+
+  .dev-panel-footer {
+    @apply relative z-[1] flex items-center justify-between gap-3 border-t border-solid px-3 py-2.5;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 38%, var(--accent-fg));
+  }
+
+  .dev-status-pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[0.62rem] font-medium uppercase tracking-[0.08em];
+    color: var(--accent);
+    border: 1px solid color-mix(in oklch, var(--accent) 18%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 8%, var(--accent-fg));
+  }
+
+  .dev-status-dot {
+    @apply h-1.5 w-1.5 rounded-full shrink-0;
+    background-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 22%, transparent);
+    animation: dev-status-pulse 2.4s ease-out infinite;
+  }
+
+  .dev-footer-label {
+    @apply font-mono text-[0.6rem] truncate;
+    color: color-mix(in oklch, var(--foreground-muted) 75%, transparent);
+  }
+
+  .dev-row {
+    @apply flex items-baseline gap-2 py-1;
+  }
+
+  .dev-key {
+    @apply font-mono text-[0.72rem] font-medium text-accent;
+  }
+
+  .dev-value {
+    @apply font-mono text-[0.72rem] text-foreground-light;
+  }
+
+  .project-card {
+    @apply relative flex flex-col rounded-2xl border border-solid p-6 sm:p-7
+      transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-px motion-reduce:hover:translate-y-0
+      focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-[var(--page-bg)];
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 88%, transparent);
+    box-shadow: 0 1px 2px oklch(0.24 0.05 168 / 0.035);
+  }
+
+  .project-card:hover {
+    border-color: color-mix(in oklch, var(--accent) 22%, transparent);
+    box-shadow: 0 18px 34px -28px oklch(0.36 0.1 168 / 0.18);
+  }
+
+  .project-card--featured {
+    @apply rounded-2xl sm:rounded-3xl p-7 sm:p-8 lg:p-10 overflow-hidden;
+    box-shadow: 0 12px 42px -36px oklch(0.24 0.05 168 / 0.28);
+  }
+
+  .project-card-accent-bar {
+    @apply absolute inset-x-0 top-0 h-1 rounded-t-2xl sm:rounded-t-3xl pointer-events-none;
+    background: linear-gradient(
+      90deg,
+      var(--accent) 0%,
+      color-mix(in oklch, var(--accent) 22%, transparent) 55%,
+      transparent 100%
+    );
+  }
+
+  .project-badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.12em]
+      text-foreground-light border border-solid;
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 55%, transparent);
+  }
+
+  .project-badge--live {
+    @apply text-accent;
+    border-color: color-mix(in oklch, var(--accent) 18%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 6%, var(--accent-fg));
+  }
+
+  .project-terminal-head {
+    @apply flex items-center justify-between gap-4 rounded-lg border border-solid px-3 py-2;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 84%, transparent);
+  }
+
+  .project-terminal-label {
+    @apply font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-foreground-light truncate;
+    color: color-mix(in oklch, var(--foreground-muted) 80%, transparent);
+  }
+
+  .project-chip {
+    @apply inline-block rounded-lg px-2.5 py-1 font-mono text-xs font-medium text-foreground
+      border border-solid transition-colors;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-muted) 22%, var(--accent-fg));
+  }
+
+  .project-chip--sm {
+    @apply px-2 py-0.5 text-[0.6875rem];
+  }
+
+  .project-link-row {
+    @apply inline-flex min-h-[2.75rem] cursor-pointer items-center gap-2.5 rounded-lg px-3 -mx-1 text-sm font-semibold text-foreground-light
+      transition-[color,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      hover:text-accent
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
+  }
+
+  .project-link-row:hover {
+    background-color: color-mix(in oklch, var(--accent-subtle) 55%, transparent);
+  }
+
+  .project-link-row--primary {
+    @apply text-accent;
+  }
+
+  .project-link-row--primary:hover {
+    @apply text-accent-hover;
+  }
+
+  .experience-panel {
+    @apply relative rounded-2xl sm:rounded-3xl border border-solid p-7 sm:p-8 overflow-hidden;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
+    box-shadow: 0 18px 44px -38px oklch(0.24 0.05 168 / 0.28);
+  }
+
+  .experience-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, color-mix(in oklch, var(--accent) 8%, transparent) 1px, transparent 1px),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent) 8%, transparent) 1px, transparent 1px);
+    background-size: 2.25rem 2.25rem;
+    mask-image: linear-gradient(135deg, black, transparent 68%);
+    opacity: 0.26;
+  }
+
+  .experience-metric {
+    @apply relative rounded-xl border border-solid p-4 overflow-hidden;
+    border-color: color-mix(in oklch, var(--accent) 9%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 78%, transparent);
+  }
+
+  .experience-card {
+    @apply relative rounded-2xl border border-solid p-6 sm:p-7 overflow-hidden transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-px motion-reduce:hover:translate-y-0;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
+    box-shadow: 0 12px 34px -30px oklch(0.24 0.05 168 / 0.25);
+  }
+
+  .experience-card:hover {
+    border-color: color-mix(in oklch, var(--accent) 22%, transparent);
+    box-shadow: 0 18px 40px -32px oklch(0.36 0.1 168 / 0.2);
+  }
+
+  .experience-card-glow {
+    @apply absolute inset-x-0 top-0 h-1 pointer-events-none;
+    background: linear-gradient(
+      90deg,
+      var(--accent),
+      color-mix(in oklch, var(--accent) 18%, transparent),
+      transparent
+    );
+  }
+
+  .experience-node {
+    @apply absolute -left-2 sm:-left-2.5 lg:-left-3 top-6 z-10 flex h-8 w-8 items-center justify-center rounded-full font-mono text-[0.62rem] font-semibold;
+    color: var(--accent);
+    border: 1px solid color-mix(in oklch, var(--accent) 20%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 94%, transparent);
+    box-shadow:
+      0 0 0 5px color-mix(in oklch, var(--accent-subtle) 38%, transparent),
+      0 8px 20px -18px oklch(0.24 0.05 168 / 0.4);
+  }
+
+  .experience-kicker {
+    @apply text-sm font-semibold text-accent;
+  }
+
+  .experience-pill {
+    @apply inline-flex min-h-8 items-center rounded-full px-3 py-1 font-mono text-xs font-medium tabular-nums whitespace-nowrap border border-solid;
+    color: var(--accent);
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 42%, transparent);
+  }
+
+  .experience-pill--muted {
+    color: var(--foreground-muted);
+    background-color: color-mix(in oklch, var(--accent-fg) 82%, transparent);
+  }
+
+  .experience-bullet {
+    @apply relative pl-6;
+  }
+
+  .experience-bullet::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 0.2rem color-mix(in oklch, var(--accent-subtle) 48%, transparent);
   }
 
   .profile-link-card {
     @apply flex min-h-[2.75rem] cursor-pointer items-center gap-4 rounded-xl border border-solid px-4 py-3
       transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      motion-safe:hover:-translate-y-px active:translate-y-0 active:scale-[0.99] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
-    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 50%, transparent);
+    border-color: color-mix(in oklch, var(--accent) 9%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 76%, transparent);
   }
 
   .profile-link-card:hover {
-    border-color: color-mix(in oklch, var(--accent) 40%, transparent);
-    background-color: color-mix(in oklch, var(--accent-subtle) 90%, transparent);
-  }
-
-  .project-link {
-    @apply inline-flex min-h-[2.75rem] cursor-pointer items-center gap-2 rounded-md px-1.5 -mx-1.5 text-sm font-semibold text-accent underline-offset-4
-      transition-[color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:underline hover:opacity-90 active:scale-[0.98] motion-reduce:active:scale-100
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
+    border-color: color-mix(in oklch, var(--accent) 24%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 48%, transparent);
   }
 
   .icon-btn {
@@ -168,12 +479,12 @@
   }
 
   .animate-fade-in-up {
-    animation: fadeInUp 0.65s var(--ease-out-quint) forwards;
+    animation: fadeInUp 0.5s var(--ease-out-quint) forwards;
     opacity: 0;
   }
 
   .animate-fade-in-left {
-    animation: fadeInLeft 0.65s var(--ease-out-quint) forwards;
+    animation: fadeInLeft 0.5s var(--ease-out-quint) forwards;
     opacity: 0;
   }
 }
@@ -181,7 +492,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 12px, 0);
   }
   to {
     opacity: 1;
@@ -192,11 +503,34 @@
 @keyframes fadeInLeft {
   from {
     opacity: 0;
-    transform: translate3d(-16px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
   }
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes dev-cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dev-status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(0.92);
   }
 }
 
@@ -209,5 +543,10 @@
   .animate-fade-in-left {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .dev-cursor,
+  .dev-status-dot {
+    animation: none !important;
   }
 }
