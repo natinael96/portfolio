@@ -16,22 +16,63 @@
           >
             <span class="h-px w-8 sm:w-12 bg-accent/25 shrink-0" aria-hidden="true" />
             <p class="font-mono text-xs sm:text-sm font-medium tracking-[0.12em] uppercase text-accent">
-              {{ site.roleLabel }}
+              {{ heroIntro.greeting }}
+              <span class="text-foreground-light normal-case tracking-normal font-normal">
+                — {{ site.roleLabel }}
+              </span>
             </p>
           </div>
+
           <h1
-            class="font-display text-[clamp(2.3rem,5vw,3.85rem)] font-semibold tracking-[-0.04em] text-balance mb-6 max-w-[22ch] lg:max-w-[20ch] xl:max-w-none text-foreground"
+            class="font-display text-[clamp(2.35rem,5.2vw,3.9rem)] font-semibold tracking-[-0.04em] text-balance mb-5 max-w-[22ch] lg:max-w-[20ch] xl:max-w-none text-foreground"
             v-motion-slide-top
           >
-            {{ site.name }}
+            <span class="block">{{ heroIntro.displayName.primary }}</span>
+            <span
+              class="block text-[0.68em] sm:text-[0.72em] font-medium text-foreground-light tracking-[-0.03em] mt-1 sm:mt-1.5"
+            >
+              {{ heroIntro.displayName.secondary }}
+            </span>
           </h1>
 
-          <p
-            class="text-base sm:text-lg text-foreground-light max-w-[66ch] leading-relaxed mb-9 lg:mb-10 lg:border-l lg:border-accent/15 lg:pl-5"
-            v-motion-slide-bottom
+          <div
+            class="hero-signal mb-9 lg:mb-10"
+            v-motion-fade
           >
-            {{ site.bio }}
-          </p>
+            <div class="hero-signal-accent" aria-hidden="true" />
+
+            <div class="hero-signal-location">
+              <span class="hero-signal-dot" aria-hidden="true" />
+              <span>{{ heroIntro.manifesto.location }}</span>
+            </div>
+
+            <ol class="hero-signal-steps">
+              <li
+                v-for="(step, index) in heroIntro.manifesto.steps"
+                :key="step.label"
+                class="hero-signal-step"
+              >
+                <div class="hero-signal-step-inner">
+                  <span class="hero-signal-index">{{ step.index }}</span>
+                  <div class="hero-signal-step-copy">
+                    <span class="hero-signal-label">{{ step.label }}</span>
+                    <span class="hero-signal-detail">{{ step.detail }}</span>
+                  </div>
+                </div>
+
+                <span
+                  v-if="index < heroIntro.manifesto.steps.length - 1"
+                  class="hero-signal-connector"
+                  aria-hidden="true"
+                >
+                  <span class="hero-signal-connector-line" />
+                  <span class="hero-signal-connector-arrow">→</span>
+                </span>
+              </li>
+            </ol>
+
+            <p class="hero-signal-footnote">{{ heroIntro.footnote }}</p>
+          </div>
 
           <div
             class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-9"
@@ -143,7 +184,7 @@
 </template>
 
 <script setup lang="ts">
-import { devProfile, heroTech, site } from '../content/site'
+import { devProfile, heroIntro, heroTech, site } from '../content/site'
 
 const scrollTo = (id: string) => {
   const element = document.getElementById(id)

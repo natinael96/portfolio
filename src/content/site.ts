@@ -4,13 +4,12 @@
 
 export const site = {
   name: 'Natinael Mequanent Shebabaw',
-  roleLabel: 'Full-stack software engineer',
-  bio: 'I build APIs, backend systems, and web interfaces with TypeScript, Python, and Node.js—shipping with React, Next.js, and Vue. Based in Addis Ababa, Ethiopia. Full-stack experience at Amplitude Ventures and XyberLabs, front-end engineering internship at Eskalate.io, A2SV alumnus, and biomedical engineer.',
+  roleLabel: 'Software developer',
   email: 'natinael.96@gmail.com',
   meta: {
-    title: 'Natinael Mequanent Shebabaw · Full-stack engineer',
+    title: 'Natinael Mequanent Shebabaw · Software developer',
     description:
-      'Full-stack engineer in Addis Ababa building APIs, backend systems, and web interfaces with TypeScript, Python, Node.js, React, Next.js, and Vue.',
+      'Software developer in Addis Ababa—APIs, backends, and web interfaces with TypeScript, Python, Node.js, React, Next.js, and Vue. Amplitude Ventures, XyberLabs, Eskalate.io, A2SV, biomedical engineering.',
   },
   social: {
     github: 'https://github.com/natinael96',
@@ -54,7 +53,7 @@ const projectsUnordered: Project[] = [
     id: 'nexus',
     title: 'ALX Project Nexus',
     description:
-      'Full-stack product work across a dedicated API/backend repo and a separate frontend app—end-to-end features, integration, and delivery.',
+      'Product work across a dedicated API/backend repo and a separate frontend app—end-to-end features, integration, and delivery.',
     tech: ['Node.js', 'TypeScript', 'React', 'GraphQL'],
     github: 'https://github.com/natinael96/alx-project-nexus',
   },
@@ -116,7 +115,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: 'amplitude',
-    role: 'Full-stack developer',
+    role: 'Software developer',
     company: 'Amplitude Ventures',
     category: 'professional',
     companyUrl: 'https://www.amplitude.ventures/',
@@ -130,7 +129,7 @@ export const experiences: Experience[] = [
   },
   {
     id: 'xyberlabs',
-    role: 'Full-stack developer',
+    role: 'Software developer',
     company: 'XyberLabs',
     category: 'professional',
     companyUrl: 'https://xyberlabs.et/',
@@ -188,6 +187,23 @@ export const experiences: Experience[] = [
   },
 ]
 
+export const heroIntro = {
+  greeting: 'Hello, I\'m',
+  displayName: {
+    primary: 'Natinael',
+    secondary: 'Mequanent Shebabaw',
+  },
+  manifesto: {
+    location: 'Addis Ababa, Ethiopia',
+    steps: [
+      { index: '01', label: 'APIs', detail: 'TypeScript, Python & Node' },
+      { index: '02', label: 'Backends', detail: 'Services, data & auth' },
+      { index: '03', label: 'Ship', detail: 'React, Next.js & Vue' },
+    ],
+  },
+  footnote: 'Amplitude · XyberLabs · Eskalate · A2SV · Biomed engineer',
+} as const
+
 export const heroTech = ['TypeScript', 'Python', 'Node.js', 'GraphQL', 'React', 'Vue.js'] as const
 
 export const devProfile = {
@@ -196,7 +212,7 @@ export const devProfile = {
   status: 'online',
   statusLabel: 'open_to_remote_roles',
   fields: [
-    { key: 'role', value: 'full_stack_software_engineer' },
+    { key: 'role', value: 'software_developer' },
     { key: 'location', value: 'addis_ababa_ethiopia' },
     { key: 'focus', values: ['apis', 'backend', 'web_ui', 'system_design'] },
     { key: 'stack', values: ['typescript', 'python', 'node.js', 'react', 'next.js', 'vue'] },
