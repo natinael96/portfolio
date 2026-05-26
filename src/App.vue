@@ -4,39 +4,50 @@
     <Navigation />
     <main class="relative">
       <HeroSection />
-      <ProjectsSection />
       <ExperienceSection />
+      <ProjectsSection />
       <TechStackSection />
       <ContactSection />
     </main>
 
-    <footer
-      class="section-y-tight section-x border-t border-accent/10 bg-accent-fg/65"
-    >
-      <div class="max-w-[90rem] mx-auto flex flex-col gap-6 sm:gap-5">
-        <div
-          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-center sm:text-left"
-        >
-          <p class="text-sm text-foreground-light">
-            © {{ new Date().getFullYear() }} {{ site.name }}
-          </p>
-          <p class="text-sm text-foreground-light/80">
-            Vue 3 · TypeScript · Tailwind CSS
-          </p>
+    <footer class="site-footer section-x">
+      <div class="site-footer-rule" aria-hidden="true" />
+
+      <div class="site-footer-inner max-w-[90rem] mx-auto">
+        <div class="site-footer-signoff">
+          <p class="site-footer-eyebrow">Thanks for reading</p>
+          <p class="site-footer-name">{{ site.name }}</p>
+          <p class="site-footer-tagline">{{ site.roleLabel }} · Addis Ababa</p>
         </div>
-        <div
-          class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 pt-4 border-t border-accent/10"
-        >
-          <button
-            type="button"
-            class="btn-secondary inline-flex items-center gap-2.5 text-sm font-semibold w-full sm:w-auto justify-center"
-            @click="gameOpen = true"
+
+        <nav class="site-footer-nav" aria-label="Footer">
+          <a :href="`mailto:${site.email}`" class="site-footer-link">Email</a>
+          <a
+            :href="site.social.github"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="site-footer-link"
           >
-            Play mini game
+            GitHub
+          </a>
+          <a
+            :href="site.social.linkedin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="site-footer-link"
+          >
+            LinkedIn
+          </a>
+          <button type="button" class="site-footer-link" @click="scrollToTop">
+            Back to top
           </button>
-          <p class="text-xs sm:text-sm font-medium text-foreground-light text-center sm:text-right max-w-md">
-            Take a break — quick Snake in your browser (arrows or WASD).
-          </p>
+        </nav>
+
+        <div class="site-footer-bottom">
+          <p class="site-footer-copy">© {{ year }} {{ site.name }}</p>
+          <button type="button" class="site-footer-easter" @click="gameOpen = true">
+            Bored? Play snake
+          </button>
         </div>
       </div>
     </footer>
@@ -58,6 +69,11 @@ import ContactSection from './components/ContactSection.vue'
 import EasterEggGame from './components/EasterEggGame.vue'
 
 const gameOpen = ref(false)
+const year = new Date().getFullYear()
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 </script>
 
 <style>

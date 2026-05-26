@@ -1,63 +1,55 @@
 <template>
-  <nav
-    class="fixed top-0 left-0 right-0 z-50 border-b border-accent/10 bg-accent-fg/85 backdrop-blur-sm supports-[backdrop-filter]:bg-accent-fg/75"
-  >
-    <div class="max-w-7xl mx-auto section-x">
-      <div class="flex items-center justify-between h-16">
-        <a
-          href="#hero"
-          class="brand-mark -ml-2"
-          @click.prevent="scrollTo('hero')"
-        >
-          NMS
-        </a>
-        <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <a
-            v-for="item in navItems"
-            :key="item.id"
-            :href="`#${item.id}`"
-            class="nav-link"
-            @click.prevent="scrollTo(item.id)"
-          >
-            {{ item.label }}
-          </a>
-        </div>
-        <button
-          type="button"
-          class="icon-btn md:hidden -mr-1"
-          :aria-expanded="mobileMenuOpen"
-          aria-label="Toggle menu"
-          @click="mobileMenuOpen = !mobileMenuOpen"
-        >
-          <Menu v-if="!mobileMenuOpen" :size="22" />
-          <X v-else :size="22" />
-        </button>
-      </div>
+  <nav class="nav-float" aria-label="Primary">
+    <a
+      href="#hero"
+      class="nav-float-pill nav-float-brand relative z-[1]"
+      @click.prevent="scrollTo('hero')"
+    >
+      <span class="relative z-[1]">NMS</span>
+    </a>
+
+    <div class="hidden md:flex nav-float-cluster" role="menubar">
+      <a
+        v-for="item in navItems"
+        :key="item.id"
+        :href="`#${item.id}`"
+        class="nav-float-btn"
+        role="menuitem"
+        @click.prevent="scrollTo(item.id)"
+      >
+        {{ item.label }}
+      </a>
     </div>
+
+    <button
+      type="button"
+      class="nav-float-pill nav-float-menu md:hidden relative z-[1]"
+      :aria-expanded="mobileMenuOpen"
+      aria-label="Toggle menu"
+      @click="mobileMenuOpen = !mobileMenuOpen"
+    >
+      <Menu v-if="!mobileMenuOpen" :size="18" class="relative z-[1]" />
+      <X v-else :size="18" class="relative z-[1]" />
+    </button>
 
     <Transition
       enter-active-class="transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
       leave-active-class="transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
-      enter-from-class="opacity-0 -translate-y-3 scale-[0.98]"
+      enter-from-class="opacity-0 -translate-y-2 scale-[0.97]"
       enter-to-class="opacity-100 translate-y-0 scale-100"
       leave-from-class="opacity-100 translate-y-0 scale-100"
-      leave-to-class="opacity-0 -translate-y-2 scale-[0.99]"
+      leave-to-class="opacity-0 -translate-y-1 scale-[0.98]"
     >
-      <div
-        v-if="mobileMenuOpen"
-        class="md:hidden border-t border-accent/10 bg-accent-fg/95 backdrop-blur-sm"
-      >
-        <div class="section-x flex flex-col gap-0.5 py-4">
-          <a
-            v-for="item in navItems"
-            :key="item.id"
-            :href="`#${item.id}`"
-            class="nav-link-mobile"
-            @click.prevent="onNavClick(item.id)"
-          >
-            {{ item.label }}
-          </a>
-        </div>
+      <div v-if="mobileMenuOpen" class="nav-float-dropdown md:hidden">
+        <a
+          v-for="item in navItems"
+          :key="item.id"
+          :href="`#${item.id}`"
+          class="nav-float-dropdown-link"
+          @click.prevent="onNavClick(item.id)"
+        >
+          {{ item.label }}
+        </a>
       </div>
     </Transition>
   </nav>
@@ -71,9 +63,9 @@ const mobileMenuOpen = ref(false)
 
 const navItems = [
   { id: 'hero', label: 'Home' },
-  { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
-  { id: 'tech', label: 'Tech stack' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'tech', label: 'Stack' },
   { id: 'contact', label: 'Contact' },
 ]
 

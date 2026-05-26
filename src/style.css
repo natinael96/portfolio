@@ -7,15 +7,22 @@
 @layer base {
   :root {
     --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-    --section-y: clamp(3.5rem, 8vw, 7rem);
-    --section-x: clamp(1.25rem, 4vw, 3.5rem);
+    --section-y: clamp(2rem, 4.5vw, 3.5rem);
+    --section-x: clamp(1rem, 3vw, 2.25rem);
     /* Mirrors tailwind.config.js — used where @apply cannot mix opacity on theme colors */
     --accent: oklch(0.39 0.105 168);
     --accent-hover: oklch(0.32 0.095 168);
     --accent-fg: oklch(0.99 0.01 95);
     --accent-muted: oklch(0.91 0.045 168);
     --accent-subtle: oklch(0.955 0.028 168);
+    --glass-blur: 28px;
+    --glass-saturate: 1.65;
+    --glass-bg: color-mix(in oklch, var(--accent-fg) 34%, transparent);
+    --glass-bg-hover: color-mix(in oklch, var(--accent-fg) 44%, transparent);
+    --glass-border: color-mix(in oklch, var(--accent-fg) 58%, transparent);
+    --glass-highlight: color-mix(in oklch, var(--accent-fg) 62%, transparent);
     --page-bg: oklch(0.986 0.014 95);
+    --foreground: oklch(0.24 0.05 168);
     --foreground-muted: oklch(0.43 0.035 166);
   }
 
@@ -26,7 +33,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
   }
 }
 
@@ -79,122 +86,152 @@
     background-color: color-mix(in oklch, var(--accent) 8%, transparent);
   }
 
-  .brand-mark {
-    @apply link-inline inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-lg px-2 font-mono text-base font-semibold tracking-tight text-accent
-      transition-opacity duration-200 hover:opacity-80 active:opacity-70 focus-visible:ring-offset-accent-fg;
+  .nav-float {
+    @apply fixed inset-x-0 top-0 z-50 pointer-events-none;
+    padding: clamp(0.85rem, 2.5vw, 1.25rem);
   }
 
-  .hero-signal {
-    @apply relative w-full max-w-2xl overflow-hidden rounded-2xl border border-solid p-4 sm:p-5 text-left;
-    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
-    background:
-      linear-gradient(135deg, color-mix(in oklch, var(--accent) 6%, transparent), transparent 52%),
-      color-mix(in oklch, var(--accent-fg) 84%, transparent);
-    box-shadow: 0 16px 40px -34px oklch(0.24 0.05 168 / 0.34);
+  .nav-float-pill,
+  .nav-float-cluster,
+  .nav-float-dropdown {
+    @apply pointer-events-auto relative isolate;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 4px 24px -8px oklch(0.22 0.06 168 / 0.28),
+      0 1px 2px oklch(0.22 0.06 168 / 0.06),
+      inset 0 1px 1px var(--glass-highlight);
+    transition:
+      background-color 0.35s var(--ease-out-quint),
+      border-color 0.35s var(--ease-out-quint),
+      box-shadow 0.35s var(--ease-out-quint),
+      transform 0.25s var(--ease-out-quint);
   }
 
-  .hero-signal::before {
+  .nav-float-pill::before,
+  .nav-float-cluster::before,
+  .nav-float-dropdown::before {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-      linear-gradient(90deg, color-mix(in oklch, var(--accent) 7%, transparent) 1px, transparent 1px),
-      linear-gradient(180deg, color-mix(in oklch, var(--accent) 7%, transparent) 1px, transparent 1px);
-    background-size: 1.75rem 1.75rem;
-    opacity: 0.22;
-    mask-image: linear-gradient(180deg, black 50%, transparent 100%);
-  }
-
-  .hero-signal-accent {
-    @apply absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl;
+    border-radius: inherit;
     background: linear-gradient(
       180deg,
-      color-mix(in oklch, var(--accent) 58%, transparent),
-      color-mix(in oklch, var(--accent) 16%, transparent) 72%,
-      transparent
+      color-mix(in oklch, var(--accent-fg) 52%, transparent) 0%,
+      transparent 38%
     );
+    opacity: 0.42;
   }
 
-  .hero-signal-location {
-    @apply relative z-[1] flex items-center gap-2 mb-4 pb-3 border-b border-solid font-mono text-[0.72rem] sm:text-xs font-medium tracking-[0.08em] uppercase;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    color: color-mix(in oklch, var(--accent) 78%, transparent);
+  .nav-float-pill::after,
+  .nav-float-cluster::after,
+  .nav-float-dropdown::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 -1px 0 color-mix(in oklch, var(--accent) 7%, transparent);
+    opacity: 0.65;
   }
 
-  .hero-signal-dot {
-    @apply relative inline-flex h-2 w-2 shrink-0 rounded-full;
-    background-color: color-mix(in oklch, var(--accent) 72%, transparent);
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent);
-    animation: hero-signal-pulse 2.2s ease-in-out infinite;
+  @supports not (backdrop-filter: blur(1px)) {
+    .nav-float-pill,
+    .nav-float-cluster,
+    .nav-float-dropdown {
+      background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
+    }
   }
 
-  .hero-signal-steps {
-    @apply relative z-[1] flex list-none flex-col gap-0 p-0 m-0 sm:flex-row sm:items-stretch;
-  }
-
-  .hero-signal-step {
-    @apply flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center;
-  }
-
-  .hero-signal-step-inner {
-    @apply flex min-w-0 flex-1 items-start gap-3 rounded-xl border border-solid p-3 sm:p-3.5;
-    border-color: color-mix(in oklch, var(--accent) 9%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 76%, transparent);
-  }
-
-  .hero-signal-index {
-    @apply shrink-0 font-mono text-[0.68rem] font-semibold tracking-[0.08em] tabular-nums;
-    color: color-mix(in oklch, var(--accent) 70%, transparent);
-    padding-top: 0.1rem;
-  }
-
-  .hero-signal-step-copy {
-    @apply flex min-w-0 flex-col gap-0.5;
-  }
-
-  .hero-signal-label {
-    @apply font-display text-base sm:text-[1.05rem] font-medium tracking-[-0.02em] text-foreground;
-  }
-
-  .hero-signal-detail {
-    @apply font-mono text-[0.72rem] sm:text-xs font-medium leading-snug text-foreground-light;
-  }
-
-  .hero-signal-connector {
-    @apply flex shrink-0 items-center justify-center px-2 py-2 sm:px-2.5 sm:py-0;
-  }
-
-  .hero-signal-connector-line {
-    @apply hidden sm:block h-px w-3;
-    background-color: color-mix(in oklch, var(--accent) 28%, transparent);
-  }
-
-  .hero-signal-connector-arrow {
-    @apply font-mono text-sm font-semibold leading-none;
-    color: color-mix(in oklch, var(--accent) 68%, transparent);
-  }
-
-  .hero-signal-footnote {
-    @apply relative z-[1] mt-4 pl-0.5 font-mono text-[0.72rem] sm:text-xs font-medium tracking-[0.04em] text-foreground-light;
-  }
-
-  @media (max-width: 639px) {
-    .hero-signal-step + .hero-signal-step {
-      margin-top: 0.5rem;
+  @media (prefers-reduced-transparency: reduce) {
+    .nav-float-pill,
+    .nav-float-cluster,
+    .nav-float-dropdown {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background-color: color-mix(in oklch, var(--accent-fg) 92%, transparent);
     }
 
-    .hero-signal-connector {
-      @apply py-0 px-3;
+    .nav-float-pill::before,
+    .nav-float-cluster::before,
+    .nav-float-dropdown::before,
+    .nav-float-pill::after,
+    .nav-float-cluster::after,
+    .nav-float-dropdown::after {
+      display: none;
     }
+  }
 
-    .hero-signal-connector-line {
-      @apply hidden;
-    }
+  .nav-float-brand {
+    @apply fixed left-[clamp(0.85rem,2.5vw,1.25rem)] top-[clamp(0.85rem,2.5vw,1.25rem)] z-[1];
+  }
 
-    .hero-signal-connector-arrow {
-      transform: rotate(90deg);
-    }
+  .nav-float-cluster {
+    @apply fixed right-[clamp(0.85rem,2.5vw,1.25rem)] top-[clamp(0.85rem,2.5vw,1.25rem)] z-[1]
+      flex items-center gap-0.5 p-1 rounded-full overflow-hidden;
+  }
+
+  .nav-float-menu {
+    @apply fixed right-[clamp(0.85rem,2.5vw,1.25rem)] top-[clamp(0.85rem,2.5vw,1.25rem)] z-[1];
+  }
+
+  .nav-float-pill {
+    @apply inline-flex min-h-[2.5rem] min-w-[2.5rem] items-center justify-center rounded-full px-3.5 overflow-hidden
+      font-mono text-sm font-semibold
+      motion-safe:hover:-translate-y-px active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+    color: var(--accent-hover);
+  }
+
+  .nav-float-pill:hover,
+  .nav-float-cluster:hover {
+    background-color: var(--glass-bg-hover);
+    border-color: color-mix(in oklch, var(--accent-fg) 68%, var(--accent) 32%);
+    box-shadow:
+      0 8px 28px -10px color-mix(in oklch, var(--accent) 32%, transparent),
+      0 2px 6px -2px oklch(0.22 0.06 168 / 0.1),
+      inset 0 1px 1px color-mix(in oklch, var(--accent-fg) 72%, transparent);
+  }
+
+  .nav-float-btn {
+    @apply relative z-[1] inline-flex min-h-[2.25rem] items-center rounded-full px-3.5 font-mono text-[0.72rem] font-medium
+      transition-[color,background-color,transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-px active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+    color: color-mix(in oklch, var(--foreground) 72%, var(--accent) 28%);
+  }
+
+  .nav-float-btn:hover {
+    color: var(--accent-hover);
+    background-color: color-mix(in oklch, var(--accent-fg) 38%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in oklch, var(--accent-fg) 55%, transparent);
+  }
+
+  .nav-float-dropdown {
+    @apply fixed right-[clamp(0.85rem,2.5vw,1.25rem)] z-[1] flex flex-col gap-0.5 p-1.5 min-w-[10.5rem] rounded-2xl overflow-hidden;
+    top: calc(clamp(0.85rem, 2.5vw, 1.25rem) + 2.75rem);
+  }
+
+  .nav-float-dropdown-link {
+    @apply relative z-[1] flex min-h-[2.5rem] items-center rounded-xl px-3 font-mono text-sm font-medium
+      transition-[color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+    color: color-mix(in oklch, var(--foreground) 78%, var(--accent) 22%);
+  }
+
+  .nav-float-dropdown-link:hover {
+    color: var(--accent-hover);
+    background-color: color-mix(in oklch, var(--accent-fg) 36%, transparent);
+  }
+
+  .brand-mark {
+    @apply link-inline inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-lg px-2 font-mono text-base font-semibold tracking-tight text-accent
+      transition-opacity duration-200 hover:opacity-80 active:opacity-70 focus-visible:ring-offset-accent-fg;
   }
 
   .dev-panel {
@@ -205,9 +242,11 @@
   }
 
   .dev-panel--runtime {
+    @apply relative;
     box-shadow:
-      0 0 0 1px color-mix(in oklch, var(--accent) 8%, transparent),
-      0 22px 48px -32px oklch(0.24 0.05 168 / 0.38);
+      0 0 0 1px color-mix(in oklch, var(--accent) 14%, transparent),
+      0 0 48px -16px color-mix(in oklch, var(--accent) 35%, transparent),
+      0 28px 56px -36px oklch(0.22 0.06 168 / 0.45);
   }
 
   .dev-panel--runtime::before {
@@ -216,27 +255,82 @@
     inset: 0;
     pointer-events: none;
     background:
-      linear-gradient(180deg, color-mix(in oklch, var(--accent) 6%, transparent), transparent 28%),
-      linear-gradient(90deg, color-mix(in oklch, var(--accent) 5%, transparent) 1px, transparent 1px),
-      linear-gradient(180deg, color-mix(in oklch, var(--accent) 5%, transparent) 1px, transparent 1px);
-    background-size: auto, 1.5rem 1.5rem, 1.5rem 1.5rem;
-    opacity: 0.35;
-    mask-image: linear-gradient(180deg, black 40%, transparent 100%);
+      linear-gradient(180deg, color-mix(in oklch, var(--accent) 10%, transparent), transparent 32%),
+      linear-gradient(90deg, color-mix(in oklch, var(--accent) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent) 6%, transparent) 1px, transparent 1px);
+    background-size: auto, 1.25rem 1.25rem, 1.25rem 1.25rem;
+    opacity: 0.42;
+    mask-image: linear-gradient(180deg, black 55%, transparent 100%);
   }
 
-  .dev-panel--runtime {
-    @apply relative;
+  .dev-panel--runtime::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--accent) 45%, transparent),
+      color-mix(in oklch, var(--accent) 8%, transparent) 45%,
+      color-mix(in oklch, var(--accent) 25%, transparent)
+    );
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0.55;
+  }
+
+  .dev-panel-tabs {
+    @apply relative z-[1] flex items-end gap-0.5 px-2 pt-2 border-b border-solid;
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--accent-subtle) 55%, var(--accent-fg)),
+      color-mix(in oklch, var(--accent-fg) 90%, transparent)
+    );
+  }
+
+  .dev-panel-tab {
+    @apply inline-flex items-center gap-1.5 rounded-t-md px-2.5 py-1.5 font-mono text-[0.62rem] font-medium truncate max-w-[9rem];
+    color: color-mix(in oklch, var(--foreground-muted) 75%, transparent);
+  }
+
+  .dev-panel-tab--active {
+    color: var(--accent-hover);
+    background-color: color-mix(in oklch, var(--accent-fg) 88%, transparent);
+    border: 1px solid color-mix(in oklch, var(--accent) 16%, transparent);
+    border-bottom-color: transparent;
+    margin-bottom: -1px;
+    box-shadow: 0 -2px 12px -8px color-mix(in oklch, var(--accent) 40%, transparent);
+  }
+
+  .dev-panel-tab--ghost {
+    opacity: 0.45;
+  }
+
+  .dev-panel-tab-dot {
+    @apply h-1.5 w-1.5 shrink-0 rounded-full;
+    background-color: var(--accent);
+    box-shadow: 0 0 6px color-mix(in oklch, var(--accent) 60%, transparent);
   }
 
   .dev-panel-topbar {
-    @apply relative z-[1] flex items-center gap-2 border-b border-solid px-3 py-2.5;
+    @apply relative z-[1] flex items-center gap-2 border-b border-solid px-3 py-2;
     border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-subtle) 45%, var(--accent-fg));
+    background-color: color-mix(in oklch, var(--accent-fg) 88%, transparent);
+  }
+
+  .dev-panel-branch {
+    @apply shrink-0 rounded px-1.5 py-0.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em];
+    color: var(--accent);
+    background-color: color-mix(in oklch, var(--accent) 9%, var(--accent-fg));
+    border: 1px solid color-mix(in oklch, var(--accent) 18%, transparent);
   }
 
   .dev-panel-path {
     @apply ml-auto font-mono text-[0.62rem] font-medium truncate;
-    color: color-mix(in oklch, var(--foreground-muted) 88%, transparent);
+    color: color-mix(in oklch, var(--foreground) 55%, var(--accent) 45%);
   }
 
   .dev-panel-version {
@@ -270,22 +364,33 @@
   }
 
   .dev-code-block {
-    @apply relative z-[1] px-3 py-3 space-y-0.5;
-    background-color: color-mix(in oklch, var(--accent-fg) 72%, transparent);
+    @apply relative z-[1] px-3 py-2.5 space-y-0.5;
+    background:
+      linear-gradient(90deg, color-mix(in oklch, var(--accent) 12%, transparent) 0 2px, transparent 2px),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent-fg) 68%, transparent), color-mix(in oklch, var(--accent-fg) 78%, transparent));
   }
 
   .dev-code-comment {
-    @apply font-mono text-[0.65rem] mb-2 pl-7;
-    color: color-mix(in oklch, var(--foreground-muted) 65%, transparent);
+    @apply font-mono text-[0.65rem] mb-1.5 pl-7 italic;
+    color: color-mix(in oklch, var(--accent) 55%, var(--foreground-muted));
   }
 
   .dev-code-line {
-    @apply font-mono text-[0.68rem] leading-[1.65] flex flex-wrap items-baseline gap-x-0;
+    @apply font-mono text-[0.68rem] sm:text-[0.7rem] leading-[1.7] flex flex-wrap items-baseline gap-x-0;
+  }
+
+  .dev-code-line--dim {
+    opacity: 0.72;
   }
 
   .dev-code-line--highlight {
     @apply -mx-1 px-1 rounded-md;
-    background-color: color-mix(in oklch, var(--accent) 7%, transparent);
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--accent) 14%, transparent),
+      color-mix(in oklch, var(--accent) 5%, transparent)
+    );
+    box-shadow: inset 2px 0 0 var(--accent);
   }
 
   .dev-code-line--cursor {
@@ -298,15 +403,21 @@
   }
 
   .dev-syntax-keyword {
-    color: color-mix(in oklch, var(--accent) 85%, var(--foreground));
+    @apply font-semibold;
+    color: color-mix(in oklch, var(--accent-hover) 90%, var(--foreground));
   }
 
   .dev-syntax-name {
+    @apply font-medium;
     color: var(--foreground);
   }
 
+  .dev-syntax-type {
+    color: color-mix(in oklch, oklch(0.42 0.11 200) 85%, var(--accent));
+  }
+
   .dev-syntax-key {
-    color: color-mix(in oklch, var(--accent) 75%, var(--foreground));
+    color: color-mix(in oklch, var(--accent) 82%, var(--foreground));
   }
 
   .dev-syntax-punct {
@@ -314,11 +425,13 @@
   }
 
   .dev-syntax-string {
-    color: color-mix(in oklch, var(--foreground) 88%, var(--accent));
+    color: color-mix(in oklch, oklch(0.38 0.1 168) 90%, var(--foreground));
   }
 
   .dev-syntax-string--live {
+    @apply font-semibold;
     color: var(--accent);
+    text-shadow: 0 0 12px color-mix(in oklch, var(--accent) 35%, transparent);
   }
 
   .dev-cursor {
@@ -329,8 +442,21 @@
 
   .dev-panel-footer {
     @apply relative z-[1] flex items-center justify-between gap-3 border-t border-solid px-3 py-2.5;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-subtle) 38%, var(--accent-fg));
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--accent-fg) 85%, transparent),
+      color-mix(in oklch, var(--accent-subtle) 42%, var(--accent-fg))
+    );
+  }
+
+  .dev-footer-meta {
+    @apply flex flex-col items-end gap-0.5 min-w-0;
+  }
+
+  .dev-footer-build {
+    @apply font-mono text-[0.58rem] tabular-nums;
+    color: color-mix(in oklch, var(--foreground-muted) 70%, transparent);
   }
 
   .dev-status-pill {
@@ -352,6 +478,241 @@
     color: color-mix(in oklch, var(--foreground-muted) 75%, transparent);
   }
 
+  .tech-manifest-count {
+    color: color-mix(in oklch, var(--accent) 72%, var(--foreground-muted));
+  }
+
+  .tech-panel {
+    @apply w-full max-w-4xl mx-auto;
+  }
+
+  .tech-manifest {
+    @apply relative z-[1];
+    background:
+      linear-gradient(90deg, color-mix(in oklch, var(--accent) 12%, transparent) 0 2px, transparent 2px),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent-fg) 68%, transparent), color-mix(in oklch, var(--accent-fg) 78%, transparent));
+  }
+
+  .tech-row {
+    @apply flex flex-col gap-2 px-3 py-2 sm:flex-row sm:items-center sm:gap-3 sm:py-2.5 border-b border-solid last:border-b-0;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    transition: background-color 0.25s var(--ease-out-quint);
+  }
+
+  .tech-row:hover {
+    background-color: color-mix(in oklch, var(--accent) 4%, var(--accent-fg));
+  }
+
+  .tech-row-head {
+    @apply flex items-center gap-2 shrink-0 sm:w-[8.5rem] lg:w-[9.5rem];
+  }
+
+  .tech-index {
+    @apply font-mono text-[0.65rem] font-bold tabular-nums w-5;
+    color: var(--accent);
+  }
+
+  .tech-row-icon {
+    color: color-mix(in oklch, var(--accent) 80%, var(--foreground));
+  }
+
+  .tech-cat {
+    @apply font-mono text-[0.72rem] font-bold uppercase tracking-[0.08em];
+    color: var(--accent-hover);
+  }
+
+  .tech-chips {
+    @apply flex flex-wrap items-center gap-1.5 sm:gap-2 min-w-0 flex-1 list-none m-0 p-0;
+  }
+
+  .tech-chip {
+    @apply inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-mono text-[0.65rem] sm:text-[0.68rem] font-medium
+      transition-[transform,border-color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-px;
+    color: color-mix(in oklch, var(--foreground) 78%, var(--accent) 22%);
+    border: 1px solid color-mix(in oklch, var(--accent) 14%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 55%, transparent);
+    box-shadow: 0 1px 0 color-mix(in oklch, var(--accent) 8%, transparent);
+  }
+
+  .tech-chip:hover {
+    color: var(--accent-hover);
+    border-color: color-mix(in oklch, var(--accent) 28%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 7%, var(--accent-fg));
+    box-shadow: 0 0 14px -6px color-mix(in oklch, var(--accent) 35%, transparent);
+  }
+
+  .tech-chip-icon {
+    @apply shrink-0 opacity-90;
+  }
+
+  .tech-chip-label {
+    @apply truncate max-w-[9rem] sm:max-w-none;
+  }
+
+  .contact-meta {
+    color: color-mix(in oklch, var(--accent) 72%, var(--foreground-muted));
+  }
+
+  .contact-panel {
+    @apply w-full max-w-3xl mx-auto;
+  }
+
+  .contact-manifest {
+    @apply relative z-[1];
+    background:
+      linear-gradient(90deg, color-mix(in oklch, var(--accent) 12%, transparent) 0 2px, transparent 2px),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent-fg) 68%, transparent), color-mix(in oklch, var(--accent-fg) 78%, transparent));
+  }
+
+  .contact-row {
+    @apply flex flex-col gap-2 px-3 py-2 sm:flex-row sm:items-center sm:gap-3 sm:py-2.5 border-b border-solid last:border-b-0;
+    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
+    transition: background-color 0.25s var(--ease-out-quint);
+  }
+
+  .contact-row:hover {
+    background-color: color-mix(in oklch, var(--accent) 4%, var(--accent-fg));
+  }
+
+  .contact-row--primary {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--accent) 10%, transparent),
+      color-mix(in oklch, var(--accent) 3%, transparent)
+    );
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+
+  .contact-row-head {
+    @apply flex items-center gap-2 shrink-0 sm:w-[8.5rem] lg:w-[9.5rem];
+  }
+
+  .contact-index {
+    @apply font-mono text-[0.65rem] font-bold tabular-nums w-5;
+    color: var(--accent);
+  }
+
+  .contact-row-icon {
+    color: color-mix(in oklch, var(--accent) 80%, var(--foreground));
+  }
+
+  .contact-cat {
+    @apply font-mono text-[0.72rem] font-bold uppercase tracking-[0.08em];
+    color: var(--accent-hover);
+  }
+
+  .contact-link {
+    @apply inline-flex min-w-0 flex-1 items-center gap-2 rounded-md border border-solid px-2.5 py-1.5 font-mono text-[0.68rem] sm:text-[0.72rem]
+      transition-[transform,border-color,background-color,box-shadow,color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      motion-safe:hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+    border-color: color-mix(in oklch, var(--accent) 14%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 55%, transparent);
+    color: color-mix(in oklch, var(--foreground) 78%, var(--accent) 22%);
+    box-shadow: 0 1px 0 color-mix(in oklch, var(--accent) 8%, transparent);
+  }
+
+  .contact-link:hover {
+    color: var(--accent-hover);
+    border-color: color-mix(in oklch, var(--accent) 28%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 7%, var(--accent-fg));
+    box-shadow: 0 0 14px -6px color-mix(in oklch, var(--accent) 35%, transparent);
+  }
+
+  .contact-link--email .contact-link-value {
+    @apply font-semibold;
+    color: var(--accent);
+  }
+
+  .contact-link-key {
+    @apply shrink-0 uppercase tracking-[0.08em] text-[0.58rem] font-bold;
+    color: color-mix(in oklch, var(--accent) 70%, var(--foreground-muted));
+  }
+
+  .contact-link-value {
+    @apply truncate min-w-0;
+  }
+
+  .contact-link-arrow {
+    @apply ml-auto shrink-0 opacity-55;
+    transition: transform 0.2s var(--ease-out-quint), opacity 0.2s;
+  }
+
+  .contact-link:hover .contact-link-arrow {
+    @apply opacity-100;
+    transform: translate(1px, -1px);
+  }
+
+  .site-footer {
+    @apply relative pt-10 pb-8 sm:pt-12 sm:pb-9;
+  }
+
+  .site-footer-rule {
+    @apply absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklch, var(--accent) 35%, transparent) 20%,
+      color-mix(in oklch, var(--accent) 35%, transparent) 80%,
+      transparent
+    );
+  }
+
+  .site-footer-inner {
+    @apply flex flex-col items-center text-center gap-5 sm:gap-6;
+  }
+
+  .site-footer-signoff {
+    @apply flex flex-col items-center gap-2 max-w-lg;
+  }
+
+  .site-footer-eyebrow {
+    @apply font-mono text-xs font-medium tracking-[0.14em] uppercase;
+    color: color-mix(in oklch, var(--accent) 70%, var(--foreground-muted));
+  }
+
+  .site-footer-name {
+    @apply font-display text-xl sm:text-2xl font-medium tracking-tight text-foreground text-balance;
+  }
+
+  .site-footer-tagline {
+    @apply font-mono text-sm;
+    color: color-mix(in oklch, var(--foreground) 65%, var(--foreground-muted));
+  }
+
+  .site-footer-nav {
+    @apply flex flex-wrap items-center justify-center gap-x-1 gap-y-2;
+  }
+
+  .site-footer-link {
+    @apply inline-flex min-h-[2.75rem] items-center px-3 font-mono text-sm font-medium rounded-md
+      transition-[color,opacity] duration-200
+      hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+    color: color-mix(in oklch, var(--foreground) 72%, var(--accent) 28%);
+  }
+
+  .site-footer-link:not(:last-child)::after {
+    content: '·';
+    @apply ml-2 pointer-events-none;
+    color: color-mix(in oklch, var(--accent) 35%, transparent);
+  }
+
+  .site-footer-bottom {
+    @apply flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full pt-2;
+  }
+
+  .site-footer-copy {
+    @apply font-mono text-xs;
+    color: color-mix(in oklch, var(--foreground-muted) 88%, transparent);
+  }
+
+  .site-footer-easter {
+    @apply font-mono text-xs underline-offset-4
+      transition-[color,opacity] duration-200
+      hover:text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)] rounded-sm;
+    color: color-mix(in oklch, var(--foreground-muted) 75%, var(--accent) 25%);
+  }
+
   .dev-row {
     @apply flex items-baseline gap-2 py-1;
   }
@@ -364,241 +725,163 @@
     @apply font-mono text-[0.72rem] text-foreground-light;
   }
 
-  .project-card {
-    @apply relative flex flex-col rounded-2xl border border-solid p-6 sm:p-7
-      transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.008] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100
-      focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-[var(--page-bg)];
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 88%, transparent);
-    box-shadow: 0 1px 2px oklch(0.24 0.05 168 / 0.035);
+  .proj-list {
+    @apply flex flex-col;
   }
 
-  .project-card:hover {
-    border-color: color-mix(in oklch, var(--accent) 22%, transparent);
-    box-shadow: 0 18px 34px -28px oklch(0.36 0.1 168 / 0.18);
+  .proj-entry {
+    @apply py-5 sm:py-6 first:pt-0 border-b border-solid last:border-b-0 opacity-0;
+    border-color: color-mix(in oklch, var(--accent) 14%, transparent);
   }
 
-  .project-card--featured {
-    @apply rounded-2xl sm:rounded-3xl p-7 sm:p-8 lg:p-10 overflow-hidden;
-    box-shadow: 0 12px 42px -36px oklch(0.24 0.05 168 / 0.28);
+  .proj-entry-meta {
+    @apply flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 font-mono text-[0.72rem] sm:text-xs font-semibold tracking-[0.04em];
   }
 
-  .project-card-accent-bar {
-    @apply absolute inset-x-0 top-0 h-1 rounded-t-2xl sm:rounded-t-3xl pointer-events-none;
-    background: linear-gradient(
-      90deg,
-      var(--accent) 0%,
-      color-mix(in oklch, var(--accent) 22%, transparent) 55%,
-      transparent 100%
-    );
-  }
-
-  .project-badge {
-    @apply inline-flex items-center rounded-full px-3 py-1 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.12em]
-      text-foreground-light border border-solid;
-    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
-    background-color: color-mix(in oklch, var(--accent-subtle) 55%, transparent);
-  }
-
-  .project-badge--live {
-    @apply text-accent;
-    border-color: color-mix(in oklch, var(--accent) 18%, transparent);
-    background-color: color-mix(in oklch, var(--accent) 6%, var(--accent-fg));
-  }
-
-  .project-terminal-head {
-    @apply flex items-center justify-between gap-4 rounded-lg border border-solid px-3 py-2;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 84%, transparent);
-  }
-
-  .project-terminal-label {
-    @apply font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-foreground-light truncate;
-    color: color-mix(in oklch, var(--foreground-muted) 80%, transparent);
-  }
-
-  .project-chip {
-    @apply inline-block rounded-lg px-2.5 py-1 font-mono text-xs font-medium text-foreground
-      border border-solid transition-colors;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-muted) 22%, var(--accent-fg));
-  }
-
-  .project-chip--sm {
-    @apply px-2 py-0.5 text-[0.6875rem];
-  }
-
-  .project-link-row {
-    @apply inline-flex min-h-[2.75rem] cursor-pointer items-center gap-2.5 rounded-lg px-3 -mx-1 text-sm font-semibold text-foreground-light
-      transition-[color,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-      hover:text-accent
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
-  }
-
-  .project-link-row:hover {
-    background-color: color-mix(in oklch, var(--accent-subtle) 55%, transparent);
-  }
-
-  .project-link-row--primary {
-    @apply text-accent;
-  }
-
-  .project-link-row--primary:hover {
-    @apply text-accent-hover;
-  }
-
-  .project-workspace {
-    @apply rounded-2xl border border-solid overflow-hidden;
-    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 84%, transparent);
-    box-shadow: 0 16px 40px -34px oklch(0.24 0.05 168 / 0.32);
-  }
-
-  .project-workspace-topbar {
-    @apply flex items-center gap-2 border-b border-solid px-3 py-2.5;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-subtle) 35%, var(--accent-fg));
-  }
-
-  .project-workspace-path {
-    @apply font-mono text-[0.68rem] font-medium tracking-[0.06em] text-foreground-light truncate;
-  }
-
-  .project-workspace-body {
-    @apply p-4 sm:p-5;
-  }
-
-  .project-workspace-cmd {
-    @apply font-mono text-[0.72rem] sm:text-xs font-medium text-foreground-light mb-4;
-  }
-
-  .project-workspace-prompt {
-    @apply mr-1.5;
-    color: color-mix(in oklch, var(--accent) 75%, transparent);
-  }
-
-  .project-workspace-graph {
-    @apply space-y-1.5 mb-4;
-  }
-
-  .project-workspace-graph-row {
-    @apply flex items-center gap-2 font-mono text-[0.68rem] sm:text-xs min-w-0;
-  }
-
-  .project-workspace-graph-line {
-    @apply shrink-0;
-    color: color-mix(in oklch, var(--foreground-muted) 70%, transparent);
-  }
-
-  .project-workspace-id {
-    @apply truncate text-foreground-light;
-  }
-
-  .project-workspace-tag {
-    @apply shrink-0 rounded px-1.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em];
-    background-color: color-mix(in oklch, var(--accent) 8%, var(--accent-fg));
-    border: 1px solid color-mix(in oklch, var(--accent) 14%, transparent);
-  }
-
-  .project-workspace-tag--live {
-    @apply text-accent;
-  }
-
-  .project-workspace-stats {
-    @apply flex flex-wrap gap-x-4 gap-y-1 pt-3 border-t border-solid font-mono text-[0.68rem] font-medium uppercase tracking-[0.1em] text-foreground-light;
-    border-color: color-mix(in oklch, var(--accent) 9%, transparent);
-  }
-
-  .experience-panel {
-    @apply relative rounded-2xl sm:rounded-3xl border border-solid p-7 sm:p-8 overflow-hidden;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
-    box-shadow: 0 18px 44px -38px oklch(0.24 0.05 168 / 0.28);
-  }
-
-  .experience-panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      linear-gradient(90deg, color-mix(in oklch, var(--accent) 8%, transparent) 1px, transparent 1px),
-      linear-gradient(180deg, color-mix(in oklch, var(--accent) 8%, transparent) 1px, transparent 1px);
-    background-size: 2.25rem 2.25rem;
-    mask-image: linear-gradient(135deg, black, transparent 68%);
-    opacity: 0.26;
-  }
-
-  .experience-metric {
-    @apply relative rounded-xl border border-solid p-4 overflow-hidden;
-    border-color: color-mix(in oklch, var(--accent) 9%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 78%, transparent);
-  }
-
-  .experience-card {
-    @apply relative rounded-2xl border border-solid p-6 sm:p-7 overflow-hidden transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.008] motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100;
-    border-color: color-mix(in oklch, var(--accent) 10%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
-    box-shadow: 0 12px 34px -30px oklch(0.24 0.05 168 / 0.25);
-  }
-
-  .experience-card:hover {
-    border-color: color-mix(in oklch, var(--accent) 22%, transparent);
-    box-shadow: 0 18px 40px -32px oklch(0.36 0.1 168 / 0.2);
-  }
-
-  .experience-card-glow {
-    @apply absolute inset-x-0 top-0 h-1 pointer-events-none;
-    background: linear-gradient(
-      90deg,
-      var(--accent),
-      color-mix(in oklch, var(--accent) 18%, transparent),
-      transparent
-    );
-  }
-
-  .experience-node {
-    @apply absolute -left-2 sm:-left-2.5 lg:-left-3 top-6 z-10 flex h-8 w-8 items-center justify-center rounded-full font-mono text-[0.62rem] font-semibold;
+  .proj-index {
+    @apply tabular-nums;
     color: var(--accent);
-    border: 1px solid color-mix(in oklch, var(--accent) 20%, transparent);
-    background-color: color-mix(in oklch, var(--accent-fg) 94%, transparent);
-    box-shadow:
-      0 0 0 5px color-mix(in oklch, var(--accent-subtle) 38%, transparent),
-      0 8px 20px -18px oklch(0.24 0.05 168 / 0.4);
   }
 
-  .experience-kicker {
-    @apply text-sm font-semibold text-accent;
+  .proj-path {
+    color: color-mix(in oklch, var(--foreground) 72%, var(--accent) 28%);
   }
 
-  .experience-pill {
-    @apply inline-flex min-h-8 items-center rounded-full px-3 py-1 font-mono text-xs font-medium tabular-nums whitespace-nowrap border border-solid;
+  .proj-tag {
+    @apply uppercase tracking-[0.1em] text-[0.62rem] font-bold;
+    color: color-mix(in oklch, var(--foreground) 55%, transparent);
+  }
+
+  .proj-tag--live {
     color: var(--accent);
-    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
-    background-color: color-mix(in oklch, var(--accent-subtle) 42%, transparent);
   }
 
-  .experience-pill--muted {
-    color: var(--foreground-muted);
-    background-color: color-mix(in oklch, var(--accent-fg) 82%, transparent);
+  .proj-title {
+    @apply font-mono text-lg sm:text-xl font-bold tracking-[-0.02em] mb-1.5;
+    color: var(--accent-hover);
   }
 
-  .experience-bullet {
-    @apply relative pl-6;
+  .proj-desc {
+    @apply font-mono text-[0.8125rem] sm:text-sm leading-relaxed mb-2 max-w-3xl;
+    color: color-mix(in oklch, var(--foreground) 82%, var(--foreground-muted));
   }
 
-  .experience-bullet::before {
-    content: '';
+  .proj-stack {
+    @apply font-mono text-[0.75rem] sm:text-xs font-medium mb-2.5;
+    color: color-mix(in oklch, var(--accent) 78%, var(--foreground) 22%);
+  }
+
+  .proj-stack-label {
+    color: var(--accent);
+    margin-right: 0.35rem;
+    font-weight: 700;
+  }
+
+  .proj-links {
+    @apply flex flex-wrap items-center gap-x-5 gap-y-2 pt-1;
+  }
+
+  .proj-link {
+    @apply inline-flex items-center gap-1.5 font-mono text-sm font-semibold
+      transition-colors duration-200
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)] rounded-sm;
+    color: color-mix(in oklch, var(--foreground) 70%, var(--accent) 30%);
+  }
+
+  .proj-link:hover {
+    color: var(--accent);
+  }
+
+  .proj-link--primary {
+    color: var(--accent);
+  }
+
+  .proj-link--primary:hover {
+    color: var(--accent-hover);
+  }
+
+  .exp-column-label {
+    @apply mb-4 pb-2 border-b border-solid font-mono text-xs font-bold uppercase tracking-[0.14em];
+    border-color: color-mix(in oklch, var(--accent) 22%, transparent);
+    color: var(--accent);
+  }
+
+  .exp-list {
+    @apply flex flex-col;
+  }
+
+  .exp-entry {
+    @apply py-4 sm:py-5 first:pt-0 border-b border-solid last:border-b-0 opacity-0;
+    border-color: color-mix(in oklch, var(--accent) 14%, transparent);
+  }
+
+  .exp-entry-meta {
+    @apply flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 font-mono text-[0.72rem] sm:text-xs font-semibold tracking-[0.04em];
+  }
+
+  .exp-index {
+    @apply tabular-nums;
+    color: var(--accent);
+  }
+
+  .exp-period {
+    @apply tabular-nums;
+    color: color-mix(in oklch, var(--foreground) 88%, transparent);
+  }
+
+  .exp-location {
+    color: color-mix(in oklch, var(--accent) 72%, var(--foreground) 28%);
+  }
+
+  .exp-location::before {
+    content: '·';
+    margin-right: 0.5rem;
+    color: color-mix(in oklch, var(--accent) 50%, transparent);
+  }
+
+  .exp-role {
+    @apply font-mono text-base sm:text-lg font-bold tracking-[-0.02em] mb-1.5;
+    color: var(--accent-hover);
+  }
+
+  .exp-org {
+    @apply font-mono text-sm font-semibold mb-2.5;
+    color: var(--accent);
+  }
+
+  .exp-org-at {
+    color: color-mix(in oklch, var(--accent) 55%, transparent);
+    margin-right: 0.15rem;
+  }
+
+  .exp-org a {
+    color: inherit;
+  }
+
+  .exp-org a:hover {
+    color: var(--accent-hover);
+  }
+
+  .exp-bullets {
+    @apply space-y-1.5 font-mono text-[0.8125rem] sm:text-sm font-normal leading-relaxed list-none p-0 m-0;
+    color: color-mix(in oklch, var(--foreground) 80%, var(--foreground-muted));
+  }
+
+  .exp-bullets li {
+    @apply relative pl-4;
+  }
+
+  .exp-bullets li::before {
+    content: '>';
     position: absolute;
     left: 0;
-    top: 0.72em;
-    width: 0.45rem;
-    height: 0.45rem;
-    border-radius: 999px;
-    background: var(--accent);
-    box-shadow: 0 0 0 0.2rem color-mix(in oklch, var(--accent-subtle) 48%, transparent);
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .exp-summary {
+    @apply font-mono text-[0.8125rem] sm:text-sm leading-relaxed;
+    color: color-mix(in oklch, var(--foreground) 80%, var(--foreground-muted));
   }
 
   .profile-link-card {
@@ -644,13 +927,13 @@
 
   /** Tighter / looser vertical rhythm for alternating sections */
   .section-y-tight {
-    padding-top: clamp(2.5rem, 6vw, 4.5rem);
-    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
   }
 
   .section-y-loose {
-    padding-top: clamp(4.5rem, 11vw, 8.5rem);
-    padding-bottom: clamp(4.5rem, 11vw, 8.5rem);
+    padding-top: clamp(2.25rem, 5vw, 4rem);
+    padding-bottom: clamp(2.25rem, 5vw, 4rem);
   }
 
   .animate-fade-in-up {
@@ -683,18 +966,6 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes hero-signal-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent);
-  }
-  50% {
-    transform: scale(1.15);
-    box-shadow: 0 0 0 6px color-mix(in oklch, var(--accent) 8%, transparent);
   }
 }
 
@@ -733,8 +1004,7 @@
   }
 
   .dev-cursor,
-  .dev-status-dot,
-  .hero-signal-dot {
+  .dev-status-dot {
     animation: none !important;
   }
 }

@@ -133,9 +133,9 @@ export const experiences: Experience[] = [
   {
     id: 'xyberlabs',
     role: 'Software developer',
-    company: 'XyberLabs',
+    company: 'Xyber Labs Technology Solutions',
     category: 'professional',
-    companyUrl: 'https://xyberlabs.et/',
+    companyUrl: 'https://www.linkedin.com/company/xyber-labs-et/',
     period: 'Dec 2024 — Sep 2025',
     location: 'Remote · Ethiopia',
     bullets: [
@@ -165,8 +165,13 @@ export const experiences: Experience[] = [
     category: 'education',
     companyUrl: 'https://www.aau.edu.et/',
     period: '2022 — 2026',
-    summary:
-      'Completed a BSc in biomedical engineering with foundations in instrumentation, quantitative methods, and applied engineering—complemented by software and product experience through A2SV and industry roles.',
+    bullets: [
+      'BSc in biomedical engineering — medical devices, instrumentation, and quantitative methods for health technology',
+      'Biomedical instrumentation and biosensors',
+      'Signal processing and data acquisition',
+      'Biomechanics and human physiology for engineers',
+      'Medical device design and applied engineering labs',
+    ],
   },
   {
     id: 'alx-pro-backend',
@@ -192,24 +197,19 @@ export const experiences: Experience[] = [
 
 export const heroIntro = {
   greeting: 'Hello, I\'m',
-  manifesto: {
-    location: 'Addis Ababa, Ethiopia',
-    steps: [
-      { index: '01', label: 'APIs', detail: 'TypeScript, Python & Node' },
-      { index: '02', label: 'Backends', detail: 'Services, data & auth' },
-      { index: '03', label: 'Ship', detail: 'React, Next.js & Vue' },
-    ],
-  },
-  footnote: 'Amplitude · XyberLabs · Eskalate · A2SV · Biomed engineer',
 } as const
 
 export const heroTech = ['TypeScript', 'Python', 'Node.js', 'GraphQL', 'React', 'Vue.js'] as const
 
 export const devProfile = {
-  path: 'dev/profile.runtime',
+  path: 'dev/profile.runtime.ts',
+  tab: 'profile.runtime.ts',
+  branch: 'main',
   version: '1.0.0',
+  lang: 'typescript',
   status: 'online',
   statusLabel: 'open_to_remote_roles',
+  build: '2026.05.22',
   fields: [
     { key: 'role', value: 'software_developer' },
     { key: 'location', value: 'addis_ababa_ethiopia' },
