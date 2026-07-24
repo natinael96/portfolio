@@ -3,7 +3,7 @@
     id="experience"
     class="section-y section-x border-y border-accent/10"
   >
-    <div class="max-w-3xl mx-auto lg:max-w-[90rem]">
+    <div class="max-w-3xl mx-auto lg:max-w-5xl">
       <header class="mb-6 sm:mb-7 lg:mb-8 max-w-2xl" v-motion="motionVisibleOnceUp(0)">
         <p class="font-mono text-xs font-medium tracking-[0.16em] uppercase text-accent/80 mb-2">
           Career signal

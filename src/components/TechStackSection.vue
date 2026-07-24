@@ -1,6 +1,6 @@
 <template>
   <section id="tech" class="section-y section-x">
-    <div class="max-w-3xl mx-auto lg:max-w-[90rem]">
+    <div class="max-w-4xl mx-auto">
       <header
         class="mb-5 sm:mb-6 lg:mb-7 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-6"
         v-motion="motionVisibleOnceUp(0)"

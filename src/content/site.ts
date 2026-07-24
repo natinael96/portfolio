@@ -30,10 +30,6 @@ export interface Project {
   githubRepos?: ProjectCodeLink[]
   demo?: string
   status?: 'live' | 'completed'
-  /** Screenshot for the preview thumbnail (in /public). Falls back to a styled frame if absent. */
-  image?: string
-  /** Domain shown in the preview's browser chrome (defaults to the demo host). */
-  previewLabel?: string
 }
 
 const projectsUnordered: Project[] = [
@@ -45,8 +41,6 @@ const projectsUnordered: Project[] = [
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
     demo: 'https://www.addisairnet.et/',
     status: 'live',
-    image: '/projects/air-qua.png',
-    previewLabel: 'addisairnet.et',
   },
   {
     id: 'job-board-api',
