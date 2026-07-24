@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+/* Fonts are loaded via <link> in index.html (faster than an @import here). */
 
 @tailwind base;
 @tailwind components;
@@ -29,11 +29,14 @@
   body {
     @apply bg-background text-foreground antialiased font-sans;
     font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    /* Guard against accidental horizontal scroll on small screens. */
+    overflow-x: hidden;
   }
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem;
+    /* Clears the fixed floating nav bar when jumping to an anchor. */
+    scroll-padding-top: 5.25rem;
   }
 }
 
@@ -68,60 +71,19 @@
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
   }
 
-  .nav-link {
-    @apply link-inline inline-flex items-center min-h-[2.75rem] rounded-md px-2 -mx-0.5 text-sm font-medium text-foreground-light
-      hover:text-accent active:opacity-80 focus-visible:ring-offset-accent-fg;
-  }
-
-  .nav-link-mobile {
-    @apply link-inline flex min-h-[2.75rem] w-full items-center rounded-lg px-3 -mx-1 text-sm font-medium text-foreground-light
-      hover:text-accent focus-visible:ring-offset-accent-fg;
-  }
-
-  .nav-link-mobile:hover {
-    background-color: color-mix(in oklch, var(--accent) 6%, transparent);
-  }
-
-  .nav-link-mobile:active {
-    background-color: color-mix(in oklch, var(--accent) 8%, transparent);
-  }
-
-  .nav-float {
+  /* ── Primary navigation — one cohesive floating glass bar ────────────── */
+  .site-nav {
     @apply fixed inset-x-0 top-0 z-50 pointer-events-none;
-    padding: clamp(0.85rem, 2.5vw, 1.25rem);
+    padding: clamp(0.55rem, 2vw, 1rem) clamp(0.85rem, 2.5vw, 1.25rem);
   }
 
-  .nav-float-shell {
-    @apply pointer-events-auto relative mx-auto w-full max-w-[90rem];
+  .site-nav-inner {
+    @apply pointer-events-none mx-auto w-full max-w-[52rem];
   }
 
-  .nav-float-bar {
-    @apply flex items-center justify-between gap-3 min-h-[2.5rem];
-  }
-
-  @media (min-width: 768px) {
-    .nav-float-bar {
-      @apply relative block min-h-[2.5rem];
-    }
-
-    .nav-float-brand {
-      @apply fixed left-[clamp(0.85rem,2.5vw,1.25rem)] top-[clamp(0.85rem,2.5vw,1.25rem)] z-[1];
-    }
-
-    .nav-float-cluster {
-      @apply fixed right-[clamp(0.85rem,2.5vw,1.25rem)] top-[clamp(0.85rem,2.5vw,1.25rem)] z-[1];
-    }
-  }
-
-  .nav-float-brand,
-  .nav-float-menu {
-    @apply shrink-0;
-  }
-
-  .nav-float-pill,
-  .nav-float-cluster,
-  .nav-float-dropdown {
-    @apply pointer-events-auto relative isolate;
+  .site-nav-bar {
+    @apply pointer-events-auto relative isolate flex items-center justify-between gap-2
+      rounded-full pl-4 pr-1.5 min-h-[3.25rem] overflow-hidden;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
@@ -129,19 +91,17 @@
     background-color: var(--glass-bg);
     border: 1px solid var(--glass-border);
     box-shadow:
-      0 4px 24px -8px oklch(0.22 0.06 168 / 0.28),
+      0 4px 24px -8px oklch(0.22 0.06 168 / 0.22),
       0 1px 2px oklch(0.22 0.06 168 / 0.06),
       inset 0 1px 1px var(--glass-highlight);
     transition:
       background-color 0.35s var(--ease-out-quint),
       border-color 0.35s var(--ease-out-quint),
       box-shadow 0.35s var(--ease-out-quint),
-      transform 0.25s var(--ease-out-quint);
+      min-height 0.35s var(--ease-out-quint);
   }
 
-  .nav-float-pill::before,
-  .nav-float-cluster::before,
-  .nav-float-dropdown::before {
+  .site-nav-bar::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -150,113 +110,127 @@
     background: linear-gradient(
       180deg,
       color-mix(in oklch, var(--accent-fg) 52%, transparent) 0%,
-      transparent 38%
+      transparent 40%
     );
     opacity: 0.42;
   }
 
-  .nav-float-pill::after,
-  .nav-float-cluster::after,
-  .nav-float-dropdown::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    box-shadow: inset 0 -1px 0 color-mix(in oklch, var(--accent) 7%, transparent);
-    opacity: 0.65;
+  .site-nav.is-scrolled .site-nav-bar {
+    @apply min-h-[2.85rem];
+    background-color: var(--glass-bg-hover);
+    border-color: color-mix(in oklch, var(--accent-fg) 66%, var(--accent) 34%);
+    box-shadow:
+      0 10px 30px -12px oklch(0.22 0.06 168 / 0.3),
+      0 2px 6px -2px oklch(0.22 0.06 168 / 0.08),
+      inset 0 1px 1px var(--glass-highlight);
   }
 
   @supports not (backdrop-filter: blur(1px)) {
-    .nav-float-pill,
-    .nav-float-cluster,
-    .nav-float-dropdown {
-      background-color: color-mix(in oklch, var(--accent-fg) 86%, transparent);
+    .site-nav-bar,
+    .site-nav-menu {
+      background-color: color-mix(in oklch, var(--accent-fg) 90%, transparent);
     }
   }
 
   @media (prefers-reduced-transparency: reduce) {
-    .nav-float-pill,
-    .nav-float-cluster,
-    .nav-float-dropdown {
+    .site-nav-bar,
+    .site-nav-menu {
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
-      background-color: color-mix(in oklch, var(--accent-fg) 92%, transparent);
+      background-color: color-mix(in oklch, var(--accent-fg) 94%, transparent);
     }
 
-    .nav-float-pill::before,
-    .nav-float-cluster::before,
-    .nav-float-dropdown::before,
-    .nav-float-pill::after,
-    .nav-float-cluster::after,
-    .nav-float-dropdown::after {
+    .site-nav-bar::before {
       display: none;
     }
   }
 
-  .nav-float-brand {
-    @apply z-[1];
+  .site-nav-brand {
+    @apply link-inline relative z-[1] inline-flex items-center gap-2 shrink-0 min-h-[2.75rem] pr-2
+      font-mono text-base font-semibold tracking-tight text-accent
+      hover:opacity-80 active:opacity-70 focus-visible:ring-offset-accent-fg;
   }
 
-  .nav-float-cluster {
-    @apply flex items-center gap-0.5 p-1 rounded-full overflow-hidden;
+  .site-nav-brand-dot {
+    @apply h-1.5 w-1.5 rounded-full shrink-0;
+    background-color: var(--accent);
+    box-shadow: 0 0 8px color-mix(in oklch, var(--accent) 55%, transparent);
   }
 
-  .nav-float-menu {
-    @apply z-[2];
+  .site-nav-links {
+    @apply hidden md:flex items-center gap-0.5 list-none m-0 p-0;
   }
 
-  .nav-float-pill {
-    @apply inline-flex min-h-[2.5rem] min-w-[2.5rem] items-center justify-center rounded-full px-3.5 overflow-hidden
-      font-mono text-sm font-semibold
-      motion-safe:hover:-translate-y-px active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
-    color: var(--accent-hover);
-  }
-
-  .nav-float-pill:hover,
-  .nav-float-cluster:hover {
-    background-color: var(--glass-bg-hover);
-    border-color: color-mix(in oklch, var(--accent-fg) 68%, var(--accent) 32%);
-    box-shadow:
-      0 8px 28px -10px color-mix(in oklch, var(--accent) 32%, transparent),
-      0 2px 6px -2px oklch(0.22 0.06 168 / 0.1),
-      inset 0 1px 1px color-mix(in oklch, var(--accent-fg) 72%, transparent);
-  }
-
-  .nav-float-btn {
-    @apply relative z-[1] inline-flex min-h-[2.25rem] items-center rounded-full px-3.5 font-mono text-[0.72rem] font-medium
-      transition-[color,background-color,transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-      motion-safe:hover:-translate-y-px active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+  .site-nav-link {
+    @apply link-inline relative z-[1] inline-flex items-center min-h-[2.25rem] rounded-full px-3.5
+      font-mono text-[0.8rem] font-medium focus-visible:ring-offset-accent-fg;
     color: color-mix(in oklch, var(--foreground) 72%, var(--accent) 28%);
   }
 
-  .nav-float-btn:hover {
+  .site-nav-link:hover {
     color: var(--accent-hover);
-    background-color: color-mix(in oklch, var(--accent-fg) 38%, transparent);
-    box-shadow: inset 0 1px 0 color-mix(in oklch, var(--accent-fg) 55%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 42%, transparent);
   }
 
-  .nav-float-dropdown {
-    @apply absolute left-0 right-0 z-[2] mt-2 flex flex-col gap-0.5 p-1.5 rounded-2xl overflow-hidden;
+  .site-nav-link.is-active {
+    color: var(--accent-hover);
+    background-color: color-mix(in oklch, var(--accent) 11%, var(--accent-fg));
   }
 
-  .nav-float-dropdown-link {
-    @apply relative z-[1] flex min-h-[2.5rem] items-center rounded-xl px-3 font-mono text-sm font-medium
-      transition-[color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)];
+  .site-nav-link.is-active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.28rem;
+    width: 0.85rem;
+    height: 2px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background-color: var(--accent);
+  }
+
+  .site-nav-toggle {
+    @apply md:hidden relative z-[1] inline-flex items-center justify-center shrink-0
+      min-h-[2.75rem] min-w-[2.75rem] rounded-full text-accent
+      transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+      active:scale-[0.94] motion-reduce:active:scale-100
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-accent-fg;
+  }
+
+  .site-nav-toggle:hover {
+    background-color: color-mix(in oklch, var(--accent-fg) 42%, transparent);
+  }
+
+  .site-nav-menu {
+    @apply md:hidden pointer-events-auto relative isolate mt-2 flex flex-col gap-0.5 p-1.5 rounded-2xl overflow-hidden;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    background-color: var(--glass-bg-hover);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 18px 40px -20px oklch(0.22 0.06 168 / 0.4),
+      inset 0 1px 1px var(--glass-highlight);
+  }
+
+  .site-nav-menu-link {
+    @apply link-inline relative z-[1] flex items-center gap-3 min-h-[2.75rem] rounded-xl px-3
+      font-mono text-sm font-medium focus-visible:ring-offset-accent-fg;
     color: color-mix(in oklch, var(--foreground) 78%, var(--accent) 22%);
   }
 
-  .nav-float-dropdown-link:hover {
+  .site-nav-menu-link:hover {
     color: var(--accent-hover);
-    background-color: color-mix(in oklch, var(--accent-fg) 36%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 7%, transparent);
   }
 
-  .brand-mark {
-    @apply link-inline inline-flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-lg px-2 font-mono text-base font-semibold tracking-tight text-accent
-      transition-opacity duration-200 hover:opacity-80 active:opacity-70 focus-visible:ring-offset-accent-fg;
+  .site-nav-menu-link.is-active {
+    color: var(--accent-hover);
+    background-color: color-mix(in oklch, var(--accent) 10%, var(--accent-fg));
+  }
+
+  .site-nav-menu-index {
+    @apply font-mono text-[0.62rem] tabular-nums shrink-0 w-4;
+    color: color-mix(in oklch, var(--accent) 62%, var(--foreground-muted));
   }
 
   .dev-panel {
@@ -823,6 +797,204 @@
 
   .proj-link--primary:hover {
     color: var(--accent-hover);
+  }
+
+  /* ── Project preview thumbnail ───────────────────────────────────────── */
+  .proj-grid {
+    @apply grid grid-cols-1 gap-5;
+  }
+
+  .proj-grid--has-preview {
+    @apply lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-start lg:gap-8;
+  }
+
+  .proj-main {
+    @apply min-w-0 order-2 lg:order-1;
+  }
+
+  .proj-preview {
+    @apply order-1 lg:order-2 block w-full overflow-hidden rounded-xl border border-solid;
+    border-color: color-mix(in oklch, var(--accent) 16%, transparent);
+    background-color: color-mix(in oklch, var(--accent-fg) 70%, transparent);
+    box-shadow: 0 14px 34px -26px oklch(0.24 0.05 168 / 0.5);
+    transition:
+      transform 0.3s var(--ease-out-quint),
+      box-shadow 0.3s var(--ease-out-quint),
+      border-color 0.3s var(--ease-out-quint);
+  }
+
+  a.proj-preview {
+    @apply no-underline focus-visible:outline-none;
+  }
+
+  a.proj-preview:hover {
+    border-color: color-mix(in oklch, var(--accent) 34%, transparent);
+    box-shadow: 0 20px 40px -24px oklch(0.24 0.05 168 / 0.55);
+  }
+
+  a.proj-preview:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px var(--page-bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a.proj-preview:hover {
+      transform: translateY(-3px);
+    }
+  }
+
+  .proj-preview-chrome {
+    @apply flex items-center gap-1.5 px-3 py-2 border-b border-solid;
+    border-color: color-mix(in oklch, var(--accent) 12%, transparent);
+    background-color: color-mix(in oklch, var(--accent-subtle) 40%, var(--accent-fg));
+  }
+
+  .proj-preview-dot {
+    @apply h-2 w-2 rounded-full shrink-0;
+    background-color: color-mix(in oklch, var(--accent) 30%, transparent);
+  }
+
+  .proj-preview-url {
+    @apply ml-2 mr-auto min-w-0 truncate rounded px-2 py-0.5 font-mono text-[0.6rem];
+    color: color-mix(in oklch, var(--foreground) 58%, var(--accent) 42%);
+    background-color: color-mix(in oklch, var(--accent-fg) 62%, transparent);
+  }
+
+  .proj-preview-open {
+    @apply inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[0.6rem] font-medium no-underline
+      transition-[color,background-color] duration-200
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--page-bg)];
+    color: color-mix(in oklch, var(--accent) 78%, var(--foreground));
+  }
+
+  .proj-preview-open:hover {
+    color: var(--accent-hover);
+    background-color: color-mix(in oklch, var(--accent) 10%, transparent);
+  }
+
+  .proj-preview-shot {
+    @apply relative block aspect-[16/10] w-full overflow-hidden;
+  }
+
+  /* Click-to-load facade: shows the thumbnail, loads the live iframe on click. */
+  .proj-preview-facade {
+    @apply absolute inset-0 flex w-full cursor-pointer items-center justify-center border-0 p-0
+      focus-visible:outline-none;
+    background: transparent;
+  }
+
+  .proj-preview-facade::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: oklch(0.2 0.04 260 / 0);
+    transition: background-color 0.25s var(--ease-out-quint);
+  }
+
+  .proj-preview-facade:hover::after {
+    background-color: oklch(0.2 0.04 260 / 0.18);
+  }
+
+  .proj-preview-facade:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+
+  .proj-preview-play {
+    @apply relative z-[1] inline-flex items-center gap-2 rounded-full px-3.5 py-2 font-mono text-[0.7rem] font-semibold;
+    color: var(--accent-fg);
+    background-color: color-mix(in oklch, var(--accent) 92%, transparent);
+    box-shadow: 0 8px 20px -8px oklch(0.24 0.05 168 / 0.6);
+    transition:
+      transform 0.25s var(--ease-out-quint),
+      background-color 0.25s var(--ease-out-quint);
+  }
+
+  .proj-preview-facade:hover .proj-preview-play {
+    background-color: var(--accent-hover);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .proj-preview-facade:hover .proj-preview-play {
+      transform: scale(1.04);
+    }
+  }
+
+  .proj-preview-frame {
+    @apply absolute inset-0 h-full w-full;
+    border: 0;
+    background-color: var(--accent-fg);
+  }
+
+  .proj-preview-img {
+    @apply absolute inset-0 h-full w-full object-cover object-top;
+  }
+
+  /* Stylized fallback that reads as the live air-quality map (shown until a
+     real screenshot exists at the project's image path). */
+  .proj-preview-fallback {
+    @apply absolute inset-0 flex items-end justify-start p-3;
+    background: radial-gradient(
+      120% 80% at 50% -10%,
+      oklch(0.3 0.06 250) 0%,
+      oklch(0.2 0.045 260) 55%,
+      oklch(0.16 0.04 265) 100%
+    );
+  }
+
+  .proj-preview-fallback-grid {
+    @apply absolute inset-0;
+    background-image:
+      linear-gradient(oklch(0.7 0.02 250 / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(0.7 0.02 250 / 0.1) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 80%);
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 80%);
+  }
+
+  .proj-preview-fallback-dots {
+    @apply absolute inset-0;
+  }
+
+  .proj-preview-fallback-dots .aqi {
+    @apply absolute h-2.5 w-2.5 rounded-full;
+    background-color: currentColor;
+    box-shadow:
+      0 0 0 4px color-mix(in oklch, currentColor 20%, transparent),
+      0 0 10px color-mix(in oklch, currentColor 50%, transparent);
+  }
+
+  .aqi--good {
+    color: oklch(0.78 0.16 150);
+  }
+  .aqi--mod {
+    color: oklch(0.85 0.15 95);
+  }
+  .aqi--high {
+    color: oklch(0.72 0.17 45);
+  }
+
+  .proj-preview-fallback-dots .aqi:nth-child(1) {
+    top: 30%;
+    left: 22%;
+  }
+  .proj-preview-fallback-dots .aqi:nth-child(2) {
+    top: 52%;
+    left: 44%;
+  }
+  .proj-preview-fallback-dots .aqi:nth-child(3) {
+    top: 38%;
+    left: 64%;
+  }
+  .proj-preview-fallback-dots .aqi:nth-child(4) {
+    top: 62%;
+    left: 78%;
+  }
+
+  .proj-preview-fallback-label {
+    @apply relative z-[1] rounded-md px-2 py-1 font-mono text-[0.62rem] font-medium;
+    color: oklch(0.92 0.03 160);
+    background-color: oklch(0.2 0.04 260 / 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
   }
 
   .exp-column-label {

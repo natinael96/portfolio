@@ -16,14 +16,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aws-iconic/vue": "^1.0.8",
-    "@vueuse/core": "^14.1.0",
     "@vueuse/motion": "^3.0.3",
-    "aws-svg-icons": "^3.0.0-2021-07-30",
     "gsap": "^3.13.0",
     "lucide-vue-next": "^0.555.0",
-    "particles.js": "^2.0.0",
-    "react-aws-icons": "^1.2.1",
     "simple-icons": "^16.0.0",
     "vue": "^3.5.24"
   },

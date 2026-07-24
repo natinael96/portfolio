@@ -45,14 +45,3 @@ export function motionVisibleOnceUp(delay = 0) {
     },
   }
 }
-
-export function motionVisibleOnceLeft(delay = 0) {
-  return {
-    initial: { opacity: 0, x: -40 },
-    visibleOnce: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 800, delay, ease },
-    },
-  }
-}

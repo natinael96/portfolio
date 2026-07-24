@@ -5,7 +5,7 @@
   >
     <div class="w-full max-w-[90rem] mx-auto">
       <div
-        class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] gap-6 lg:gap-8 xl:gap-9 items-end"
+        class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] gap-6 lg:gap-8 xl:gap-9 items-center"
       >
         <div
           class="flex flex-col items-center lg:items-start text-center lg:text-left xl:pr-8 xl:pb-2 xl:border-r border-transparent xl:border-accent/10 max-w-4xl lg:max-w-none"
@@ -61,8 +61,13 @@
           v-motion="motionEnterRight(180)"
           aria-label="Developer profile summary"
         >
-          <div class="dev-panel dev-panel--runtime w-full max-w-[24rem]">
-            <div class="dev-panel-tabs" aria-hidden="true">
+          <p class="sr-only">
+            Software developer based in Addis Ababa, Ethiopia. Focus areas: APIs,
+            backend, web UI, and system design. Stack: TypeScript, Python, Node.js,
+            React, Next.js, and Vue. Currently open to remote roles.
+          </p>
+          <div class="dev-panel dev-panel--runtime w-full max-w-[24rem]" aria-hidden="true">
+            <div class="dev-panel-tabs">
               <span class="dev-panel-tab dev-panel-tab--active">
                 <span class="dev-panel-tab-dot" />
                 {{ devProfile.tab }}

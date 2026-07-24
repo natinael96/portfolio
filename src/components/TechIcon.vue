@@ -1,30 +1,6 @@
 <template>
-  <img
-    v-if="props.name === 'AWS S3' && awsS3Icon"
-    :src="awsS3Icon"
-    :width="size"
-    :height="size"
-    alt="AWS S3"
-    class="tech-icon"
-  />
-  <img
-    v-else-if="props.name === 'AWS CodePipeline' && awsCodePipelineIcon"
-    :src="awsCodePipelineIcon"
-    :width="size"
-    :height="size"
-    alt="AWS CodePipeline"
-    class="tech-icon"
-  />
-  <img
-    v-else-if="props.name === 'AWS' && awsEc2Icon"
-    :src="awsEc2Icon"
-    :width="size"
-    :height="size"
-    alt="AWS"
-    class="tech-icon"
-  />
   <svg
-    v-else-if="iconData"
+    v-if="iconData"
     :width="size"
     :height="size"
     viewBox="0 0 24 24"
@@ -51,6 +27,7 @@ import {
   siFastapi,
   siExpress,
   siGraphql,
+  siApachekafka,
   siReact,
   siNextdotjs,
   siVuedotjs,
@@ -61,14 +38,8 @@ import {
   siRedis,
   siMysql,
   siDocker,
-  siKubernetes,
   siGithubactions,
-  siTerraform,
 } from 'simple-icons'
-
-import awsS3Icon from 'aws-svg-icons/lib/Architecture-Service-Icons_07302021/Arch_Storage/64/Arch_Amazon-Simple-Storage-Service_64.svg'
-import awsCodePipelineIcon from 'aws-svg-icons/lib/Architecture-Service-Icons_07302021/Arch_Developer-Tools/64/Arch_AWS-CodePipeline_64.svg'
-import awsEc2Icon from 'aws-svg-icons/lib/Architecture-Service-Icons_07302021/Arch_Compute/64/Arch_Amazon-EC2_64.svg'
 
 interface Props {
   name: string
@@ -86,6 +57,7 @@ const iconMap: Record<string, SimpleIcon> = {
   FastAPI: siFastapi,
   Express: siExpress,
   GraphQL: siGraphql,
+  Kafka: siApachekafka,
   React: siReact,
   'Next.js': siNextdotjs,
   'Vue.js': siVuedotjs,
@@ -96,9 +68,7 @@ const iconMap: Record<string, SimpleIcon> = {
   Redis: siRedis,
   MySQL: siMysql,
   Docker: siDocker,
-  Kubernetes: siKubernetes,
   'GitHub Actions': siGithubactions,
-  Terraform: siTerraform,
 }
 
 const iconData = computed(() => {

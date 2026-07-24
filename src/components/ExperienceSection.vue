@@ -86,18 +86,18 @@ const educationExperiences = computed(() =>
   experiences.filter((exp) => exp.category === 'education')
 )
 const experienceGroups = computed(() => {
-  const educationItems = educationExperiences.value.map((exp, index) => ({
+  const professionalItems = professionalExperiences.value.map((exp, index) => ({
     exp,
     index,
   }))
-  const professionalItems = professionalExperiences.value.map((exp, index) => ({
+  const educationItems = educationExperiences.value.map((exp, index) => ({
     exp,
-    index: educationItems.length + index,
+    index: professionalItems.length + index,
   }))
 
   return [
-    { label: 'education & training', items: educationItems },
     { label: 'professional experience', items: professionalItems },
+    { label: 'education & training', items: educationItems },
   ].filter((group) => group.items.length > 0)
 })
 

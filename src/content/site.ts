@@ -6,11 +6,6 @@ export const site = {
   name: 'Natinael Mequanent Shebabaw',
   roleLabel: 'Software developer',
   email: 'natinael.96@gmail.com',
-  meta: {
-    title: 'Natinael Mequanent Shebabaw · Software developer',
-    description:
-      'Software developer in Addis Ababa—APIs, backends, and web interfaces with TypeScript, Python, Node.js, React, Next.js, and Vue. Amplitude Ventures, XyberLabs, Eskalate.io, A2SV, biomedical engineering.',
-  },
   social: {
     github: 'https://github.com/natinael96',
     linkedin: 'https://www.linkedin.com/in/natinael-mequanent-b861492a5/',
@@ -35,6 +30,10 @@ export interface Project {
   githubRepos?: ProjectCodeLink[]
   demo?: string
   status?: 'live' | 'completed'
+  /** Screenshot for the preview thumbnail (in /public). Falls back to a styled frame if absent. */
+  image?: string
+  /** Domain shown in the preview's browser chrome (defaults to the demo host). */
+  previewLabel?: string
 }
 
 const projectsUnordered: Project[] = [
@@ -46,6 +45,8 @@ const projectsUnordered: Project[] = [
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
     demo: 'https://www.addisairnet.et/',
     status: 'live',
+    image: '/projects/air-qua.png',
+    previewLabel: 'addisairnet.et',
   },
   {
     id: 'job-board-api',
@@ -217,7 +218,7 @@ export const devProfile = {
     { key: 'stack', values: ['typescript', 'python', 'node.js', 'react', 'next.js', 'vue'] },
     { key: 'education', value: 'bsc_biomedical_engineering' },
     { key: 'training', values: ['alx_pro_backend', 'a2sv'] },
-    { key: 'experience', value: '3_years_industry' },
+    { key: 'experience', value: '2_years_industry' },
     { key: 'status', value: 'open_to_remote_roles', highlight: true },
   ],
 } as const

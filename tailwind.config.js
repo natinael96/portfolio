@@ -7,10 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: {
-          DEFAULT: 'oklch(0.986 0.014 95)',
-          dark: '#1a1a1a',
-        },
+        background: 'oklch(0.986 0.014 95)',
         foreground: {
           DEFAULT: 'oklch(0.24 0.05 168)',
           light: 'oklch(0.43 0.035 166)',

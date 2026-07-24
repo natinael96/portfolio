@@ -99,7 +99,7 @@ interface TechCategory {
 const backend: TechCategory = {
   name: 'Backend',
   icon: Server,
-  items: ['Node.js', 'NestJS', 'Python', 'FastAPI', 'Express', 'GraphQL'],
+  items: ['Node.js', 'NestJS', 'Python', 'FastAPI', 'Express', 'GraphQL', 'Kafka'],
 }
 const frontend: TechCategory = {
   name: 'Frontend',
