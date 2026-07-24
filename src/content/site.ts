@@ -44,7 +44,7 @@ const projectsUnordered: Project[] = [
     description:
       'Air quality monitoring for Addis Ababa: real-time map, stations, and dashboard. Live demo on Vercel.',
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
-    demo: 'https://air-qua-monitor-front.vercel.app',
+    demo: 'https://www.addisairnet.et/',
     status: 'live',
   },
   {
