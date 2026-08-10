@@ -1,114 +1,81 @@
 <template>
-  <header class="site-nav" :class="{ 'is-scrolled': scrolled }">
-    <div class="site-nav-inner">
-      <nav class="site-nav-bar" aria-label="Primary">
-        <a href="#hero" class="site-nav-brand" @click.prevent="go('hero')">
-          <span class="relative z-[1]">NMS</span>
-          <span class="site-nav-brand-dot" aria-hidden="true" />
-        </a>
+  <header
+    class="jnav"
+    :class="{ 'is-scrolled': scrolled, 'is-inverted': inverted }"
+  >
+    <div class="jnav-inner">
+      <a href="#cover" class="jnav-brand" @click.prevent="go('cover')">
+        N.&thinsp;M.&thinsp;Shebabaw
+      </a>
 
-        <ul class="site-nav-links">
-          <li v-for="item in navItems" :key="item.id">
+      <nav aria-label="Chapters">
+        <ul class="jnav-chapters">
+          <li v-for="chapter in chapters" :key="chapter.id">
             <a
-              :href="`#${item.id}`"
-              class="site-nav-link"
-              :class="{ 'is-active': activeId === item.id }"
-              :aria-current="activeId === item.id ? 'true' : undefined"
-              @click.prevent="go(item.id)"
+              :href="`#${chapter.id}`"
+              class="jnav-ch"
+              :class="{ 'is-active': activeId === chapter.id }"
+              :aria-current="activeId === chapter.id ? 'true' : undefined"
+              @click.prevent="go(chapter.id)"
             >
-              {{ item.label }}
+              <span class="jnav-ch-num">{{ chapter.num }}</span>
+              <span class="jnav-ch-label">{{ chapter.navLabel }}</span>
             </a>
           </li>
         </ul>
-
-        <button
-          type="button"
-          class="site-nav-toggle"
-          :aria-expanded="mobileMenuOpen"
-          aria-controls="mobile-menu"
-          aria-label="Toggle navigation menu"
-          @click="mobileMenuOpen = !mobileMenuOpen"
-        >
-          <Menu v-if="!mobileMenuOpen" :size="20" class="relative z-[1]" />
-          <X v-else :size="20" class="relative z-[1]" />
-        </button>
       </nav>
-
-      <Transition
-        enter-active-class="transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        leave-active-class="transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        enter-from-class="opacity-0 -translate-y-2 scale-[0.97]"
-        enter-to-class="opacity-100 translate-y-0 scale-100"
-        leave-from-class="opacity-100 translate-y-0 scale-100"
-        leave-to-class="opacity-0 -translate-y-1 scale-[0.98]"
-      >
-        <div v-if="mobileMenuOpen" id="mobile-menu" class="site-nav-menu">
-          <a
-            v-for="(item, index) in navItems"
-            :key="item.id"
-            :href="`#${item.id}`"
-            class="site-nav-menu-link"
-            :class="{ 'is-active': activeId === item.id }"
-            :aria-current="activeId === item.id ? 'true' : undefined"
-            @click.prevent="go(item.id)"
-          >
-            <span class="site-nav-menu-index" aria-hidden="true">
-              {{ String(index + 1).padStart(2, '0') }}
-            </span>
-            {{ item.label }}
-          </a>
-        </div>
-      </Transition>
     </div>
+
+    <div class="jnav-progress" :style="{ '--progress': progress }" aria-hidden="true" />
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Menu, X } from 'lucide-vue-next'
+import { chapters } from '../content/site'
 
-const navItems = [
-  { id: 'hero', label: 'Home' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'tech', label: 'Stack' },
-  { id: 'contact', label: 'Contact' },
-]
-
-const mobileMenuOpen = ref(false)
 const scrolled = ref(false)
-const activeId = ref('hero')
+const inverted = ref(false)
+const progress = ref(0)
+const activeId = ref('')
 
 const go = (id: string) => {
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-  mobileMenuOpen.value = false
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 let sectionObserver: IntersectionObserver | null = null
+let ticking = false
+
+const measure = () => {
+  ticking = false
+  scrolled.value = window.scrollY > 24
+
+  const doc = document.documentElement
+  const scrollable = doc.scrollHeight - window.innerHeight
+  progress.value = scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0
+
+  // Invert the header while the dark feature plate sits underneath it.
+  const feature = document.getElementById('feature')
+  if (feature) {
+    const rect = feature.getBoundingClientRect()
+    const navHeight = 56
+    inverted.value = rect.top < navHeight && rect.bottom > navHeight
+  }
+}
 
 const onScroll = () => {
-  scrolled.value = window.scrollY > 24
-}
-
-const onKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') mobileMenuOpen.value = false
-}
-
-const onResize = () => {
-  // Collapse the mobile sheet once the inline links are visible again.
-  if (window.innerWidth >= 768) mobileMenuOpen.value = false
+  if (!ticking) {
+    ticking = true
+    requestAnimationFrame(measure)
+  }
 }
 
 onMounted(() => {
-  onScroll()
+  measure()
   window.addEventListener('scroll', onScroll, { passive: true })
-  window.addEventListener('keydown', onKeydown)
-  window.addEventListener('resize', onResize)
+  window.addEventListener('resize', onScroll, { passive: true })
 
-  // Scroll-spy: the section crossing the vertical middle band is "active".
+  // Scroll-spy: the chapter crossing the vertical middle band is "active".
   sectionObserver = new IntersectionObserver(
     (entries) => {
       const active = entries
@@ -116,19 +83,18 @@ onMounted(() => {
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
       if (active) activeId.value = active.target.id
     },
-    { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 1] }
+    { rootMargin: '-40% 0px -40% 0px', threshold: [0, 0.2, 0.5, 1] }
   )
 
-  navItems.forEach((item) => {
-    const element = document.getElementById(item.id)
+  chapters.forEach((chapter) => {
+    const element = document.getElementById(chapter.id)
     if (element) sectionObserver?.observe(element)
   })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
-  window.removeEventListener('keydown', onKeydown)
-  window.removeEventListener('resize', onResize)
+  window.removeEventListener('resize', onScroll)
   sectionObserver?.disconnect()
   sectionObserver = null
 })

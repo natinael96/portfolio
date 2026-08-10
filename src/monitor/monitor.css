@@ -1,0 +1,1704 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   VITAL SIGNS — the portfolio as a continuous telemetry recording.
+   Instrument housing: deep blue-charcoal. Six channels, each with its own
+   trace colour. Anton for headline readouts, IBM Plex Mono for telemetry,
+   Archivo for prose. All classes prefixed .m- (coexists with /old design).
+   ───────────────────────────────────────────────────────────────────────── */
+
+.m-root {
+  --m-bg: oklch(0.17 0.02 255);
+  --m-bg-deep: oklch(0.14 0.018 258);
+  --m-bg-raise: oklch(0.205 0.024 252);
+  --m-line: oklch(0.32 0.02 250);
+  --m-line-faint: oklch(0.25 0.018 252);
+  --m-text: oklch(0.93 0.012 90);
+  --m-dim: oklch(0.64 0.015 250);
+  --m-faint: oklch(0.48 0.015 250);
+
+  /* Channel tones */
+  --mc-subject: oklch(0.93 0.012 90);
+  --mc-air: oklch(0.82 0.12 210);
+  --mc-vitals: oklch(0.78 0.15 350);
+  --mc-work: oklch(0.84 0.17 152);
+  --mc-sinq: oklch(0.85 0.13 92);
+  --mc-form: oklch(0.79 0.1 255);
+  --mc-arch: oklch(0.76 0.14 300);
+  --mc-open: oklch(0.7 0.18 22);
+
+  --m-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --m-font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --m-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --m-font-sans: 'Archivo', system-ui, sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--m-bg);
+  color: var(--m-text);
+  font-family: var(--m-font-sans);
+  overflow-x: clip;
+}
+
+/* Millimetre grid over the whole instrument. */
+.m-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--m-line) 26%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--m-line) 26%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--m-line) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--m-line) 12%, transparent) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+}
+
+.m-root ::selection {
+  background: color-mix(in oklch, var(--mc-work) 35%, transparent);
+}
+
+.m-root :focus-visible {
+  outline: 2px solid var(--mc-air);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Shared plumbing ─────────────────────────────────────────────────────── */
+
+.m-wrap {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 78rem;
+  padding-inline: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+@media (min-width: 1024px) {
+  .m-wrap {
+    /* Clear the signal rail on the left. */
+    padding-left: clamp(6.5rem, 9vw, 8.5rem);
+  }
+}
+
+.m-section {
+  position: relative;
+  padding-block: clamp(4.5rem, 9vw, 8.5rem);
+}
+
+.m-mono {
+  font-family: var(--m-font-mono);
+}
+
+/* Channel kicker — opens every zone. */
+.m-kicker {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--m-line);
+  padding-top: 0.7rem;
+  margin-bottom: clamp(2.25rem, 5vw, 3.75rem);
+  font-family: var(--m-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
+.m-kicker b {
+  font-weight: 600;
+  color: var(--m-tone, var(--m-text));
+}
+
+.m-kicker-right {
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Headline readout — Anton, all caps, tight. */
+.m-display {
+  font-family: var(--m-font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  margin: 0;
+  color: var(--m-text);
+}
+
+.m-display .is-tone {
+  color: var(--m-tone, var(--m-text));
+}
+
+.m-display .is-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklch, var(--m-tone, var(--m-text)) 75%, transparent);
+}
+
+/* Live dot */
+.m-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-tone, var(--mc-work));
+}
+
+.m-live::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 4px color-mix(in oklch, currentColor 22%, transparent);
+  animation: m-pulse 2.2s ease-out infinite;
+}
+
+/* Scroll reveal (shares the .rv mechanism / reveal.ts) */
+.m-root .rv {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.85s var(--m-ease), transform 0.85s var(--m-ease);
+  transition-delay: var(--rv-d, 0ms);
+}
+
+.m-root .rv-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Signal rail (desktop) ──────────────────────────────────────────────── */
+
+.m-rail {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: clamp(5.5rem, 8vw, 7.5rem);
+  display: none;
+  border-right: 1px solid var(--m-line-faint);
+  background: color-mix(in oklch, var(--m-bg-deep) 72%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+@media (min-width: 1024px) {
+  .m-rail {
+    display: block;
+  }
+}
+
+.m-rail-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.m-rail-base {
+  fill: none;
+  stroke: var(--m-line);
+  stroke-width: 1.5;
+}
+
+.m-rail-lit {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px color-mix(in oklch, currentColor 60%, transparent));
+}
+
+.m-rail-stops {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.m-rail-stop {
+  flex: 1;
+  display: flex;
+}
+
+.m-rail-btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 0.55rem 0.6rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+  border-top: 1px solid var(--m-line-faint);
+  transition: color 0.25s var(--m-ease), background-color 0.25s var(--m-ease);
+  cursor: pointer;
+  text-align: left;
+}
+
+.m-rail-btn:hover {
+  color: var(--m-dim);
+  background: color-mix(in oklch, var(--m-bg-raise) 60%, transparent);
+}
+
+.m-rail-stop.is-active .m-rail-btn {
+  color: var(--m-tone, var(--m-text));
+}
+
+.m-rail-code {
+  font-weight: 600;
+}
+
+.m-rail-label {
+  opacity: 0.75;
+}
+
+/* ── Mobile progress strip ──────────────────────────────────────────────── */
+
+.m-strip {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem clamp(1.25rem, 4vw, 3.5rem);
+  border-bottom: 1px solid var(--m-line-faint);
+  background: color-mix(in oklch, var(--m-bg-deep) 86%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 1024px) {
+  .m-strip {
+    display: none;
+  }
+}
+
+.m-strip-code {
+  font-weight: 600;
+  color: var(--m-tone, var(--m-text));
+  white-space: nowrap;
+}
+
+.m-strip-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: var(--m-line-faint);
+}
+
+.m-strip-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  background: var(--m-tone, var(--m-text));
+  transform: scaleX(var(--progress, 0));
+}
+
+.m-strip-name {
+  color: var(--m-dim);
+  white-space: nowrap;
+}
+
+/* ── Cursor measurement tag ─────────────────────────────────────────────── */
+
+.m-cursor {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  padding: 0.28rem 0.5rem;
+  border: 1px solid color-mix(in oklch, var(--m-tone, var(--m-text)) 40%, transparent);
+  background: color-mix(in oklch, var(--m-bg-deep) 88%, transparent);
+  font-family: var(--m-font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--m-tone, var(--m-text));
+  white-space: nowrap;
+  transform: translate(18px, 18px);
+  opacity: 0;
+  transition: opacity 0.3s var(--m-ease);
+}
+
+.m-cursor.is-on {
+  opacity: 1;
+}
+
+/* ── SUBJ — hero ────────────────────────────────────────────────────────── */
+
+.m-subject {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 5.5rem;
+  padding-bottom: clamp(2rem, 4vh, 3.5rem);
+}
+
+.m-subject-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 6vh, 4rem);
+  font-family: var(--m-font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
+.m-subject-name {
+  font-size: clamp(3.4rem, 12.5vw, 10.5rem);
+  position: relative;
+}
+
+.m-subject-name span {
+  display: block;
+}
+
+.m-subject-name .l2 {
+  padding-left: clamp(1.75rem, 7vw, 7rem);
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklch, var(--m-text) 70%, transparent);
+}
+
+/* The live trace crossing the masthead. */
+.m-heartline {
+  position: relative;
+  margin-block: clamp(1.25rem, 3.5vh, 2.5rem);
+  height: 56px;
+  overflow: hidden;
+  border-block: 1px solid var(--m-line-faint);
+}
+
+.m-heartline svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200%;
+}
+
+.m-heartline-path {
+  fill: none;
+  stroke: var(--mc-work);
+  stroke-width: 1.75;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px color-mix(in oklch, var(--mc-work) 55%, transparent));
+}
+
+.m-heartline-move {
+  animation: m-sweep 7s linear infinite;
+}
+
+.m-heartline-meta {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.45rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+}
+
+.m-subject-foot {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .m-subject-foot {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 3rem;
+  }
+}
+
+.m-subject-brief {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.7;
+  max-width: 46ch;
+  color: var(--m-dim);
+}
+
+.m-subject-brief strong {
+  color: var(--m-text);
+  font-weight: 600;
+}
+
+.m-readouts {
+  border-top: 1px solid var(--m-line);
+  font-family: var(--m-font-mono);
+}
+
+.m-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px dashed var(--m-line-faint);
+  font-size: 0.72rem;
+}
+
+.m-readout dt {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  color: var(--m-faint);
+  white-space: nowrap;
+}
+
+.m-readout dd {
+  margin: 0;
+  text-align: right;
+  color: var(--m-dim);
+}
+
+.m-readout.is-live dd {
+  color: var(--mc-work);
+  font-weight: 600;
+}
+
+.m-scrollcue {
+  margin-top: clamp(1.75rem, 4vh, 3rem);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+}
+
+.m-scrollcue::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--m-line-faint);
+}
+
+/* ── CH·01 — Air (featured recording) ───────────────────────────────────── */
+
+.m-air {
+  --m-tone: var(--mc-air);
+  background:
+    radial-gradient(90rem 40rem at 80% 0%, color-mix(in oklch, var(--mc-air) 7%, transparent), transparent 60%),
+    var(--m-bg-deep);
+  border-block: 1px solid var(--m-line-faint);
+}
+
+.m-air-title {
+  font-size: clamp(3rem, 11vw, 9.5rem);
+}
+
+.m-air-grid {
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .m-air-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .m-air-left {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+.m-air-dek {
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  line-height: 1.65;
+  max-width: 42ch;
+  color: var(--m-text);
+}
+
+.m-air-body {
+  margin-top: 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  max-width: 46ch;
+  color: var(--m-dim);
+}
+
+.m-air-cta {
+  margin-top: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.4rem;
+  border: 1px solid color-mix(in oklch, var(--mc-air) 55%, transparent);
+  font-family: var(--m-font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mc-air);
+  transition: background-color 0.25s var(--m-ease), color 0.25s var(--m-ease);
+}
+
+.m-air-cta:hover {
+  background: var(--mc-air);
+  color: var(--m-bg-deep);
+}
+
+.m-air-cta .arrow {
+  transition: transform 0.3s var(--m-ease);
+}
+
+.m-air-cta:hover .arrow {
+  transform: translate(3px, -3px);
+}
+
+/* Particulate panel */
+.m-airfield {
+  position: relative;
+  border: 1px solid var(--m-line);
+  background: var(--m-bg-raise);
+}
+
+.m-airfield-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
+.m-airfield-canvas {
+  position: relative;
+  height: clamp(15rem, 30vw, 21rem);
+  overflow: hidden;
+}
+
+.m-mote {
+  position: absolute;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--mc-air) 65%, transparent);
+  animation: m-drift var(--dur, 14s) ease-in-out infinite alternate;
+  animation-delay: var(--del, 0s);
+}
+
+.m-station {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  color: var(--mc-air);
+}
+
+.m-station::before,
+.m-station::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+
+.m-station::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  transform: translateX(-50%);
+}
+
+.m-station::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.m-airfield-meta {
+  border-top: 1px solid var(--m-line-faint);
+  font-family: var(--m-font-mono);
+}
+
+.m-airfield-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+  font-size: 0.72rem;
+}
+
+.m-airfield-row:last-child {
+  border-bottom: 0;
+}
+
+.m-airfield-key {
+  width: 4.5rem;
+  flex-shrink: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+}
+
+.m-airfield-value {
+  color: var(--m-text);
+}
+
+/* ── CH·02 — Vitals (final-year project) ────────────────────────────────── */
+
+.m-vitals {
+  --m-tone: var(--mc-vitals);
+  background:
+    radial-gradient(80rem 34rem at 15% 10%, color-mix(in oklch, var(--mc-vitals) 6%, transparent), transparent 60%),
+    var(--m-bg);
+}
+
+.m-vitals-title {
+  font-size: clamp(2.5rem, 7.5vw, 6rem);
+}
+
+.m-vitals-grid {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .m-vitals-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.m-vitals-dek {
+  font-size: clamp(1.02rem, 1.7vw, 1.25rem);
+  line-height: 1.65;
+  max-width: 44ch;
+  color: var(--m-text);
+}
+
+.m-vitals-body {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  max-width: 48ch;
+  color: var(--m-dim);
+}
+
+.m-vitals-grade {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1rem;
+}
+
+.m-vitals-grade-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid color-mix(in oklch, var(--mc-vitals) 55%, transparent);
+  font-family: var(--m-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mc-vitals);
+}
+
+.m-vitals-grade-note {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--m-faint);
+  max-width: 34ch;
+}
+
+.m-vitals-link {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+  transition: color 0.2s var(--m-ease);
+}
+
+.m-vitals-link:hover {
+  color: var(--mc-vitals);
+}
+
+/* Signal chain panel */
+.m-chainpanel {
+  border: 1px solid var(--m-line);
+  background: var(--m-bg-raise);
+}
+
+.m-chainpanel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
+.m-chain-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  padding: 0.9rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+}
+
+.m-chain-row:not(:last-child)::after {
+  content: '↓';
+  position: absolute;
+  left: 1.05rem;
+  bottom: -0.62rem;
+  z-index: 1;
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  color: color-mix(in oklch, var(--mc-vitals) 75%, transparent);
+  background: var(--m-bg-raise);
+  padding-inline: 0.15rem;
+}
+
+.m-chain-code {
+  flex-shrink: 0;
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--mc-vitals);
+}
+
+.m-chain-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--m-text);
+}
+
+.m-chain-detail {
+  margin-left: auto;
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--m-faint);
+}
+
+.m-chainpanel-foot {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.9rem;
+}
+
+.m-rate {
+  font-family: var(--m-font-display);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1;
+  color: var(--mc-vitals);
+}
+
+.m-rate-caption {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--m-faint);
+  max-width: 22ch;
+}
+
+/* ── CH·04 — Sinq (typographic interlude) ───────────────────────────────── */
+
+.m-sinq {
+  --m-tone: var(--mc-sinq);
+  background:
+    radial-gradient(70rem 32rem at 85% 20%, color-mix(in oklch, var(--mc-sinq) 6%, transparent), transparent 60%),
+    var(--m-bg-deep);
+  border-block: 1px solid var(--m-line-faint);
+}
+
+.m-sinq-mast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 2rem;
+}
+
+.m-sinq-geez {
+  font-family: 'Noto Serif Ethiopic', serif;
+  font-weight: 600;
+  font-size: clamp(4rem, 13vw, 9.5rem);
+  line-height: 1.05;
+  color: var(--mc-sinq);
+  margin: 0;
+}
+
+.m-sinq-latin {
+  font-family: var(--m-font-display);
+  font-size: clamp(1.6rem, 4.5vw, 3.2rem);
+  text-transform: uppercase;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.25px color-mix(in oklch, var(--mc-sinq) 70%, transparent);
+}
+
+.m-sinq-gloss {
+  margin-top: 0.75rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.76rem;
+  font-style: italic;
+  color: var(--m-dim);
+}
+
+.m-sinq-grid {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .m-sinq-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.m-sinq-dek {
+  font-size: clamp(1.02rem, 1.7vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--m-text);
+  max-width: 40ch;
+}
+
+.m-sinq-body {
+  margin-top: 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  max-width: 46ch;
+  color: var(--m-dim);
+}
+
+.m-sinq-link {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+  transition: color 0.2s var(--m-ease);
+}
+
+.m-sinq-link:hover {
+  color: var(--mc-sinq);
+}
+
+/* Homophone fold panel */
+.m-folds {
+  border: 1px solid var(--m-line);
+  background: var(--m-bg-raise);
+}
+
+.m-folds-head {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
+.m-fold-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 3vw, 1.5rem);
+  padding: 1rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+}
+
+.m-fold-glyph {
+  font-family: 'Noto Serif Ethiopic', serif;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+  line-height: 1;
+  color: var(--m-text);
+}
+
+.m-fold-eq {
+  font-family: var(--m-font-mono);
+  font-size: 1rem;
+  color: color-mix(in oklch, var(--mc-sinq) 75%, transparent);
+}
+
+.m-folds-note {
+  padding: 0.85rem 0.9rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--m-faint);
+}
+
+/* ── CH·03 — Practice (recorded sessions) ───────────────────────────────── */
+
+.m-practice {
+  --m-tone: var(--mc-work);
+}
+
+.m-practice-title {
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+}
+
+.m-gantt {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  border: 1px solid var(--m-line);
+  background: var(--m-bg-raise);
+}
+
+.m-gantt-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--m-line-faint);
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
+.m-gantt-body {
+  position: relative;
+  padding: 1.1rem 0.9rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background-image: linear-gradient(
+    90deg,
+    var(--m-line-faint) 1px,
+    transparent 1px
+  );
+  background-size: calc(100% / var(--m-cols, 21)) 100%;
+}
+
+.m-gantt-row {
+  position: relative;
+  height: 1.9rem;
+}
+
+.m-gantt-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-inline: 0.6rem;
+  border: 1px solid color-mix(in oklch, var(--mc-work) 60%, transparent);
+  background: color-mix(in oklch, var(--mc-work) 14%, transparent);
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mc-work);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.m-gantt-bar.is-ongoing {
+  border-right-style: dashed;
+  border-right-color: color-mix(in oklch, var(--mc-work) 90%, transparent);
+}
+
+.m-sessions {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.m-session {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+  border-top: 1px solid var(--m-line);
+}
+
+.m-session:last-child {
+  border-bottom: 1px solid var(--m-line);
+}
+
+@media (min-width: 900px) {
+  .m-session {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) minmax(0, 10rem);
+    gap: 2.5rem;
+  }
+}
+
+.m-session-period {
+  font-family: var(--m-font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--m-text);
+}
+
+.m-session-loc {
+  margin-top: 0.4rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+}
+
+.m-session-role {
+  font-family: var(--m-font-display);
+  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  color: var(--m-text);
+}
+
+.m-session-org {
+  margin-top: 0.2rem;
+  margin-bottom: 0.9rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.72rem;
+  color: var(--mc-work);
+}
+
+.m-session-org a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.m-loglines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 58ch;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--m-dim);
+}
+
+.m-loglines li {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.m-loglines li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: color-mix(in oklch, var(--mc-work) 70%, transparent);
+}
+
+.m-session-stat {
+  text-align: left;
+}
+
+@media (min-width: 900px) {
+  .m-session-stat {
+    text-align: right;
+  }
+}
+
+.m-session-stat-value {
+  display: block;
+  font-family: var(--m-font-display);
+  font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+  line-height: 1;
+  color: var(--mc-work);
+}
+
+.m-session-stat-caption {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--m-faint);
+}
+
+@media (min-width: 900px) {
+  .m-session-stat-caption {
+    margin-left: auto;
+    max-width: 16ch;
+  }
+}
+
+/* ── CH·03 — Formation (calibration) ────────────────────────────────────── */
+
+.m-formation {
+  --m-tone: var(--mc-form);
+  background:
+    radial-gradient(70rem 30rem at 10% 20%, color-mix(in oklch, var(--mc-form) 5%, transparent), transparent 65%),
+    var(--m-bg);
+}
+
+.m-formation-title {
+  font-size: clamp(2.4rem, 6.5vw, 5rem);
+  max-width: 16ch;
+}
+
+.m-cal-grid {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .m-cal-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: 4rem;
+  }
+}
+
+/* Essay on ECG graph paper. */
+.m-cal-paper {
+  border: 1px solid color-mix(in oklch, var(--mc-form) 25%, var(--m-line));
+  background-color: var(--m-bg-raise);
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--mc-form) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--mc-form) 9%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  padding: clamp(1.5rem, 3.5vw, 2.75rem);
+}
+
+.m-cal-paper p {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--m-text);
+  max-width: 58ch;
+}
+
+.m-cal-paper p + p {
+  margin-top: 1.25rem;
+}
+
+.m-cal-paper p:last-child {
+  font-family: var(--m-font-mono);
+  font-style: italic;
+  color: var(--mc-form);
+}
+
+.m-cal-margin-label {
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+  margin-bottom: 0.9rem;
+}
+
+.m-cal-list {
+  list-style: none;
+  margin: 0 0 2.25rem;
+  padding: 0;
+  border-top: 1px solid var(--m-line);
+}
+
+.m-cal-list li {
+  display: flex;
+  gap: 0.9rem;
+  align-items: baseline;
+  padding-block: 0.55rem;
+  border-bottom: 1px dashed var(--m-line-faint);
+  font-size: 0.85rem;
+  color: var(--m-dim);
+}
+
+.m-cal-list li::before {
+  content: 'CAL';
+  font-family: var(--m-font-mono);
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--mc-form);
+  flex-shrink: 0;
+}
+
+.m-cal-cert {
+  border-top: 1px solid var(--m-line);
+  padding-block: 0.9rem 1.2rem;
+}
+
+.m-cal-cert-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.m-cal-cert-name {
+  font-family: var(--m-font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--m-text);
+}
+
+.m-cal-cert-name a:hover {
+  color: var(--mc-form);
+}
+
+.m-cal-cert-period {
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+  white-space: nowrap;
+}
+
+.m-cal-cert-role {
+  margin-top: 0.15rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.68rem;
+  color: var(--mc-form);
+}
+
+.m-cal-cert-note {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--m-dim);
+  max-width: 40ch;
+}
+
+.m-cal-cert-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+  transition: color 0.2s var(--m-ease);
+}
+
+.m-cal-cert-link:hover {
+  color: var(--mc-form);
+}
+
+/* ── CH·04 — Archive (channel bank) ─────────────────────────────────────── */
+
+.m-archive {
+  --m-tone: var(--mc-arch);
+}
+
+.m-archive-title {
+  font-size: clamp(2.4rem, 6.5vw, 5rem);
+}
+
+.m-archive-dek {
+  margin-top: 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  max-width: 52ch;
+  color: var(--m-dim);
+}
+
+.m-rack {
+  margin-top: clamp(2.25rem, 5vw, 3.5rem);
+  border: 1px solid var(--m-line);
+  background: var(--m-bg-raise);
+}
+
+.m-rack-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.4rem 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--m-line-faint);
+  transition: background-color 0.25s var(--m-ease);
+}
+
+.m-rack-row:last-child {
+  border-bottom: 0;
+}
+
+.m-rack-row:hover {
+  background: color-mix(in oklch, var(--mc-arch) 6%, transparent);
+}
+
+@media (min-width: 900px) {
+  .m-rack-row {
+    grid-template-columns: auto minmax(0, 16rem) minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+}
+
+.m-rack-led {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--mc-arch);
+}
+
+.m-rack-led::before {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 6px color-mix(in oklch, currentColor 70%, transparent);
+}
+
+.m-rack-name {
+  font-family: var(--m-font-mono);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--m-text);
+}
+
+.m-rack-main {
+  grid-column: 2;
+}
+
+@media (min-width: 900px) {
+  .m-rack-main {
+    grid-column: auto;
+  }
+}
+
+.m-rack-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--m-dim);
+  max-width: 52ch;
+}
+
+.m-rack-stack {
+  margin-top: 0.35rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--mc-arch) 70%, var(--m-faint));
+}
+
+.m-rack-link {
+  grid-column: 2;
+  justify-self: start;
+  font-family: var(--m-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--m-dim);
+  transition: color 0.2s var(--m-ease);
+}
+
+@media (min-width: 900px) {
+  .m-rack-link {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+.m-rack-link:hover {
+  color: var(--mc-arch);
+}
+
+.m-inventory {
+  margin-top: clamp(2.25rem, 5vw, 3.25rem);
+  border-top: 1px solid var(--m-line);
+  padding-top: 1rem;
+}
+
+.m-inventory-label {
+  font-family: var(--m-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+  margin-bottom: 0.9rem;
+}
+
+.m-inventory-line {
+  padding-block: 0.3rem;
+  font-size: 0.88rem;
+  color: var(--m-dim);
+}
+
+.m-inventory-cat {
+  display: inline-block;
+  min-width: 7.5rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mc-arch);
+}
+
+/* ── CH·05 — Signal open (conclusion) ───────────────────────────────────── */
+
+.m-open {
+  --m-tone: var(--mc-open);
+  background:
+    radial-gradient(80rem 36rem at 50% 110%, color-mix(in oklch, var(--mc-open) 8%, transparent), transparent 65%),
+    var(--m-bg-deep);
+  border-top: 1px solid var(--m-line-faint);
+}
+
+.m-open-title {
+  font-size: clamp(3rem, 10.5vw, 8.5rem);
+}
+
+.m-open-email {
+  display: inline-block;
+  margin-top: 1.75rem;
+  font-family: var(--m-font-mono);
+  font-size: clamp(1.05rem, 3.4vw, 2.3rem);
+  font-weight: 500;
+  color: var(--mc-open);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 8px;
+  text-decoration-color: color-mix(in oklch, var(--mc-open) 40%, transparent);
+  transition: color 0.25s var(--m-ease);
+  overflow-wrap: anywhere;
+}
+
+.m-open-email:hover {
+  color: var(--m-text);
+  text-decoration-color: var(--m-text);
+}
+
+.m-open-grid {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .m-open-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.m-open-note {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 38ch;
+  color: var(--m-dim);
+}
+
+.m-chan {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--m-line);
+}
+
+.m-chan li {
+  border-bottom: 1px solid var(--m-line-faint);
+}
+
+.m-chan a {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding-block: 0.8rem;
+  font-family: var(--m-font-mono);
+  transition: color 0.2s var(--m-ease);
+}
+
+.m-chan-name {
+  width: 6.5rem;
+  flex-shrink: 0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--m-text);
+}
+
+.m-chan-slug {
+  font-size: 0.78rem;
+  color: var(--m-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.m-chan a:hover .m-chan-slug {
+  color: var(--mc-open);
+}
+
+.m-chan-arrow {
+  margin-left: auto;
+  color: var(--mc-open);
+  opacity: 0.5;
+  transition: opacity 0.2s, transform 0.3s var(--m-ease);
+}
+
+.m-chan a:hover .m-chan-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+.m-colophon {
+  margin-top: clamp(3.5rem, 7vw, 5.5rem);
+  border-top: 1px solid var(--m-line);
+  padding-top: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--m-faint);
+}
+
+@media (min-width: 768px) {
+  .m-colophon {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}
+
+.m-colophon-actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.m-colophon button,
+.m-colophon a {
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+  cursor: pointer;
+  transition: color 0.2s var(--m-ease);
+}
+
+.m-colophon button:hover,
+.m-colophon a:hover {
+  color: var(--mc-open);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ── Keyframes & reduced motion ─────────────────────────────────────────── */
+
+@keyframes m-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(0.88);
+  }
+}
+
+@keyframes m-sweep {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes m-drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(var(--dx, 20px), var(--dy, -14px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m-root .rv {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .m-heartline-move,
+  .m-mote,
+  .m-live::before {
+    animation: none !important;
+  }
+
+  .m-cursor {
+    display: none;
+  }
+}
