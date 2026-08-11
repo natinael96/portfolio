@@ -1,14 +1,14 @@
 <template>
-  <section id="formation" class="m-formation m-section" aria-label="Channel 03 — calibration">
+  <section id="formation" class="m-formation m-section" aria-label="Channel 06 — formation, education and training">
     <div class="m-wrap">
       <div class="m-kicker rv" :style="{ '--m-tone': 'var(--mc-form)' }">
-        <span><b>CH·05</b> — Formation · calibration</span>
+        <span><b>CH·06</b> — Formation · study &amp; training</span>
         <span class="m-kicker-right">2022 — 2026</span>
       </div>
 
       <h2 class="m-display m-formation-title" style="--m-tone: var(--mc-form)">
-        <span class="rv">Calibrated on</span>
-        <span class="is-tone rv" style="--rv-d: 100ms"> the human body.</span>
+        <span class="rv">Engineering,</span>
+        <span class="is-tone rv" style="--rv-d: 100ms"> twice over.</span>
       </h2>
 
       <div class="m-cal-grid">

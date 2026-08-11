@@ -1,8 +1,8 @@
 <template>
-  <section id="vitals" class="m-vitals m-section" aria-label="Channel 02 — hypertension monitoring, final-year project">
+  <section id="vitals" class="m-vitals m-section" aria-label="Channel 05 — hypertension monitoring, final-year project">
     <div class="m-wrap">
       <div class="m-kicker rv" :style="{ '--m-tone': 'var(--mc-vitals)' }">
-        <span><b>CH·02</b> — Biomedical · final-year project</span>
+        <span><b>CH·05</b> — Biomedical · final-year project</span>
         <span class="m-kicker-right">{{ vitals.period }}</span>
       </div>
 

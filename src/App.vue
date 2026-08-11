@@ -17,6 +17,7 @@ import MonitorApp from './monitor/MonitorApp.vue'
 const path = window.location.pathname.replace(/\/+$/, '')
 const isLegacyRoute = path === '/old' || path === '/private'
 
-// The archived edition is light; the current instrument is dark.
-document.documentElement.style.colorScheme = isLegacyRoute ? 'light' : 'dark'
+// The archived edition is fixed light; the current design manages its own
+// theme (light by default, dark via the toggle — see monitor/useTheme.ts).
+if (isLegacyRoute) document.documentElement.style.colorScheme = 'light'
 </script>

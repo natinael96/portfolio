@@ -1,8 +1,8 @@
 <template>
-  <section id="archive" class="m-archive m-section" aria-label="Channel 04 — archive">
+  <section id="archive" class="m-archive m-section" aria-label="Channel 03 — archive">
     <div class="m-wrap">
       <div class="m-kicker rv" :style="{ '--m-tone': 'var(--mc-arch)' }">
-        <span><b>CH·06</b> — Archive · public repositories</span>
+        <span><b>CH·03</b> — Archive · public repositories</span>
         <span class="m-kicker-right">github.com/natinael96</span>
       </div>
 

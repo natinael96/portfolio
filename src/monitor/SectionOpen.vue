@@ -1,5 +1,5 @@
 <template>
-  <section id="open" class="m-open m-section" aria-label="Channel 05 — signal open, contact">
+  <section id="open" class="m-open m-section" aria-label="Channel 07 — signal open, contact">
     <div class="m-wrap">
       <div class="m-kicker rv" :style="{ '--m-tone': 'var(--mc-open)' }">
         <span><b>CH·07</b> — Signal · correspondence</span>

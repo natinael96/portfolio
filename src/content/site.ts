@@ -30,19 +30,19 @@ export interface MonitorChannel {
 }
 
 export const monitorChannels: MonitorChannel[] = [
-  { id: 'subject', code: 'SUBJ', label: 'Subject', wave: 'ecg', tone: 'subject' },
+  { id: 'subject', code: 'PROF', label: 'Profile', wave: 'ecg', tone: 'subject' },
   { id: 'air', code: 'CH·01', label: 'Air', wave: 'drift', tone: 'air' },
-  { id: 'vitals', code: 'CH·02', label: 'Vitals', wave: 'pulse', tone: 'vitals' },
-  { id: 'practice', code: 'CH·03', label: 'Practice', wave: 'square', tone: 'work' },
+  { id: 'practice', code: 'CH·02', label: 'Practice', wave: 'square', tone: 'work' },
+  { id: 'archive', code: 'CH·03', label: 'Archive', wave: 'ticks', tone: 'arch' },
   { id: 'sinq', code: 'CH·04', label: 'Sinq', wave: 'bead', tone: 'sinq' },
-  { id: 'formation', code: 'CH·05', label: 'Formation', wave: 'sine', tone: 'form' },
-  { id: 'archive', code: 'CH·06', label: 'Archive', wave: 'ticks', tone: 'arch' },
+  { id: 'vitals', code: 'CH·05', label: 'Vitals', wave: 'pulse', tone: 'vitals' },
+  { id: 'formation', code: 'CH·06', label: 'Formation', wave: 'sine', tone: 'form' },
   { id: 'open', code: 'CH·07', label: 'Signal', wave: 'flat', tone: 'open' },
 ]
 
 export const monitorSubject = {
   tag: 'Portfolio — continuous recording',
-  since: 'Monitoring since 2022',
+  since: 'On record since 2022',
   readouts: [
     { key: 'Role', value: 'Software developer' },
     { key: 'Current', value: 'Lead Software Engineer (PT) · Addis Air Net' },
@@ -134,7 +134,7 @@ export const feature = {
   cta: 'Open live network',
 } as const
 
-/** CH·02 — the final-year project: literal vital signs. */
+/** CH·05 — the final-year project: literal vital signs. */
 export const vitals = {
   period: 'Feb 2026 — Jun 2026',
   dek: 'AI-based multi-sensor hypertension monitoring — the final-year project where the degree and the day job meet in one instrument.',
@@ -170,7 +170,7 @@ export const sinq = {
   github: 'https://github.com/natinael96/sinq',
 } as const
 
-/** CH·06 — the archive index (backend notebooks on GitHub). */
+/** CH·03 — the archive index (backend notebooks on GitHub). */
 export const archiveProjects: Project[] = [
   {
     id: 'job-board-api',
@@ -310,7 +310,7 @@ export const practiceTimeline = {
 export const formation = {
   /** The essay. Every claim traces back to the resume entries below. */
   paragraphs: [
-    'Since 2022, the degree in progress at Addis Ababa University is biomedical engineering. The coursework runs from data structures, object-oriented programming, and database systems into digital signal processing, medical imaging, and applied electronics — a curriculum that treats the human body as a signal source.',
+    'Since 2022, the degree in progress at Addis Ababa University is biomedical engineering. The coursework runs from data structures, object-oriented programming, and database systems into digital signal processing, medical imaging, and applied electronics.',
     'The software formation ran alongside it. Through 2024, A2SV — a Google-backed program — meant intensive training in data structures, algorithms, and system design, with more than nine hundred algorithm problems solved along the way. Then ALX Africa’s ProDev Backend programme: Python, SQL, API design, microservices, Docker, Kubernetes, CI/CD, and system security, through production-style projects.',
     'Instruments first, software second. The order explains the work.',
   ],

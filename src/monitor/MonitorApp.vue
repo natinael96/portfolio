@@ -1,6 +1,8 @@
 <template>
-  <div class="m-root">
+  <div class="m-root" :class="{ 'is-light': theme === 'light' }">
     <SignalRail :channels="monitorChannels" :active-idx="activeIdx" :seg-progress="segProgress" />
+
+    <ThemeToggle />
 
     <div class="m-strip" :style="toneStyle" aria-hidden="true">
       <span class="m-strip-code">{{ activeChannel.code }}</span>
@@ -13,11 +15,11 @@
     <main>
       <SectionSubject />
       <SectionAir />
-      <SectionVitals />
       <SectionPractice />
-      <SectionSinq />
-      <SectionFormation />
       <SectionArchive />
+      <SectionSinq />
+      <SectionVitals />
+      <SectionFormation />
       <SectionOpen @play="gameOpen = true" />
     </main>
 
@@ -29,6 +31,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { monitorChannels } from '../content/site'
 import SignalRail from './SignalRail.vue'
+import ThemeToggle from './ThemeToggle.vue'
+import { theme, initTheme } from './useTheme'
 import CursorTag from './CursorTag.vue'
 import SectionSubject from './SectionSubject.vue'
 import SectionAir from './SectionAir.vue'
@@ -40,6 +44,8 @@ import SectionArchive from './SectionArchive.vue'
 import SectionOpen from './SectionOpen.vue'
 import EasterEggGame from '../components/EasterEggGame.vue'
 import { mountReveals, unmountReveals } from '../reveal'
+
+initTheme()
 
 const gameOpen = ref(false)
 

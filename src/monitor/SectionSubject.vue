@@ -1,5 +1,5 @@
 <template>
-  <section id="subject" class="m-subject m-wrap" aria-label="Subject — Natinael Mequanent Shebabaw">
+  <section id="subject" class="m-subject m-wrap" aria-label="Profile — Natinael Mequanent Shebabaw">
     <div>
       <div class="m-subject-top rv">
         <span>{{ monitorSubject.tag }}</span>
@@ -18,15 +18,15 @@
             <path class="m-heartline-path" :d="ecgPath" />
           </g>
         </svg>
-        <span class="m-heartline-meta">{{ monitorSubject.since }} · sinus rhythm</span>
+        <span class="m-heartline-meta">{{ monitorSubject.since }} · signal steady</span>
       </div>
 
       <div class="m-subject-foot">
         <p class="m-subject-brief rv" style="--rv-d: 380ms">
           <strong>Software developer in Addis Ababa.</strong>
-          Trained on the human body — signal processing, medical imaging,
-          applied electronics — now leading a three-engineer team that
-          instruments the air over his own city.
+          An engineering training in signals, measurement, and applied
+          electronics — now leading a three-engineer team that instruments
+          the air over his own city.
         </p>
 
         <dl class="m-readouts rv" style="--rv-d: 460ms">

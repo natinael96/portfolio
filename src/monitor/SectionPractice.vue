@@ -2,7 +2,7 @@
   <section id="practice" class="m-practice m-section" aria-label="Channel 02 — recorded sessions">
     <div class="m-wrap">
       <div class="m-kicker rv" :style="{ '--m-tone': 'var(--mc-work)' }">
-        <span><b>CH·03</b> — Practice · recorded sessions</span>
+        <span><b>CH·02</b> — Practice · recorded sessions</span>
         <span class="m-kicker-right">2024 — present</span>
       </div>
 
