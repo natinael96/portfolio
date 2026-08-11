@@ -15,7 +15,16 @@
       <div class="m-sinq-grid">
         <div>
           <p class="m-sinq-dek rv">{{ sinq.dek }}</p>
-          <p class="m-sinq-body rv" style="--rv-d: 90ms">{{ sinq.body }}</p>
+          <dl class="m-facts rv" style="--rv-d: 90ms">
+            <div>
+              <dt>My part</dt>
+              <dd>{{ sinq.part }}</dd>
+            </div>
+            <div>
+              <dt>Result</dt>
+              <dd>{{ sinq.result }}</dd>
+            </div>
+          </dl>
           <a
             :href="sinq.github"
             target="_blank"
@@ -37,6 +46,13 @@
           </div>
           <p class="m-folds-note">{{ sinq.searchNote }}</p>
         </figure>
+      </div>
+
+      <div class="m-sinq-stats rv" style="--rv-d: 200ms">
+        <div v-for="stat in sinq.stats" :key="stat.value" class="m-sinq-stat">
+          <span class="m-sinq-stat-value">{{ stat.value }}</span>
+          <span class="m-sinq-stat-caption">{{ stat.caption }}</span>
+        </div>
       </div>
     </div>
   </section>

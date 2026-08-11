@@ -14,14 +14,16 @@
       <div class="m-air-grid">
         <div class="m-air-left">
           <p class="m-air-dek rv">{{ feature.dek }}</p>
-          <p class="m-air-body rv" style="--rv-d: 90ms">
-            This is where the record's two halves meet: a biomedical engineering
-            student's instinct for instruments and measurement, shipped as
-            software — and since September 2025, his job. He leads the
-            three-engineer team behind it: architecture, code review, sprint
-            planning, and an ingestion pipeline that validates and flags
-            anomalies in more than ten thousand readings a day.
-          </p>
+          <dl class="m-facts rv" style="--rv-d: 90ms">
+            <div>
+              <dt>My part</dt>
+              <dd>{{ feature.part }}</dd>
+            </div>
+            <div>
+              <dt>Result</dt>
+              <dd>{{ feature.result }}</dd>
+            </div>
+          </dl>
           <a
             :href="featureProject.demo"
             target="_blank"
@@ -67,6 +69,24 @@
             </div>
           </div>
         </figure>
+      </div>
+
+      <div class="m-airlog rv" style="--rv-d: 120ms">
+        <div v-for="row in feature.log" :key="row.id" class="m-airlog-row">
+          <div class="m-airlog-area">
+            <span class="m-airlog-name">{{ row.area }}</span>
+            <span class="m-airlog-stack">{{ row.stack }}</span>
+          </div>
+
+          <ul class="m-loglines">
+            <li v-for="point in row.points" :key="point">{{ point }}</li>
+          </ul>
+
+          <div class="m-airlog-stat">
+            <span class="m-airlog-stat-value">{{ row.stat.value }}</span>
+            <span class="m-airlog-stat-caption">{{ row.stat.caption }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>

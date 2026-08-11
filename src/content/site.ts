@@ -122,23 +122,57 @@ export const feature = {
   kicker: 'Addis Air Net · addisairnet.et',
   titleTop: 'The air',
   titleBottom: 'over Addis.',
-  dek: 'A live air-quality network for Addis Ababa — IoT sensor stations across the city feeding a real-time public dashboard, readings updating in under a second.',
+  dek: 'A live air-quality network for Addis Ababa — IoT sensor stations feeding a public real-time dashboard.',
+  part: 'Lead engineer on a team of three — built the FastAPI backend, the Next.js dashboard, and the Docker/Caddy deploy. Full log below.',
+  result: 'Live at addisairnet.et — 10K+ sensor readings ingested and served every day.',
   meta: [
     { key: 'Status', value: 'Live', live: true },
     { key: 'Role', value: 'Lead Software Engineer · team of 3' },
     { key: 'Ingest', value: 'FastAPI · PostgreSQL · 10K+ readings/day' },
-    { key: 'Surface', value: 'React · WebSockets · Recharts' },
-    { key: 'Deploy', value: 'Dockerized · zero-downtime · GitHub Actions' },
+    { key: 'Surface', value: 'Next.js · React · Recharts · Leaflet' },
+    { key: 'Deploy', value: 'Docker · Caddy · GitHub Actions' },
     { key: 'Address', value: 'addisairnet.et' },
   ],
   cta: 'Open live network',
+  /** Condensed build log — what was actually built, straight from the repo. */
+  log: [
+    {
+      id: 'backend',
+      area: 'Backend · API',
+      stack: 'FastAPI · PostgreSQL · SQLAlchemy',
+      points: [
+        '70+ REST endpoints across 11 routers — auth, devices, readings, analytics, admin.',
+        'JWT role guards, token blacklist, account lockout, per-IP rate limits; aggregation by device, location, hour, or day.',
+      ],
+      stat: { value: '70+', caption: 'endpoints · 13 models · 16 migrations' },
+    },
+    {
+      id: 'frontend',
+      area: 'Frontend · Dashboard',
+      stack: 'Next.js · React 19 · Tailwind',
+      points: [
+        'Leaflet station map and Recharts time-series over live readings — Zustand state, Radix UI.',
+      ],
+      stat: { value: '10K+', caption: 'readings ingested per day' },
+    },
+    {
+      id: 'ops',
+      area: 'Ops · Deploy',
+      stack: 'Docker · Caddy · CI/CD',
+      points: [
+        'Dockerized behind Caddy TLS with deploy, backup, and runbook scripts; security headers, throttling, request logging.',
+      ],
+      stat: { value: '7', caption: 'middleware in the request path' },
+    },
+  ],
 } as const
 
 /** CH·05 — the final-year project: literal vital signs. */
 export const vitals = {
   period: 'Feb 2026 — Jun 2026',
   dek: 'AI-based multi-sensor hypertension monitoring — the final-year project where the degree and the day job meet in one instrument.',
-  body: 'A five-layer system spanning ESP32 sensor firmware, edge preprocessing, a Python/scikit-learn prediction pipeline, and a real-time clinical dashboard built with React and Supabase — streaming sensor data at 250 Hz.',
+  part: 'Built the full five-layer chain — ESP32 sensor firmware, edge preprocessing, a Python/scikit-learn prediction pipeline, and a React + Supabase dashboard.',
+  result: 'Live sensor data streaming end-to-end at 250 Hz.',
   chain: [
     { code: 'L·01', name: 'Sensor firmware', detail: 'ESP32' },
     { code: 'L·02', name: 'Edge preprocessing', detail: '' },
@@ -155,9 +189,14 @@ export const sinq = {
   latin: 'Sinq',
   geez: 'ስንቅ',
   gloss: '“provisions for the road”',
-  dek: 'An offline Ethiopian Orthodox prayer book app for Android.',
+  dek: 'The Ethiopian Orthodox Book of Hours for Android — Amharic-first, fully offline.',
   period: 'Jul 2026 — Present',
-  body: 'Fully offline, built in Kotlin with Jetpack Compose and Material 3 — bookmarks, verse highlighting, habit streaks, and AlarmManager-scheduled prayer reminders.',
+  part: 'Designed and built solo in Kotlin & Jetpack Compose — the seven prayer hours plus the full Psalter, bookmarks, verse highlights, habit streaks, reminders, and a home-screen widget.',
+  result: 'Fully offline — no account, no network, no analytics — with ባሕረ ሓሳብ, the Ethiopian computus, placing the church year’s movable feasts on-device.',
+  stats: [
+    { value: '7+1', caption: 'canonical hours plus the Veil, with a time-of-day suggestion' },
+    { value: '150', caption: 'psalms — the full Psalter, with weekday reading divisions' },
+  ],
   searchTitle: 'Homophone-tolerant Amharic search',
   searchNote: 'Ge’ez script spells one sound several ways. The search engine folds phonetically equivalent characters, so any spelling of a word finds the prayer.',
   folds: [

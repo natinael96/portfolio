@@ -14,7 +14,16 @@
       <div class="m-vitals-grid">
         <div>
           <p class="m-vitals-dek rv">{{ vitals.dek }}</p>
-          <p class="m-vitals-body rv" style="--rv-d: 90ms">{{ vitals.body }}</p>
+          <dl class="m-facts rv" style="--rv-d: 90ms">
+            <div>
+              <dt>My part</dt>
+              <dd>{{ vitals.part }}</dd>
+            </div>
+            <div>
+              <dt>Result</dt>
+              <dd>{{ vitals.result }}</dd>
+            </div>
+          </dl>
 
           <a
             :href="vitals.github"

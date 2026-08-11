@@ -12,8 +12,8 @@
   --m-line: oklch(0.32 0.02 250);
   --m-line-faint: oklch(0.25 0.018 252);
   --m-text: oklch(0.93 0.012 90);
-  --m-dim: oklch(0.64 0.015 250);
-  --m-faint: oklch(0.48 0.015 250);
+  --m-dim: oklch(0.7 0.015 250);
+  --m-faint: oklch(0.55 0.015 250);
 
   /* Channel tones */
   --mc-subject: oklch(0.93 0.012 90);
@@ -65,8 +65,8 @@
   --m-line: oklch(0.78 0.018 250);
   --m-line-faint: oklch(0.868 0.012 252);
   --m-text: oklch(0.235 0.022 255);
-  --m-dim: oklch(0.41 0.02 250);
-  --m-faint: oklch(0.54 0.016 250);
+  --m-dim: oklch(0.38 0.02 250);
+  --m-faint: oklch(0.48 0.016 250);
 
   --mc-subject: oklch(0.235 0.022 255);
   --mc-air: oklch(0.49 0.1 220);
@@ -138,7 +138,7 @@
   padding-top: 0.7rem;
   margin-bottom: clamp(2.25rem, 5vw, 3.75rem);
   font-family: var(--m-font-mono);
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--m-dim);
@@ -174,6 +174,38 @@
 .m-display .is-outline {
   color: transparent;
   -webkit-text-stroke: 1.5px color-mix(in oklch, var(--m-tone, var(--m-text)) 75%, transparent);
+}
+
+/* Project fact rows — every project answers "my part" and "result" the same way. */
+.m-facts {
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--m-line);
+  max-width: 54ch;
+}
+
+.m-facts > div {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 0.6rem;
+  border-bottom: 1px dashed var(--m-line-faint);
+}
+
+.m-facts dt {
+  padding-top: 0.25rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-tone, var(--m-text));
+}
+
+.m-facts dd {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--m-text);
 }
 
 /* Live dot */
@@ -470,6 +502,41 @@
   -webkit-text-stroke: 1.5px color-mix(in oklch, var(--m-text) 70%, transparent);
 }
 
+/* Role line — who/what in the first viewport: tag, specialty, metadata. */
+.m-subject-role {
+  margin-top: clamp(1.1rem, 2.5vh, 1.7rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.55rem 0.9rem;
+}
+
+.m-subject-role-title {
+  padding: 0.32rem 0.65rem;
+  background: var(--mc-work);
+  color: var(--m-bg-deep);
+  font-family: var(--m-font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.m-subject-role-what {
+  font-size: clamp(1.02rem, 1.9vw, 1.25rem);
+  font-weight: 500;
+  color: var(--m-text);
+}
+
+.m-subject-role-meta {
+  font-family: var(--m-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--m-dim);
+}
+
 /* The live trace crossing the masthead. */
 .m-heartline {
   position: relative;
@@ -510,7 +577,62 @@
   color: var(--m-faint);
 }
 
+/* The three-second pitch — what he builds, readable before the name sinks in. */
+.m-subject-pitch {
+  font-size: clamp(1.3rem, 3.6vw, 2.5rem);
+  line-height: 1.12;
+  max-width: 30ch;
+}
+
+.m-subject-ctas {
+  margin-top: clamp(1.4rem, 3.5vh, 2.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.m-cta-primary,
+.m-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.5rem;
+  font-family: var(--m-font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.25s var(--m-ease),
+    border-color 0.25s var(--m-ease),
+    color 0.25s var(--m-ease);
+}
+
+.m-cta-primary {
+  border: 1px solid var(--mc-work);
+  background: var(--mc-work);
+  color: var(--m-bg-deep);
+}
+
+.m-cta-primary:hover {
+  background: transparent;
+  color: var(--mc-work);
+}
+
+.m-cta-ghost {
+  border: 1px solid var(--m-line);
+  background: transparent;
+  color: var(--m-dim);
+}
+
+.m-cta-ghost:hover {
+  border-color: var(--mc-work);
+  color: var(--mc-work);
+}
+
 .m-subject-foot {
+  margin-top: clamp(2rem, 5vh, 3.25rem);
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
@@ -548,13 +670,13 @@
   gap: 1.25rem;
   padding-block: 0.5rem;
   border-bottom: 1px dashed var(--m-line-faint);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 
 .m-readout dt {
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   color: var(--m-faint);
   white-space: nowrap;
 }
@@ -630,14 +752,6 @@
   color: var(--m-text);
 }
 
-.m-air-body {
-  margin-top: 1.25rem;
-  font-size: 0.98rem;
-  line-height: 1.75;
-  max-width: 46ch;
-  color: var(--m-dim);
-}
-
 .m-air-cta {
   margin-top: 2rem;
   display: inline-flex;
@@ -689,7 +803,7 @@
 
 .m-airfield-canvas {
   position: relative;
-  height: clamp(15rem, 30vw, 21rem);
+  height: clamp(8.5rem, 15vw, 11.5rem);
   overflow: hidden;
 }
 
@@ -736,13 +850,89 @@
   font-family: var(--m-font-mono);
 }
 
+/* Condensed build log — one tight row per subsystem. */
+.m-airlog {
+  margin-top: clamp(2rem, 4.5vw, 3rem);
+  border-top: 1px solid var(--m-line);
+}
+
+.m-airlog-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--m-line-faint);
+}
+
+@media (min-width: 900px) {
+  .m-airlog-row {
+    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) minmax(0, 11rem);
+    gap: 2rem;
+    align-items: baseline;
+  }
+}
+
+.m-airlog-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.m-airlog-name {
+  font-family: var(--m-font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--m-text);
+}
+
+.m-airlog-stack {
+  font-family: var(--m-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--m-faint);
+}
+
+.m-airlog .m-loglines {
+  gap: 0.35rem;
+  max-width: none;
+  font-size: 0.9rem;
+}
+
+.m-airlog-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+@media (min-width: 900px) {
+  .m-airlog-stat {
+    justify-content: flex-end;
+    text-align: right;
+  }
+}
+
+.m-airlog-stat-value {
+  font-family: var(--m-font-display);
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--m-tone, var(--m-text));
+}
+
+.m-airlog-stat-caption {
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--m-faint);
+  max-width: 16ch;
+}
+
 .m-airfield-row {
   display: flex;
   align-items: baseline;
   gap: 1rem;
   padding: 0.55rem 0.9rem;
   border-bottom: 1px solid var(--m-line-faint);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
 }
 
 .m-airfield-row:last-child {
@@ -752,7 +942,7 @@
 .m-airfield-key {
   width: 4.5rem;
   flex-shrink: 0;
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--m-faint);
@@ -795,14 +985,6 @@
   line-height: 1.65;
   max-width: 44ch;
   color: var(--m-text);
-}
-
-.m-vitals-body {
-  margin-top: 1.25rem;
-  font-size: 0.95rem;
-  line-height: 1.75;
-  max-width: 48ch;
-  color: var(--m-dim);
 }
 
 .m-vitals-link {
@@ -874,14 +1056,14 @@
 .m-chain-code {
   flex-shrink: 0;
   font-family: var(--m-font-mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   color: var(--mc-vitals);
 }
 
 .m-chain-name {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--m-text);
 }
@@ -889,7 +1071,7 @@
 .m-chain-detail {
   margin-left: auto;
   font-family: var(--m-font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: right;
@@ -911,7 +1093,7 @@
 }
 
 .m-rate-caption {
-  font-size: 0.76rem;
+  font-size: 0.82rem;
   line-height: 1.5;
   color: var(--m-faint);
   max-width: 22ch;
@@ -955,7 +1137,7 @@
 .m-sinq-gloss {
   margin-top: 0.75rem;
   font-family: var(--m-font-mono);
-  font-size: 0.76rem;
+  font-size: 0.82rem;
   font-style: italic;
   color: var(--m-dim);
 }
@@ -980,14 +1162,6 @@
   line-height: 1.65;
   color: var(--m-text);
   max-width: 40ch;
-}
-
-.m-sinq-body {
-  margin-top: 1.1rem;
-  font-size: 0.95rem;
-  line-height: 1.75;
-  max-width: 46ch;
-  color: var(--m-dim);
 }
 
 .m-sinq-link {
@@ -1054,9 +1228,43 @@
 
 .m-folds-note {
   padding: 0.85rem 0.9rem;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   line-height: 1.6;
   color: var(--m-faint);
+}
+
+/* Sinq quick numbers — the scale of the thing at a glance. */
+.m-sinq-stats {
+  margin-top: clamp(2rem, 4.5vw, 3rem);
+  border-top: 1px solid var(--m-line);
+  padding-top: 1.4rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .m-sinq-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.m-sinq-stat-value {
+  display: block;
+  font-family: var(--m-font-display);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1;
+  color: var(--mc-sinq);
+}
+
+.m-sinq-stat-caption {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--m-dim);
+  max-width: 26ch;
 }
 
 /* ── CH·03 — Practice (recorded sessions) ───────────────────────────────── */
@@ -1158,7 +1366,7 @@
 
 .m-session-period {
   font-family: var(--m-font-mono);
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--m-text);
 }
@@ -1166,7 +1374,7 @@
 .m-session-loc {
   margin-top: 0.4rem;
   font-family: var(--m-font-mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--m-faint);
@@ -1184,8 +1392,8 @@
   margin-top: 0.2rem;
   margin-bottom: 0.9rem;
   font-family: var(--m-font-mono);
-  font-size: 0.72rem;
-  color: var(--mc-work);
+  font-size: 0.78rem;
+  color: var(--m-tone, var(--mc-work));
 }
 
 .m-session-org a:hover {
@@ -1201,7 +1409,7 @@
   flex-direction: column;
   gap: 0.45rem;
   max-width: 58ch;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   line-height: 1.65;
   color: var(--m-dim);
 }
@@ -1215,7 +1423,7 @@
   content: '▸';
   position: absolute;
   left: 0;
-  color: color-mix(in oklch, var(--mc-work) 70%, transparent);
+  color: color-mix(in oklch, var(--m-tone, var(--mc-work)) 70%, transparent);
 }
 
 .m-session-stat {
@@ -1233,13 +1441,13 @@
   font-family: var(--m-font-display);
   font-size: clamp(2.6rem, 4.5vw, 3.8rem);
   line-height: 1;
-  color: var(--mc-work);
+  color: var(--m-tone, var(--mc-work));
 }
 
 .m-session-stat-caption {
   display: block;
   margin-top: 0.5rem;
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   color: var(--m-faint);
 }
@@ -1342,7 +1550,7 @@
   align-items: baseline;
   padding-block: 0.55rem;
   border-bottom: 1px dashed var(--m-line-faint);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--m-dim);
 }
 
@@ -1392,13 +1600,13 @@
 .m-cal-cert-role {
   margin-top: 0.15rem;
   font-family: var(--m-font-mono);
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   color: var(--mc-form);
 }
 
 .m-cal-cert-note {
   margin-top: 0.6rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   color: var(--m-dim);
   max-width: 40ch;
@@ -1439,7 +1647,7 @@
 
 .m-archive-dek {
   margin-top: 1.25rem;
-  font-size: 0.98rem;
+  font-size: 1rem;
   line-height: 1.7;
   max-width: 52ch;
   color: var(--m-dim);
@@ -1481,7 +1689,7 @@
   align-items: center;
   gap: 0.6rem;
   font-family: var(--m-font-mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-weight: 600;
   color: var(--mc-arch);
 }
@@ -1497,7 +1705,7 @@
 
 .m-rack-name {
   font-family: var(--m-font-mono);
-  font-size: 0.86rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--m-text);
 }
@@ -1513,7 +1721,7 @@
 }
 
 .m-rack-desc {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   line-height: 1.6;
   color: var(--m-dim);
   max-width: 52ch;
@@ -1522,7 +1730,7 @@
 .m-rack-stack {
   margin-top: 0.35rem;
   font-family: var(--m-font-mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: color-mix(in oklch, var(--mc-arch) 70%, var(--m-faint));
@@ -1607,7 +1815,7 @@
 
 .m-inventory-cat {
   font-family: var(--m-font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1629,7 +1837,7 @@
   border: 1px solid var(--m-line);
   background: var(--m-bg-raise);
   font-family: var(--m-font-mono);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--m-text);
   transition:
@@ -1692,7 +1900,7 @@
 }
 
 .m-open-note {
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.7;
   max-width: 38ch;
   color: var(--m-dim);
@@ -1729,7 +1937,7 @@
 }
 
 .m-chan-slug {
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   color: var(--m-dim);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1760,7 +1968,7 @@
   flex-direction: column;
   gap: 0.9rem;
   font-family: var(--m-font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.06em;
   color: var(--m-faint);
 }
