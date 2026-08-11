@@ -38,11 +38,14 @@
       </div>
 
       <div class="m-inventory rv">
-        <p class="m-inventory-label">Instrument inventory — production tools, not exhaustive</p>
-        <p v-for="group in toolkit" :key="group.name" class="m-inventory-line">
+        <p class="m-inventory-head">Instrument inventory</p>
+        <p class="m-inventory-label">Production tools — not exhaustive</p>
+        <div v-for="group in toolkit" :key="group.name" class="m-inventory-group">
           <span class="m-inventory-cat">{{ group.name }}</span>
-          {{ group.items.join(' · ') }}
-        </p>
+          <ul class="m-inventory-chips">
+            <li v-for="item in group.items" :key="item">{{ item }}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
