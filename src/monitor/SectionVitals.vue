@@ -16,11 +16,6 @@
           <p class="m-vitals-dek rv">{{ vitals.dek }}</p>
           <p class="m-vitals-body rv" style="--rv-d: 90ms">{{ vitals.body }}</p>
 
-          <div class="m-vitals-grade rv" style="--rv-d: 170ms">
-            <span class="m-vitals-grade-badge">{{ vitals.grade }}</span>
-            <span class="m-vitals-grade-note">{{ vitals.gradeNote }}</span>
-          </div>
-
           <a
             :href="vitals.github"
             target="_blank"

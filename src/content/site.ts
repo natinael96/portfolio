@@ -147,8 +147,6 @@ export const vitals = {
   ],
   rate: '250 Hz',
   rateCaption: 'sensor data streaming through the pipeline',
-  grade: 'Graded A+',
-  gradeNote: 'Presented to the Department of Biomedical Engineering at CTBE, Addis Ababa University.',
   github: 'https://github.com/natinael96/finalproj_ml',
 } as const
 

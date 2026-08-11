@@ -805,49 +805,27 @@
   color: var(--m-dim);
 }
 
-.m-vitals-grade {
-  margin-top: 1.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.75rem 1rem;
-}
-
-.m-vitals-grade-badge {
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid color-mix(in oklch, var(--mc-vitals) 55%, transparent);
-  font-family: var(--m-font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--mc-vitals);
-}
-
-.m-vitals-grade-note {
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--m-faint);
-  max-width: 34ch;
-}
-
 .m-vitals-link {
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid color-mix(in oklch, var(--mc-vitals) 55%, transparent);
   font-family: var(--m-font-mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--m-dim);
-  transition: color 0.2s var(--m-ease);
+  color: var(--mc-vitals);
+  transition:
+    background-color 0.25s var(--m-ease),
+    color 0.25s var(--m-ease);
 }
 
 .m-vitals-link:hover {
-  color: var(--mc-vitals);
+  background: var(--mc-vitals);
+  color: var(--m-bg-deep);
 }
 
 /* Signal chain panel */
@@ -1013,21 +991,26 @@
 }
 
 .m-sinq-link {
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid color-mix(in oklch, var(--mc-sinq) 55%, transparent);
   font-family: var(--m-font-mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--m-dim);
-  transition: color 0.2s var(--m-ease);
+  color: var(--mc-sinq);
+  transition:
+    background-color 0.25s var(--m-ease),
+    color 0.25s var(--m-ease);
 }
 
 .m-sinq-link:hover {
-  color: var(--mc-sinq);
+  background: var(--mc-sinq);
+  color: var(--m-bg-deep);
 }
 
 /* Homophone fold panel */
@@ -1333,6 +1316,19 @@
   margin-bottom: 0.9rem;
 }
 
+/* Programs subheading — a headline readout, not a margin note. */
+.m-cal-subhead {
+  font-family: var(--m-font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--mc-form);
+  border-top: 2px solid var(--mc-form);
+  padding-top: 0.7rem;
+  margin-bottom: 1.1rem;
+}
+
 .m-cal-list {
   list-style: none;
   margin: 0 0 2.25rem;
@@ -1409,19 +1405,26 @@
 }
 
 .m-cal-cert-link {
-  display: inline-block;
-  margin-top: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid color-mix(in oklch, var(--mc-form) 55%, transparent);
   font-family: var(--m-font-mono);
-  font-size: 0.62rem;
+  font-size: 0.64rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--m-faint);
-  transition: color 0.2s var(--m-ease);
+  color: var(--mc-form);
+  transition:
+    background-color 0.25s var(--m-ease),
+    color 0.25s var(--m-ease);
 }
 
 .m-cal-cert-link:hover {
-  color: var(--mc-form);
+  background: var(--mc-form);
+  color: var(--m-bg-deep);
 }
 
 /* ── CH·04 — Archive (channel bank) ─────────────────────────────────────── */
@@ -1528,22 +1531,33 @@
 .m-rack-link {
   grid-column: 2;
   justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid color-mix(in oklch, var(--mc-arch) 55%, transparent);
   font-family: var(--m-font-mono);
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   font-weight: 600;
-  color: var(--m-dim);
-  transition: color 0.2s var(--m-ease);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mc-arch);
+  transition:
+    background-color 0.25s var(--m-ease),
+    color 0.25s var(--m-ease);
 }
 
 @media (min-width: 900px) {
   .m-rack-link {
     grid-column: auto;
     justify-self: end;
+    align-self: center;
   }
 }
 
 .m-rack-link:hover {
-  color: var(--mc-arch);
+  background: var(--mc-arch);
+  color: var(--m-bg-deep);
 }
 
 .m-inventory {

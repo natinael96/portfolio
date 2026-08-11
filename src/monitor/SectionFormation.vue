@@ -25,7 +25,7 @@
           </div>
 
           <div class="rv" style="--rv-d: 280ms">
-            <p class="m-cal-margin-label">Alongside the degree</p>
+            <p class="m-cal-subhead">Alongside the degree</p>
             <article
               v-for="program in formation.programs"
               :key="program.id"
