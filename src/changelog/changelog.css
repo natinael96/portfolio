@@ -1,0 +1,1119 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Changelog — the résumé as release notes.
+
+   One column of entries against a sticky rail. Warm paper, two layers of
+   colour: the accent marks STATE (open, current, live), and the four change
+   tags carry the changelog's native badge colours — green/blue/amber/purple,
+   the idiom GitHub releases trained everyone on.
+
+   Everything sits on two scales. Nothing should introduce a value outside
+   them; if a step is missing, add it here rather than one-offing it.
+
+     type   11 · 13 · 15 · 17 · 21 · 27 · 44 px
+     space  (2) · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 72 px
+
+   Modifiers are `is-`-prefixed on purpose: a bare `.fixed` or `.hidden`
+   collides with a Tailwind utility (utilities are global via style.css) and
+   silently pulls the element out of its layout.
+
+   Fonts come from the <link> in index.html: Geist for text, Geist Mono for
+   versions and labels, Noto Serif Ethiopic for Ge'ez.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.cl-root {
+  /* ── type scale ── */
+  --cl-t1: 0.6875rem; /* 11 — labels, tags, chips, rail meta */
+  --cl-t2: 0.8125rem; /* 13 — periods, dates, captions */
+  --cl-t3: 0.9375rem; /* 15 — body: change lines, summaries */
+  --cl-t4: 1.0625rem; /* 17 — lead prose, entry titles */
+  --cl-t5: 1.3125rem; /* 21 — project names, pulled stats */
+  --cl-t6: 1.6875rem; /* 27 — version numbers */
+  --cl-t7: 2.75rem; /*   44 — the name */
+
+  /* ── space scale (4px base) ── */
+  --cl-s0: 0.125rem; /* half-step, badge optical padding only */
+  --cl-s1: 0.25rem;
+  --cl-s2: 0.5rem;
+  --cl-s3: 0.75rem;
+  --cl-s4: 1rem;
+  --cl-s5: 1.5rem;
+  --cl-s6: 2rem;
+  --cl-s7: 3rem;
+  --cl-s8: 4.5rem;
+
+  /* ── colour: light ── */
+  --cl-bg: #fdfcfa;
+  --cl-surface: #ffffff;
+  --cl-ink: #22201c;
+  --cl-ink-2: #4a463f;
+  --cl-muted: #6f685d; /* 5.37:1 on ground, 5.51:1 on surface */
+  --cl-rule: #e5e0d7;
+  --cl-rule-strong: #c9c2b5;
+  --cl-accent: #1f6f4a;
+  --cl-accent-bg: #e3efe7;
+
+  /* Fallback tag colour (unknown kinds only — the four real kinds below). */
+  --cl-tag-bg: #f1efe9;
+  --cl-tag-fg: #4a463f;
+  --cl-added-bg: #e3efe7;
+  --cl-added-fg: #1f6f4a;
+  --cl-changed-bg: #e6ecf4;
+  --cl-changed-fg: #3b5680;
+  --cl-fixed-bg: #f5ebe2;
+  --cl-fixed-fg: #8a5227;
+  --cl-learned-bg: #efe9f2;
+  --cl-learned-fg: #5f4677;
+
+  --cl-max: 62rem;
+  --cl-pad: clamp(1.25rem, 4vw, 2.5rem);
+
+  background: var(--cl-bg);
+  color: var(--cl-ink);
+  min-height: 100vh;
+  /* Ge'ez (ስንቅ, ባሕረ ሓሳብ) falls through to the Ethiopic face rather than to
+     whatever the OS happens to have — both are loaded in index.html. */
+  font-family: 'Geist', 'Noto Serif Ethiopic', system-ui, sans-serif;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cl-root.is-dark {
+  --cl-bg: #191a18;
+  --cl-surface: #1f211e;
+  --cl-ink: #e9e7e1;
+  --cl-ink-2: #b6b2a9;
+  --cl-muted: #8f8b83; /* 5.15:1 on ground, 4.78:1 on surface */
+  --cl-rule: #30322d;
+  --cl-rule-strong: #474a43;
+  --cl-accent: #7fc9a3;
+  --cl-accent-bg: #1c2b23;
+
+  --cl-tag-bg: #262824;
+  --cl-tag-fg: #b6b2a9;
+  --cl-added-bg: #1c2b23;
+  --cl-added-fg: #7fc9a3;
+  --cl-changed-bg: #1b242e;
+  --cl-changed-fg: #9dbae0;
+  --cl-fixed-bg: #2b2119;
+  --cl-fixed-fg: #dfab7f;
+  --cl-learned-bg: #262130;
+  --cl-learned-fg: #b7a2d4;
+}
+
+.cl-root *,
+.cl-root *::before,
+.cl-root *::after {
+  box-sizing: border-box;
+}
+
+.cl-root ::selection {
+  background: color-mix(in srgb, var(--cl-accent) 22%, transparent);
+}
+
+.cl-root a {
+  color: inherit;
+}
+
+.cl-root :where(a, button):focus-visible {
+  outline: 2px solid var(--cl-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.cl-mono {
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+.cl-shell {
+  max-width: var(--cl-max);
+  margin: 0 auto;
+  padding: 0 var(--cl-pad);
+}
+
+.cl-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 20;
+  background: var(--cl-surface);
+  color: var(--cl-ink);
+  border: 1px solid var(--cl-rule-strong);
+  padding: var(--cl-s3) var(--cl-s4);
+  border-radius: 4px;
+  font-size: var(--cl-t3);
+}
+.cl-skip:focus {
+  left: var(--cl-pad);
+  top: var(--cl-s3);
+}
+
+/* ── header ──────────────────────────────────────────────────────────────── */
+.cl-head {
+  padding: clamp(var(--cl-s7), 8vw, var(--cl-s8)) 0 var(--cl-s6);
+}
+
+.cl-head-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--cl-s4);
+  flex-wrap: wrap;
+  margin-bottom: var(--cl-s5);
+}
+
+.cl-repo {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  letter-spacing: 0.02em;
+  color: var(--cl-muted);
+  margin: 0;
+}
+.cl-repo b {
+  color: var(--cl-ink);
+  font-weight: 500;
+}
+
+.cl-head h1 {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: clamp(1.75rem, 5.5vw, var(--cl-t7));
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin: 0 0 var(--cl-s3);
+  text-wrap: balance;
+}
+
+.cl-tagline {
+  font-size: var(--cl-t4);
+  line-height: 1.6;
+  color: var(--cl-ink-2);
+  margin: 0 0 var(--cl-s5);
+  max-width: 46ch;
+}
+.cl-tagline a {
+  color: var(--cl-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--cl-accent) 35%, transparent);
+}
+.cl-tagline a:hover {
+  border-bottom-color: var(--cl-accent);
+}
+
+.cl-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cl-s1) var(--cl-s2);
+  margin: 0 0 var(--cl-s5);
+  padding: 0;
+  list-style: none;
+}
+.cl-facts li {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  letter-spacing: 0.02em;
+  color: var(--cl-ink-2);
+  border: 1px solid var(--cl-rule);
+  border-radius: 3px;
+  padding: var(--cl-s1) var(--cl-s2);
+  background: var(--cl-surface);
+}
+/* Availability is the single most important state on the page — it keeps the
+   accent, and it is the reason the change tags gave theirs up. */
+.cl-facts li.is-open {
+  color: var(--cl-accent);
+  background: var(--cl-accent-bg);
+  border-color: color-mix(in srgb, var(--cl-accent) 32%, transparent);
+  font-weight: 500;
+}
+.cl-facts li.is-open::before {
+  content: '';
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: var(--cl-s1);
+  vertical-align: 0.05em;
+}
+
+.cl-preamble {
+  font-size: var(--cl-t3);
+  line-height: 1.65;
+  color: var(--cl-ink-2);
+  margin: 0;
+  max-width: 60ch;
+  border-left: 2px solid var(--cl-rule-strong);
+  padding-left: var(--cl-s4);
+}
+.cl-preamble a {
+  color: var(--cl-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--cl-accent) 30%, transparent);
+}
+
+/* ── versioning legend ───────────────────────────────────────────────────── */
+.cl-scheme {
+  border-top: 1px solid var(--cl-rule);
+  border-bottom: 1px solid var(--cl-rule);
+  padding: var(--cl-s5) 0;
+  margin-top: var(--cl-s6);
+}
+
+.cl-label {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cl-muted);
+  margin: 0 0 var(--cl-s4);
+  font-weight: 500;
+}
+
+.cl-scheme-grid {
+  display: grid;
+  gap: var(--cl-s4) var(--cl-s6);
+  grid-template-columns: 1fr;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .cl-scheme-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.cl-scheme-item dt {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--cl-ink);
+  margin-bottom: var(--cl-s1);
+}
+.cl-scheme-item dt span {
+  color: var(--cl-muted);
+  font-weight: 400;
+  margin-left: var(--cl-s2);
+  letter-spacing: 0;
+}
+.cl-scheme-item dd {
+  margin: 0;
+  font-size: var(--cl-t2);
+  line-height: 1.55;
+  color: var(--cl-ink-2);
+}
+
+/* The education tier, said in prose — it is not a semver part. */
+.cl-scheme-note {
+  margin: var(--cl-s4) 0 0;
+  font-size: var(--cl-t2);
+  line-height: 1.55;
+  color: var(--cl-muted);
+  max-width: 60ch;
+}
+
+/* ── layout: rail + feed ─────────────────────────────────────────────────── */
+.cl-body {
+  display: grid;
+  gap: var(--cl-s6);
+  padding: var(--cl-s6) 0 0;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .cl-body {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: var(--cl-s7);
+    align-items: start;
+  }
+}
+
+.cl-rail {
+  display: none;
+}
+@media (min-width: 900px) {
+  .cl-rail {
+    display: block;
+    position: sticky;
+    top: var(--cl-s6);
+    padding-top: var(--cl-s1);
+  }
+}
+.cl-rail ol {
+  list-style: none;
+  margin: var(--cl-s2) 0 0;
+  padding: 0;
+  border-left: 1px solid var(--cl-rule-strong);
+}
+.cl-rail a {
+  display: block;
+  text-decoration: none;
+  padding: var(--cl-s1) 0 var(--cl-s1) var(--cl-s3);
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+}
+.cl-rail a strong {
+  display: block;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  font-weight: 500;
+  color: var(--cl-ink-2);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.cl-rail a span {
+  display: block;
+  font-size: var(--cl-t1);
+  color: var(--cl-muted);
+  letter-spacing: 0.02em;
+}
+.cl-rail a:hover strong {
+  color: var(--cl-ink);
+}
+.cl-rail a.is-sub {
+  padding-left: var(--cl-s5);
+}
+.cl-rail a.is-sub strong {
+  color: var(--cl-muted);
+  font-weight: 400;
+}
+.cl-rail-gap {
+  margin-top: var(--cl-s5);
+}
+.cl-rail-name {
+  font-variant-numeric: normal;
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+.cl-rail a.is-active {
+  border-left-color: var(--cl-accent);
+}
+.cl-rail a.is-active strong {
+  color: var(--cl-accent);
+  font-weight: 600;
+}
+
+/* ── section headings ────────────────────────────────────────────────────── */
+.cl-section-h {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t4);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--cl-ink);
+  margin: 0 0 var(--cl-s5);
+  padding-bottom: var(--cl-s2);
+  border-bottom: 2px solid var(--cl-ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--cl-s1) var(--cl-s4);
+}
+.cl-section-h span {
+  font-family: 'Geist', 'Noto Serif Ethiopic', system-ui, sans-serif;
+  font-size: var(--cl-t2);
+  font-weight: 400;
+  color: var(--cl-muted);
+  letter-spacing: 0;
+}
+
+.cl-projects {
+  margin-top: var(--cl-s7);
+}
+
+/* ── entries ─────────────────────────────────────────────────────────────── */
+.cl-release {
+  padding-bottom: var(--cl-s6);
+  margin-bottom: var(--cl-s6);
+  border-bottom: 1px solid var(--cl-rule);
+  scroll-margin-top: var(--cl-s5);
+}
+.cl-release:last-child {
+  border-bottom: 0;
+}
+
+.cl-release-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--cl-s2) var(--cl-s3);
+  margin-bottom: var(--cl-s2);
+}
+
+.cl-version {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: clamp(1.375rem, 3.4vw, var(--cl-t6));
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: var(--cl-ink);
+  font-variant-numeric: tabular-nums;
+}
+.cl-version a {
+  text-decoration: none;
+}
+.cl-version a::before {
+  content: '#';
+  color: var(--cl-rule-strong);
+  margin-right: 0.1em;
+}
+.cl-version a:hover::before {
+  color: var(--cl-accent);
+}
+
+.cl-date {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  color: var(--cl-muted);
+  letter-spacing: 0.02em;
+}
+
+/* State badges. `is-head` is the only filled accent here — it marks the one
+   thing a visitor is looking for. `Breaking` is structural, so it reads in
+   ink rather than competing for the accent. */
+.cl-bump {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  padding: var(--cl-s0) var(--cl-s2);
+  border: 1px solid var(--cl-rule-strong);
+  color: var(--cl-muted);
+  font-weight: 500;
+}
+.cl-bump.is-major {
+  color: var(--cl-ink);
+  border-color: var(--cl-ink);
+}
+.cl-bump.is-head {
+  color: var(--cl-accent);
+  background: var(--cl-accent-bg);
+  border-color: color-mix(in srgb, var(--cl-accent) 32%, transparent);
+}
+
+.cl-title {
+  font-size: var(--cl-t4);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--cl-s1);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.cl-title a {
+  color: var(--cl-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--cl-accent) 30%, transparent);
+}
+.cl-title a:hover {
+  border-bottom-color: var(--cl-accent);
+}
+
+.cl-period {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  color: var(--cl-muted);
+  margin: 0 0 var(--cl-s3);
+  letter-spacing: 0.01em;
+}
+
+.cl-summary {
+  font-size: var(--cl-t3);
+  line-height: 1.65;
+  color: var(--cl-ink-2);
+  margin: 0 0 var(--cl-s4);
+  max-width: 62ch;
+}
+
+/* ── education sub-tier ──────────────────────────────────────────────────── */
+/* A real tier: set back a full indent, version dropped to muted, and no badge
+   — if the tier reads, the label is redundant. */
+.cl-release.is-sub {
+  padding-left: var(--cl-s6);
+  padding-bottom: var(--cl-s5);
+  margin-bottom: var(--cl-s5);
+  border-left: 1px solid var(--cl-rule-strong);
+}
+.cl-release.is-sub .cl-version {
+  font-size: var(--cl-t5);
+  color: var(--cl-muted);
+  font-weight: 500;
+}
+.cl-release.is-sub .cl-version a::before {
+  color: var(--cl-rule);
+}
+.cl-release.is-sub .cl-title {
+  font-size: var(--cl-t3);
+  font-weight: 500;
+}
+.cl-release.is-sub .cl-summary {
+  font-size: var(--cl-t2);
+  margin-bottom: var(--cl-s3);
+}
+
+/* ── change lines ────────────────────────────────────────────────────────── */
+.cl-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--cl-s2);
+}
+.cl-change {
+  display: grid;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  gap: var(--cl-s3);
+  align-items: baseline;
+}
+@media (max-width: 480px) {
+  .cl-change {
+    grid-template-columns: 1fr;
+    gap: var(--cl-s1);
+  }
+}
+
+.cl-tag {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 3px;
+  padding: var(--cl-s0) 0;
+  text-align: center;
+  display: block;
+  justify-self: start;
+  width: 100%;
+  max-width: 4.75rem;
+  background: var(--cl-tag-bg);
+  color: var(--cl-tag-fg);
+}
+@media (max-width: 480px) {
+  .cl-tag {
+    padding-inline: var(--cl-s2);
+    width: auto;
+  }
+}
+
+.cl-change p {
+  margin: 0;
+  font-size: var(--cl-t3);
+  line-height: 1.6;
+  color: var(--cl-ink-2);
+  max-width: 66ch;
+}
+.cl-change p b {
+  color: var(--cl-ink);
+  font-weight: 600;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+}
+
+/* ── stat + links ────────────────────────────────────────────────────────── */
+.cl-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--cl-s4);
+  margin-top: var(--cl-s5);
+}
+
+.cl-stat {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cl-s2);
+  margin: 0;
+}
+.cl-stat b {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t5);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--cl-ink);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cl-stat span {
+  font-size: var(--cl-t2);
+  color: var(--cl-muted);
+  line-height: 1.4;
+  max-width: 24ch;
+}
+
+.cl-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cl-s1);
+  list-style: none;
+  margin: 0 0 0 auto; /* holds the right edge without an empty spacer element */
+  padding: 0;
+}
+.cl-links a {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  text-decoration: none;
+  border: 1px solid var(--cl-rule-strong);
+  border-radius: 3px;
+  padding: var(--cl-s1) var(--cl-s2);
+  color: var(--cl-ink-2);
+  background: var(--cl-surface);
+  display: inline-block;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.cl-links a:hover {
+  border-color: var(--cl-accent);
+  color: var(--cl-accent);
+}
+.cl-links a::after {
+  content: ' ↗';
+  color: var(--cl-muted);
+}
+.cl-links a:hover::after {
+  color: var(--cl-accent);
+}
+
+/* ── projects ────────────────────────────────────────────────────────────── */
+.cl-project-name {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t5);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--cl-ink);
+}
+.cl-project-name a {
+  text-decoration: none;
+}
+.cl-project-name a:hover {
+  color: var(--cl-accent);
+}
+.cl-alt {
+  font-family: 'Noto Serif Ethiopic', 'Geist', serif;
+  font-weight: 500;
+  font-size: 0.9em;
+  color: var(--cl-muted);
+  margin-left: var(--cl-s1);
+}
+
+/* Live is a state, so it gets the accent. Everything else stays quiet. */
+.cl-status {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 3px;
+  padding: var(--cl-s0) var(--cl-s2);
+  border: 1px solid var(--cl-rule-strong);
+  color: var(--cl-muted);
+}
+.cl-status.is-live {
+  color: var(--cl-accent);
+  background: var(--cl-accent-bg);
+  border-color: color-mix(in srgb, var(--cl-accent) 32%, transparent);
+}
+
+.cl-tech {
+  list-style: none;
+  margin: var(--cl-s4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cl-s1);
+}
+.cl-tech li {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  letter-spacing: 0.02em;
+  color: var(--cl-muted);
+  border: 1px solid var(--cl-rule);
+  border-radius: 20px;
+  padding: var(--cl-s0) var(--cl-s2);
+}
+
+/* ── dependencies ────────────────────────────────────────────────────────── */
+.cl-deps {
+  border-top: 1px solid var(--cl-rule);
+  padding: var(--cl-s6) 0;
+}
+.cl-deps-block {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  line-height: 1.9;
+  color: var(--cl-ink-2);
+  background: var(--cl-surface);
+  border: 1px solid var(--cl-rule);
+  border-radius: 4px;
+  padding: var(--cl-s4);
+  overflow-x: auto;
+}
+.cl-deps-row {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--cl-s3);
+  align-items: baseline;
+}
+@media (max-width: 560px) {
+  .cl-deps-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .cl-deps-row + .cl-deps-row {
+    margin-top: var(--cl-s2);
+  }
+}
+.cl-deps-key {
+  color: var(--cl-accent);
+  white-space: nowrap;
+}
+.cl-deps-val {
+  color: var(--cl-ink-2);
+}
+.cl-deps-punct {
+  color: var(--cl-muted);
+}
+
+/* ── contact ─────────────────────────────────────────────────────────────── */
+.cl-contact {
+  border-top: 1px solid var(--cl-rule);
+  padding: var(--cl-s6) 0 var(--cl-s7);
+}
+.cl-contact p {
+  font-size: var(--cl-t3);
+  line-height: 1.65;
+  color: var(--cl-ink-2);
+  margin: 0 0 var(--cl-s4);
+  max-width: 56ch;
+}
+.cl-channels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--cl-rule);
+}
+.cl-channels li {
+  border-bottom: 1px solid var(--cl-rule);
+}
+.cl-channels a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--cl-s4);
+  padding: var(--cl-s3) 0;
+  text-decoration: none;
+  color: var(--cl-ink);
+}
+.cl-channels a:hover {
+  color: var(--cl-accent);
+}
+.cl-channels a strong {
+  font-size: var(--cl-t3);
+  font-weight: 500;
+}
+.cl-channels a span {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  color: var(--cl-muted);
+  text-align: right;
+  word-break: break-all;
+}
+.cl-channels a:hover span {
+  color: var(--cl-accent);
+}
+
+/* ── colophon ────────────────────────────────────────────────────────────── */
+.cl-colophon {
+  border-top: 1px solid var(--cl-rule);
+  padding: var(--cl-s5) 0 var(--cl-s7);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cl-s2) var(--cl-s5);
+  justify-content: space-between;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  color: var(--cl-muted);
+  letter-spacing: 0.02em;
+}
+.cl-colophon a {
+  color: var(--cl-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--cl-rule-strong);
+}
+.cl-colophon a:hover {
+  color: var(--cl-accent);
+  border-bottom-color: var(--cl-accent);
+}
+
+/* ── theme toggle ────────────────────────────────────────────────────────── */
+.cl-toggle {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--cl-surface);
+  color: var(--cl-ink-2);
+  border: 1px solid var(--cl-rule-strong);
+  border-radius: 3px;
+  padding: var(--cl-s1) var(--cl-s2);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.cl-toggle:hover {
+  border-color: var(--cl-accent);
+  color: var(--cl-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cl-root *,
+  .cl-root *::before,
+  .cl-root *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ── writing · empty state ───────────────────────────────────────────────── */
+/* Renders only while `posts` is empty. Says the true thing rather than
+   staging a fake backlog — an invented post is worse than an honest gap. */
+.cl-empty {
+  font-size: var(--cl-t3);
+  line-height: 1.65;
+  color: var(--cl-muted);
+  margin: 0;
+  max-width: 56ch;
+  border: 1px dashed var(--cl-rule-strong);
+  border-radius: 4px;
+  padding: var(--cl-s4);
+  background: var(--cl-surface);
+}
+.cl-empty b {
+  display: block;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--cl-ink-2);
+  margin-bottom: var(--cl-s1);
+}
+.cl-empty a {
+  color: var(--cl-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--cl-accent) 30%, transparent);
+  white-space: nowrap;
+}
+.cl-empty a:hover {
+  border-bottom-color: var(--cl-accent);
+}
+
+/* ── freshness + focus (the anti-stale pass) ─────────────────────────────── */
+
+/* The legend is reference material, not a hero — it collapses, and the first
+   screen gains ~160px of actual content. */
+details.cl-scheme summary {
+  cursor: pointer;
+  list-style: none;
+  margin-bottom: 0;
+}
+details.cl-scheme summary::-webkit-details-marker {
+  display: none;
+}
+details.cl-scheme summary::before {
+  content: '▸ ';
+  color: var(--cl-muted);
+}
+details.cl-scheme[open] summary::before {
+  content: '▾ ';
+}
+details.cl-scheme[open] summary {
+  margin-bottom: var(--cl-s4);
+}
+details.cl-scheme summary:hover {
+  color: var(--cl-ink-2);
+}
+
+/* HEAD is the call to action — the one entry allowed a panel of its own. */
+.cl-release.is-hero {
+  background: var(--cl-surface);
+  border: 1px solid var(--cl-rule);
+  border-left: 3px solid var(--cl-accent);
+  border-radius: 4px;
+  padding: var(--cl-s5);
+  margin-bottom: var(--cl-s6);
+}
+.cl-release.is-hero .cl-summary {
+  margin-bottom: var(--cl-s3);
+}
+
+/* The current release's number carries the accent — "you are here". */
+.cl-version.is-current a {
+  color: var(--cl-accent);
+}
+
+/* One heartbeat on the page: the availability dot and LIVE badges breathe.
+   The reduced-motion override above zeroes this out automatically. */
+@keyframes cl-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.cl-facts li.is-open::before {
+  animation: cl-pulse 2.4s ease-in-out infinite;
+}
+.cl-status.is-live::before {
+  content: '';
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: var(--cl-s1);
+  vertical-align: 0.08em;
+  animation: cl-pulse 2.4s ease-in-out infinite;
+}
+
+/* ── tag colours ─────────────────────────────────────────────────────────── */
+/* All four pairs clear AA (5.2–7.9:1 light, 6.8–7.9:1 dark). */
+.cl-tag.is-added {
+  background: var(--cl-added-bg);
+  color: var(--cl-added-fg);
+}
+.cl-tag.is-changed {
+  background: var(--cl-changed-bg);
+  color: var(--cl-changed-fg);
+}
+.cl-tag.is-fixed {
+  background: var(--cl-fixed-bg);
+  color: var(--cl-fixed-fg);
+}
+.cl-tag.is-learned {
+  background: var(--cl-learned-bg);
+  color: var(--cl-learned-fg);
+}
+
+/* ── project identity colours ────────────────────────────────────────────── */
+/* --pj / --pj2 arrive per-article from content (theme-resolved in the
+   component). Projects without a palette read straight through the
+   fallbacks, so neutral stays the default, not an error state. */
+.cl-project-name a {
+  color: var(--pj, var(--cl-ink));
+}
+.cl-project-name a:hover {
+  color: var(--pj, var(--cl-accent));
+  border-bottom: 2px solid currentColor;
+}
+.cl-alt {
+  color: var(--pj2, var(--cl-muted));
+}
+
+/* ── the pitch ───────────────────────────────────────────────────────────── */
+/* Replaces the format preamble: role first and impossible to miss, then one
+   concrete claim. The role is the only <mark> on the page. */
+.cl-lead {
+  font-size: var(--cl-t5);
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--cl-ink);
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--cl-s3);
+  max-width: 32ch;
+  text-wrap: balance;
+}
+.cl-role {
+  color: var(--cl-accent);
+  font-weight: 600;
+}
+
+/* ── primary link buttons ────────────────────────────────────────────────── */
+/* The link that proves the claim gets the filled treatment; everything else
+   stays a quiet chip. --cl-accent-contrast is the text that sits ON the
+   accent: near-white in light mode, near-black in dark (accent is a tint). */
+.cl-root {
+  --cl-accent-contrast: #fdfcfa;
+}
+.cl-root.is-dark {
+  --cl-accent-contrast: #14201a;
+}
+.cl-links a.is-primary {
+  background: var(--cl-accent);
+  color: var(--cl-accent-contrast);
+  border-color: var(--cl-accent);
+  font-weight: 600;
+  padding: var(--cl-s2) var(--cl-s3);
+}
+.cl-links a.is-primary::after {
+  color: var(--cl-accent-contrast);
+}
+.cl-links a.is-primary:hover {
+  background: color-mix(in srgb, var(--cl-accent) 84%, var(--cl-ink));
+  color: var(--cl-accent-contrast);
+  border-color: transparent;
+}
+.cl-links a.is-primary:hover::after {
+  color: var(--cl-accent-contrast);
+}
+
+/* ── primary link buttons ────────────────────────────────────────────────── */
+/* The link that proves the claim gets the filled treatment; everything else
+   stays a quiet chip. --cl-accent-contrast is the text that sits ON the
+   accent: near-white in light mode, near-black in dark (accent is a tint). */
+.cl-root {
+  --cl-accent-contrast: #fdfcfa;
+}
+.cl-root.is-dark {
+  --cl-accent-contrast: #14201a;
+}
+.cl-links a.is-primary {
+  background: var(--cl-accent);
+  color: var(--cl-accent-contrast);
+  border-color: var(--cl-accent);
+  font-weight: 600;
+  padding: var(--cl-s2) var(--cl-s3);
+}
+.cl-links a.is-primary::after {
+  color: var(--cl-accent-contrast);
+}
+.cl-links a.is-primary:hover {
+  background: color-mix(in srgb, var(--cl-accent) 84%, var(--cl-ink));
+  color: var(--cl-accent-contrast);
+  border-color: transparent;
+}
+.cl-links a.is-primary:hover::after {
+  color: var(--cl-accent-contrast);
+}
+
+/* ── the hero diff ───────────────────────────────────────────────────────── */
+/* ── hero: statement + live strip ────────────────────────────────────────── */
+.cl-hero-eyebrow {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cl-accent);
+  font-weight: 600;
+  margin: 0 0 var(--cl-s3);
+}
+/* One link styled as a status row — the claim and its proof in the same
+   breath. Reuses the pulse the LIVE badges already carry. */
+.cl-hero-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cl-s2);
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  color: var(--cl-accent);
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--cl-accent) 32%, transparent);
+  background: var(--cl-accent-bg);
+  border-radius: 999px;
+  padding: var(--cl-s2) var(--cl-s4);
+  margin-bottom: var(--cl-s5);
+  transition: border-color 0.15s ease;
+}
+.cl-hero-strip:hover {
+  border-color: var(--cl-accent);
+}
+.cl-hero-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+  animation: cl-pulse 2.4s ease-in-out infinite;
+}
