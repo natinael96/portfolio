@@ -729,6 +729,10 @@
   padding: var(--cl-s0) var(--cl-s2);
 }
 
+/* NOTE: sections that also carry .cl-shell must use padding-block, never the
+   `padding` shorthand — the shorthand's inline value overrides the shell's
+   gutter and the section goes edge-to-edge on narrow screens. */
+
 /* ── dependencies · the stack grid ──────────────────────────────────────── */
 /* Each group card carries its own --dg accent (set per-article from content,
    theme-resolved in the component). Colour lands on the group name and rule
@@ -736,7 +740,7 @@
    than a fruit salad. */
 .cl-deps {
   border-top: 1px solid var(--cl-rule);
-  padding: var(--cl-s7) 0;
+  padding-block: var(--cl-s7);
   scroll-margin-top: var(--cl-s5);
 }
 .cl-deps-head {
@@ -920,7 +924,7 @@
 /* ── contact ─────────────────────────────────────────────────────────────── */
 .cl-contact {
   border-top: 1px solid var(--cl-rule);
-  padding: var(--cl-s6) 0 var(--cl-s7);
+  padding-block: var(--cl-s6) var(--cl-s7);
 }
 .cl-contact p {
   font-size: var(--cl-t3);
@@ -968,7 +972,7 @@
 /* ── colophon ────────────────────────────────────────────────────────────── */
 .cl-colophon {
   border-top: 1px solid var(--cl-rule);
-  padding: var(--cl-s5) 0 var(--cl-s7);
+  padding-block: var(--cl-s5) var(--cl-s7);
   display: flex;
   flex-wrap: wrap;
   gap: var(--cl-s2) var(--cl-s5);
