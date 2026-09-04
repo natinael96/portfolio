@@ -729,46 +729,192 @@
   padding: var(--cl-s0) var(--cl-s2);
 }
 
-/* ── dependencies ────────────────────────────────────────────────────────── */
+/* ── dependencies · the stack grid ──────────────────────────────────────── */
+/* Each group card carries its own --dg accent (set per-article from content,
+   theme-resolved in the component). Colour lands on the group name and rule
+   only — the chips stay neutral, so seven accents read as an index rather
+   than a fruit salad. */
 .cl-deps {
   border-top: 1px solid var(--cl-rule);
-  padding: var(--cl-s6) 0;
+  padding: var(--cl-s7) 0;
+  scroll-margin-top: var(--cl-s5);
 }
-.cl-deps-block {
+.cl-deps-head {
+  margin-bottom: var(--cl-s5);
+}
+.cl-deps-total {
+  font-size: var(--cl-t3);
+  line-height: 1.6;
+  color: var(--cl-ink-2);
+  margin: 0;
+  max-width: 56ch;
+}
+.cl-deps-total b {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t5);
+  font-weight: 600;
+  color: var(--cl-accent);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cl-deps-grid {
+  display: grid;
+  gap: var(--cl-s3);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 620px) {
+  .cl-deps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 940px) {
+  .cl-deps-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cl-dep {
+  border: 1px solid var(--cl-rule);
+  border-top: 3px solid var(--dg, var(--cl-accent));
+  border-radius: 5px;
+  background: var(--cl-surface);
+  padding: var(--cl-s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cl-s2);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.cl-dep:hover {
+  border-color: color-mix(in srgb, var(--dg, var(--cl-accent)) 45%, var(--cl-rule));
+  border-top-color: var(--dg, var(--cl-accent));
+  transform: translateY(-2px);
+}
+.cl-dep-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--cl-s2);
+}
+.cl-dep-name {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t3);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--dg, var(--cl-ink));
+  margin: 0;
+}
+.cl-dep-name::before {
+  content: '"';
+  opacity: 0.45;
+}
+.cl-dep-name::after {
+  content: '"';
+  opacity: 0.45;
+}
+.cl-dep-count {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t1);
+  font-weight: 600;
+  color: var(--dg, var(--cl-muted));
+  background: color-mix(in srgb, var(--dg, var(--cl-accent)) 12%, transparent);
+  border-radius: 999px;
+  padding: var(--cl-s0) var(--cl-s2);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.cl-dep-note {
+  font-size: var(--cl-t2);
+  line-height: 1.5;
+  color: var(--cl-muted);
+  margin: 0;
+}
+.cl-dep-items {
+  list-style: none;
+  margin: var(--cl-s1) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cl-s1);
+}
+.cl-dep-items li {
   font-family: 'Geist Mono', ui-monospace, monospace;
   font-size: var(--cl-t2);
-  line-height: 1.9;
+  letter-spacing: 0.01em;
   color: var(--cl-ink-2);
-  background: var(--cl-surface);
   border: 1px solid var(--cl-rule);
-  border-radius: 4px;
-  padding: var(--cl-s4);
-  overflow-x: auto;
+  border-radius: 3px;
+  padding: var(--cl-s0) var(--cl-s2);
+  background: var(--cl-bg);
 }
-.cl-deps-row {
-  display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr);
-  gap: var(--cl-s3);
-  align-items: baseline;
+
+/* ── header jump nav ─────────────────────────────────────────────────────── */
+.cl-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cl-s1) var(--cl-s3);
+  margin: 0 0 var(--cl-s4);
+  align-items: center;
 }
-@media (max-width: 560px) {
-  .cl-deps-row {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-  .cl-deps-row + .cl-deps-row {
-    margin-top: var(--cl-s2);
-  }
-}
-.cl-deps-key {
-  color: var(--cl-accent);
-  white-space: nowrap;
-}
-.cl-deps-val {
-  color: var(--cl-ink-2);
-}
-.cl-deps-punct {
+.cl-jump a {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: var(--cl-t2);
+  letter-spacing: 0.04em;
   color: var(--cl-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+.cl-jump a:hover {
+  color: var(--cl-ink);
+  border-bottom-color: var(--cl-rule-strong);
+}
+/* Stack is the one the reader would not think to look for. */
+.cl-jump a.is-strong {
+  color: var(--cl-accent);
+  font-weight: 600;
+  border-bottom-color: color-mix(in srgb, var(--cl-accent) 35%, transparent);
+}
+.cl-jump a.is-strong::after {
+  content: ' ↓';
+}
+.cl-jump a.is-strong:hover {
+  color: var(--cl-accent);
+  border-bottom-color: var(--cl-accent);
+}
+
+/* ── back to top ─────────────────────────────────────────────────────────── */
+.cl-totop {
+  position: fixed;
+  right: clamp(var(--cl-s4), 4vw, var(--cl-s6));
+  bottom: clamp(var(--cl-s4), 4vw, var(--cl-s6));
+  z-index: 30;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--cl-rule-strong);
+  background: var(--cl-surface);
+  color: var(--cl-ink-2);
+  font-size: var(--cl-t4);
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 12px 28px -14px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s,
+    border-color 0.15s ease, color 0.15s ease;
+}
+.cl-totop.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.cl-totop:hover {
+  border-color: var(--cl-accent);
+  color: var(--cl-accent);
 }
 
 /* ── contact ─────────────────────────────────────────────────────────────── */

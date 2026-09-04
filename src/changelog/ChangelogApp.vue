@@ -25,6 +25,13 @@
           <span v-else>{{ meta.hero.strip.fallback }}</span>
         </a>
 
+        <nav class="cl-jump" aria-label="Jump to section">
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#writing">Writing</a>
+          <a href="#stack" class="is-strong">Stack</a>
+        </nav>
+
         <ul class="cl-facts">
           <li class="is-open">Open to remote roles</li>
           <li>{{ meta.coords }}</li>
@@ -92,6 +99,16 @@
               >
                 <strong class="cl-rail-name">{{ post.title }}</strong>
                 <span>{{ post.dateLabel }}</span>
+              </a>
+            </li>
+          </ol>
+
+          <h2 class="cl-label cl-rail-gap">Stack</h2>
+          <ol>
+            <li>
+              <a href="#stack" :class="{ 'is-active': activeId === 'stack' }">
+                <strong class="cl-rail-name">Dependencies</strong>
+                <span>{{ totalDeps }} tools</span>
               </a>
             </li>
           </ol>
@@ -246,13 +263,31 @@
       </div>
     </div>
 
-    <section class="cl-shell cl-deps" aria-labelledby="deps-h">
-      <h2 class="cl-label" id="deps-h">Dependencies</h2>
-      <div class="cl-deps-block">
-        <div class="cl-deps-row" v-for="dep in dependencies" :key="dep.group">
-          <span class="cl-deps-key">"{{ dep.group }}"<span class="cl-deps-punct">:</span></span>
-          <span class="cl-deps-val">{{ dep.items.join(' · ') }}</span>
-        </div>
+    <section class="cl-shell cl-deps" id="stack" aria-labelledby="deps-h">
+      <div class="cl-deps-head">
+        <h2 class="cl-label" id="deps-h">Dependencies</h2>
+        <p class="cl-deps-total">
+          <b>{{ totalDeps }}</b> tools across {{ dependencies.length }} groups — everything
+          below appears in shipped work above, not on a wishlist.
+        </p>
+      </div>
+
+      <div class="cl-deps-grid">
+        <article
+          class="cl-dep"
+          v-for="dep in dependencies"
+          :key="dep.group"
+          :style="{ '--dg': dep.accent[theme === 'dark' ? 1 : 0] }"
+        >
+          <header class="cl-dep-head">
+            <h3 class="cl-dep-name">{{ dep.group }}</h3>
+            <span class="cl-dep-count">{{ dep.items.length }}</span>
+          </header>
+          <p class="cl-dep-note">{{ dep.note }}</p>
+          <ul class="cl-dep-items">
+            <li v-for="item in dep.items" :key="item">{{ item }}</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -268,6 +303,17 @@
         </li>
       </ul>
     </section>
+
+    <button
+      class="cl-totop"
+      :class="{ 'is-visible': showTop }"
+      type="button"
+      aria-label="Back to top"
+      :tabindex="showTop ? 0 : -1"
+      @click="toTop"
+    >
+      <span aria-hidden="true">&uarr;</span>
+    </button>
 
     <footer class="cl-shell cl-colophon">
       <span>{{ meta.name }} · {{ meta.location }}</span>
@@ -298,6 +344,16 @@ initTheme()
  * endpoint, only once, 4s budget, and any failure leaves the static strip —
  * a hero that can 404 is worse than a hero that claims less.
  */
+const totalDeps = dependencies.reduce((n, d) => n + d.items.length, 0)
+
+/** Shown once the header is well out of view. */
+const showTop = ref(false)
+
+const toTop = () => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
+}
+
 const liveReading = ref<string | null>(null)
 
 const pickValue = (data: unknown): string | null => {
@@ -390,6 +446,7 @@ const railIds = [
   ...experience.map((r) => releaseSlug(r.version)),
   ...projects.map((p) => `p-${p.id}`),
   ...(posts.length ? posts.map((p) => `w-${p.slug}`) : ['writing']),
+  'stack',
 ]
 
 const activeId = ref<string>(railIds[0] ?? '')
@@ -407,6 +464,8 @@ const measureBounds = () => {
 const measure = () => {
   ticking = false
   const line = window.scrollY + window.innerHeight * 0.33
+
+  showTop.value = window.scrollY > window.innerHeight
 
   let current = bounds[0]?.id ?? ''
   for (const entry of bounds) {

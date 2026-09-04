@@ -478,22 +478,62 @@ export const projects: ProjectEntry[] = [
 
 /* ── Footer blocks ───────────────────────────────────────────────────────── */
 
-/** The stack, rendered as a dependency block — the format it actually lives in. */
-export const dependencies = [
-  { group: 'languages', items: ['TypeScript', 'JavaScript', 'Python', 'SQL', 'Kotlin'] },
-  { group: 'frontend', items: ['React', 'Next.js', 'Vue 3', 'Angular', 'Tailwind CSS'] },
+/**
+ * The stack — a dependency manifest. Each group carries its own [light, dark]
+ * accent; all fourteen values clear 4.5:1 on their ground (worst 5.97:1).
+ */
+export interface DependencyGroup {
+  group: string
+  /** What this group actually does, in the reader's terms. */
+  note: string
+  accent: [string, string]
+  items: string[]
+}
+
+export const dependencies: DependencyGroup[] = [
+  {
+    group: 'languages',
+    note: 'What I write in',
+    accent: ['#3b5680', '#9dbae0'],
+    items: ['TypeScript', 'JavaScript', 'Python', 'SQL', 'Kotlin'],
+  },
   {
     group: 'backend',
+    note: 'Where most of my work lives',
+    accent: ['#1f6f4a', '#7fc9a3'],
     items: ['FastAPI', 'Django', 'NestJS', 'Node.js', 'REST', 'WebSockets', 'GraphQL'],
   },
-  { group: 'data', items: ['PostgreSQL', 'MongoDB', 'Redis'] },
-  { group: 'mobile', items: ['Kotlin', 'Jetpack Compose', 'Material 3'] },
+  {
+    group: 'frontend',
+    note: 'The surfaces on top of it',
+    accent: ['#226b66', '#85cbc4'],
+    items: ['React', 'Next.js', 'Vue 3', 'Angular', 'Tailwind CSS'],
+  },
+  {
+    group: 'data',
+    note: 'Storage and caching',
+    accent: ['#5f4677', '#b7a2d4'],
+    items: ['PostgreSQL', 'MongoDB', 'Redis'],
+  },
   {
     group: 'infra',
+    note: 'Shipping and keeping it up',
+    accent: ['#8a5227', '#dfab7f'],
     items: ['Docker', 'Kubernetes', 'GitHub Actions', 'Caddy', 'AWS (EC2, S3)', 'Git'],
   },
-  { group: 'ml', items: ['scikit-learn', 'pandas', 'NumPy', 'LLM APIs'] },
-] as const
+  {
+    group: 'mobile',
+    note: 'Android, for Sinq',
+    accent: ['#8c3041', '#e09aa6'],
+    items: ['Kotlin', 'Jetpack Compose', 'Material 3'],
+  },
+  {
+    group: 'ml',
+    note: 'Models and LLM integration',
+    accent: ['#2f6285', '#8ec1e8'],
+    items: ['scikit-learn', 'pandas', 'NumPy', 'LLM APIs'],
+  },
+]
 
 export const contact = {
   note: 'Hiring, collaboration, or technical questions — the inbox is open. Replies within 48 hours, from UTC+3.',
