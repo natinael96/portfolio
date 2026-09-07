@@ -37,7 +37,7 @@ export const changelogMeta = {
     statement: 'I build and run the backend for Addis Ababa\u2019s air quality monitoring network.',
     strip: {
       liveEndpoint: '',
-      fallback: 'addisairnet.et \u2014 in production \u00b7 10K+ sensor readings processed daily',
+      fallback: 'addisairnet.et \u2014 in production \u00b7 25K+ sensor readings processed daily',
       url: 'https://addisairnet.et/',
     },
   },
@@ -167,7 +167,11 @@ export const experience: Release[] = [
       },
       {
         kind: 'added',
-        text: 'Backend ingestion services (FastAPI, PostgreSQL) processing 10,000+ sensor readings per day with automatic validation and anomaly flagging.',
+        text: 'Backend ingestion services (FastAPI, PostgreSQL) processing 25,000+ sensor readings per day with automatic validation and anomaly flagging.',
+      },
+      {
+        kind: 'added',
+        text: 'Integrated PurpleAir — third-party sensor stations ingested alongside the in-house network, widening coverage across the city.',
       },
       {
         kind: 'added',
@@ -182,7 +186,7 @@ export const experience: Release[] = [
         text: 'Releases: Dockerized services behind Caddy TLS, deployed to a self-managed Ubuntu VPS by GitHub Actions with automated tests and zero downtime.',
       },
     ],
-    stat: { value: '10K+', caption: 'readings ingested and validated per day' },
+    stat: { value: '25K+', caption: 'readings ingested and validated per day' },
     links: [{ label: 'Live network', href: 'https://addisairnet.et/', primary: true }],
   },
 
@@ -337,11 +341,15 @@ export const projects: ProjectEntry[] = [
       },
       {
         kind: 'added',
+        text: 'PurpleAir stations integrated alongside the in-house sensors, so the map covers more of the city than our own hardware reaches.',
+      },
+      {
+        kind: 'added',
         text: 'A public station map and time-series view, open to anyone — no account needed to read the air over the city.',
       },
     ],
     tech: ['FastAPI', 'PostgreSQL', 'Next.js', 'Docker'],
-    stat: { value: '10K+', caption: 'readings served per day' },
+    stat: { value: '25K+', caption: 'readings served per day' },
     links: [{ label: 'Live network', href: 'https://addisairnet.et/', primary: true }],
   },
 

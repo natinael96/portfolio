@@ -124,11 +124,11 @@ export const feature = {
   titleBottom: 'over Addis.',
   dek: 'A live air-quality network for Addis Ababa — IoT sensor stations feeding a public real-time dashboard.',
   part: 'Lead engineer on a team of three — built the FastAPI backend, the Next.js dashboard, and the Docker/Caddy deploy. Full log below.',
-  result: 'Live at addisairnet.et — 10K+ sensor readings ingested and served every day.',
+  result: 'Live at addisairnet.et — 25K+ sensor readings ingested and served every day.',
   meta: [
     { key: 'Status', value: 'Live', live: true },
     { key: 'Role', value: 'Lead Software Engineer · team of 3' },
-    { key: 'Ingest', value: 'FastAPI · PostgreSQL · 10K+ readings/day' },
+    { key: 'Ingest', value: 'FastAPI · PostgreSQL · 25K+ readings/day' },
     { key: 'Surface', value: 'Next.js · React · Recharts · Leaflet' },
     { key: 'Deploy', value: 'Docker · Caddy · GitHub Actions' },
     { key: 'Address', value: 'addisairnet.et' },
@@ -153,7 +153,7 @@ export const feature = {
       points: [
         'Leaflet station map and Recharts time-series over live readings — Zustand state, Radix UI.',
       ],
-      stat: { value: '10K+', caption: 'readings ingested per day' },
+      stat: { value: '25K+', caption: 'readings ingested per day' },
     },
     {
       id: 'ops',
@@ -288,10 +288,11 @@ export const experiences: Experience[] = [
     bullets: [
       'Leads a team of three engineers — owning architecture decisions, code review, and sprint planning.',
       'Built a real-time air-quality monitoring dashboard (React, WebSockets, Recharts) visualizing live IoT sensor readings across multiple locations with sub-second update latency.',
-      'Designed and deployed backend ingestion services (FastAPI, PostgreSQL) processing over 10K sensor readings per day, with automatic validation and anomaly flagging.',
+      'Designed and deployed backend ingestion services (FastAPI, PostgreSQL) processing over 25K sensor readings per day, with automatic validation and anomaly flagging.',
+      'Integrated the PurpleAir sensor network alongside in-house stations, widening city coverage without new hardware.',
       'Set up a CI/CD pipeline (GitHub Actions) deploying Dockerized services to a self-managed Ubuntu VPS — automated tests, zero-downtime releases via Docker Compose.',
     ],
-    stat: { value: '10K+', caption: 'sensor readings ingested and validated per day' },
+    stat: { value: '25K+', caption: 'sensor readings ingested and validated per day' },
   },
   {
     id: 'amplitude',
