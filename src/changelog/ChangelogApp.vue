@@ -63,7 +63,7 @@
                 :class="{ 'is-active': activeId === releaseSlug(release.version), 'is-sub': release.tier === 'sub' }"
                 :aria-current="activeId === releaseSlug(release.version) ? 'true' : undefined"
               >
-                <strong>{{ release.version === 'Unreleased' ? 'HEAD' : release.version }}</strong>
+                <strong>{{ release.version }}</strong>
                 <span>{{ release.railDate }}</span>
               </a>
             </li>
@@ -379,9 +379,9 @@ const probeLive = async () => {
   }
 }
 
-/** Stable anchor ids: 3.1.0 → v3-1-0, Unreleased → unreleased. */
+/** Stable anchor ids: 3.1.0 → v3-1-0, Now → now. */
 const releaseSlug = (version: string) =>
-  version === 'Unreleased' ? 'unreleased' : `v${version.replace(/\./g, '-')}`
+  version.includes('.') ? `v${version.replace(/\./g, '-')}` : version.toLowerCase()
 
 /** External links open in a new tab; mailto: and in-app routes stay put. */
 const external = (href: string) =>

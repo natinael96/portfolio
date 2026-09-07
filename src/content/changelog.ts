@@ -104,11 +104,14 @@ export interface Release {
 
 export const experience: Release[] = [
   {
-    version: 'Unreleased',
+    /* Keep a Changelog reserves the top slot for unreleased work; this entry
+       fills it with availability. The heading says "Now" in plain English —
+       the convention still shows, as the badge, for readers who know it. */
+    version: 'Now',
     bump: 'head',
     tier: 'primary',
     date: 'In progress',
-    railDate: 'HEAD',
+    railDate: 'Available',
     title: 'Open to remote roles',
     summary:
       'Taking calls about backend and full-stack work. Replies within 48 hours, from UTC+3.',
