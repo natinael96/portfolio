@@ -104,9 +104,10 @@ export interface Release {
 
 export const experience: Release[] = [
   {
-    /* Keep a Changelog reserves the top slot for unreleased work; this entry
-       fills it with availability. The heading says "Now" in plain English —
-       the convention still shows, as the badge, for readers who know it. */
+    /* Keep a Changelog reserves the top slot for unreleased work. This entry
+       takes the slot but not the vocabulary: heading, rail and badge all say
+       the same plain thing — Now, Available — because the point of the entry
+       is that the availability is real, not pending. */
     version: 'Now',
     bump: 'head',
     tier: 'primary',

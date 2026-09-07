@@ -133,7 +133,7 @@
                   <a :href="`#${releaseSlug(release.version)}`">{{ release.version }}</a>
                 </h3>
                 <span class="cl-date">{{ release.date }}</span>
-                <span v-if="release.bump === 'head'" class="cl-bump is-head">Unreleased</span>
+                <span v-if="release.bump === 'head'" class="cl-bump is-head">Available</span>
                 <span
                   v-else-if="release.bump === 'major' && release.tier === 'primary'"
                   class="cl-bump is-major"
