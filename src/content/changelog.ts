@@ -118,10 +118,6 @@ export const experience: Release[] = [
       'Open to remote backend, full-stack, or platform work — replies within 48 hours, from UTC+3.',
     changes: [
       { kind: 'added', text: 'Availability for remote backend, full-stack, or platform roles.' },
-      {
-        kind: 'changed',
-        text: 'Closed out the lead seat at Addis Air Net — the network is still in production and still ingesting.',
-      },
     ],
     links: [
       { label: 'Email', href: `mailto:${site.email}`, primary: true },
