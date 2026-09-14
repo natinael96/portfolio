@@ -405,7 +405,7 @@ export const toolkit = [
 /* ── Correspondence ────────────────────────────────────────────────────── */
 
 export const correspondence = {
-  dek: 'Hiring, collaboration, or technical questions — the inbox is open. Replies within 48 hours, from UTC+3.',
+  dek: 'Hiring, collaboration, or technical questions — the inbox is open. Replies within 12 hours.',
   channels: [
     { name: 'GitHub', url: site.social.github },
     { name: 'LinkedIn', url: site.social.linkedin },

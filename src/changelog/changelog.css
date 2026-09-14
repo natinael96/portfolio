@@ -199,42 +199,6 @@
   border-bottom-color: var(--cl-accent);
 }
 
-.cl-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--cl-s1) var(--cl-s2);
-  margin: 0 0 var(--cl-s5);
-  padding: 0;
-  list-style: none;
-}
-.cl-facts li {
-  font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: var(--cl-t2);
-  letter-spacing: 0.02em;
-  color: var(--cl-ink-2);
-  border: 1px solid var(--cl-rule);
-  border-radius: 3px;
-  padding: var(--cl-s1) var(--cl-s2);
-  background: var(--cl-surface);
-}
-/* Availability is the single most important state on the page — it keeps the
-   accent, and it is the reason the change tags gave theirs up. */
-.cl-facts li.is-open {
-  color: var(--cl-accent);
-  background: var(--cl-accent-bg);
-  border-color: color-mix(in srgb, var(--cl-accent) 32%, transparent);
-  font-weight: 500;
-}
-.cl-facts li.is-open::before {
-  content: '';
-  display: inline-block;
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: currentColor;
-  margin-right: var(--cl-s1);
-  vertical-align: 0.05em;
-}
 
 .cl-preamble {
   font-size: var(--cl-t3);
@@ -842,6 +806,9 @@
   gap: var(--cl-s1);
 }
 .cl-dep-items li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   font-family: 'Geist Mono', ui-monospace, monospace;
   font-size: var(--cl-t2);
   letter-spacing: 0.01em;
@@ -1236,29 +1203,71 @@ details.cl-scheme summary:hover {
 }
 /* One link styled as a status row — the claim and its proof in the same
    breath. Reuses the pulse the LIVE badges already carry. */
-.cl-hero-strip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--cl-s2);
+
+/* Visit count — quietest thing on the page, and absent entirely if the
+   counter is off or unreachable. */
+.cl-visits {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.72;
+}
+
+/* ── hero metadata block ─────────────────────────────────────────────────── */
+/* Key/value rows on hairlines, in the page's own register. Deliberately not
+   pills: rounded badges with a pulsing dot are the house style of every
+   generated portfolio, and they fight a document built from mono and rules. */
+.cl-meta {
+  margin: 0 0 var(--cl-s5);
+  max-width: 54rem;
+  border-top: 1px solid var(--cl-rule);
+}
+.cl-meta-row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--cl-s4);
+  align-items: baseline;
+  padding: var(--cl-s2) 0;
+  border-bottom: 1px solid var(--cl-rule);
+}
+@media (max-width: 560px) {
+  .cl-meta-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: var(--cl-s3) 0;
+  }
+}
+.cl-meta dt {
   font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: var(--cl-t2);
+  font-size: var(--cl-t1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cl-muted);
+}
+.cl-meta dd {
+  margin: 0;
+  font-size: var(--cl-t3);
+  line-height: 1.5;
+  color: var(--cl-ink-2);
+}
+/* Availability is the one state worth the accent. No dot, no pill. */
+.cl-meta dd.is-open {
   color: var(--cl-accent);
+  font-weight: 500;
+}
+.cl-meta dd a {
+  color: var(--cl-ink);
   text-decoration: none;
-  border: 1px solid color-mix(in srgb, var(--cl-accent) 32%, transparent);
-  background: var(--cl-accent-bg);
-  border-radius: 999px;
-  padding: var(--cl-s2) var(--cl-s4);
-  margin-bottom: var(--cl-s5);
-  transition: border-color 0.15s ease;
+  border-bottom: 1px solid var(--cl-rule-strong);
 }
-.cl-hero-strip:hover {
-  border-color: var(--cl-accent);
+.cl-meta dd a:hover {
+  color: var(--cl-accent);
+  border-bottom-color: var(--cl-accent);
 }
-.cl-hero-dot {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background: currentColor;
+
+/* Brand marks on the stack chips. Colours are per-theme and precomputed —
+   see tools/gen-brand-icons.mjs. Chips with no mark just lose the icon. */
+.cl-dep-mark {
+  width: 0.78rem;
+  height: 0.78rem;
   flex: none;
-  animation: cl-pulse 2.4s ease-in-out infinite;
+  display: block;
 }

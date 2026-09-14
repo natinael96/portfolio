@@ -18,12 +18,32 @@
 
         <h1>{{ meta.name }}</h1>
 
-        <p class="cl-hero-eyebrow">{{ meta.role }} · {{ meta.location }}</p>
-        <a class="cl-hero-strip" :href="meta.hero.strip.url" target="_blank" rel="noopener">
-          <span class="cl-hero-dot" aria-hidden="true"></span>
-          <span v-if="liveReading">PM2.5 over Addis right now: {{ liveReading }} — measured by this network</span>
-          <span v-else>{{ meta.hero.strip.fallback }}</span>
-        </a>
+        <p class="cl-hero-eyebrow">{{ meta.role }}</p>
+
+        <dl class="cl-meta">
+          <div class="cl-meta-row">
+            <dt>status</dt>
+            <dd class="is-open">Available for remote work — replies within 12 hours</dd>
+          </div>
+          <div class="cl-meta-row">
+            <dt>based</dt>
+            <dd>{{ meta.location }} · {{ meta.coords }} · {{ meta.timezone }}</dd>
+          </div>
+          <div class="cl-meta-row">
+            <dt>shipping</dt>
+            <dd>since {{ meta.since }}</dd>
+          </div>
+          <div class="cl-meta-row">
+            <dt>live</dt>
+            <dd>
+              <a :href="meta.hero.strip.url" target="_blank" rel="noopener">{{
+                meta.hero.strip.label
+              }}</a>
+              — <template v-if="liveReading">PM2.5 right now {{ liveReading }}, measured by this network</template>
+              <template v-else>{{ meta.hero.strip.fallback }}</template>
+            </dd>
+          </div>
+        </dl>
 
         <nav class="cl-jump" aria-label="Jump to section">
           <a href="#experience">Experience</a>
@@ -32,12 +52,6 @@
           <a href="#stack" class="is-strong">Stack</a>
         </nav>
 
-        <ul class="cl-facts">
-          <li class="is-open">Open to remote roles</li>
-          <li>{{ meta.coords }}</li>
-          <li>{{ meta.timezone }}</li>
-          <li>Since {{ meta.since }}</li>
-        </ul>
 
         <details class="cl-scheme">
           <summary class="cl-label">Versioning — how to read the numbers</summary>
@@ -285,7 +299,18 @@
           </header>
           <p class="cl-dep-note">{{ dep.note }}</p>
           <ul class="cl-dep-items">
-            <li v-for="item in dep.items" :key="item">{{ item }}</li>
+            <li v-for="item in dep.items" :key="item">
+              <svg
+                v-if="brandIcons[item]"
+                class="cl-dep-mark"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                :style="{ fill: theme === 'dark' ? brandIcons[item].dark : brandIcons[item].light }"
+              >
+                <path :d="brandIcons[item].path" />
+              </svg>
+              {{ item }}
+            </li>
           </ul>
         </article>
       </div>
@@ -317,6 +342,7 @@
 
     <footer class="cl-shell cl-colophon">
       <span>{{ meta.name }} · {{ meta.location }}</span>
+      <span v-if="visits" class="cl-visits">{{ visits }}</span>
       <span>Earlier designs: <a href="/monitor">vital signs</a> · <a href="/old">editorial</a></span>
     </footer>
   </div>
@@ -335,6 +361,7 @@ import {
   contact,
 } from '../content/changelog'
 import { posts, writingMeta } from '../content/writing'
+import { brandIcons } from './brandIcons'
 import { theme, initTheme, toggleTheme } from './useTheme'
 
 initTheme()
@@ -352,6 +379,37 @@ const showTop = ref(false)
 const toTop = () => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
+}
+
+/**
+ * Visit count. Decorative, so every failure path is silent: no endpoint, a
+ * non-200, a timeout or a bad shape all leave it null and the footer simply
+ * omits it. Local dev reads instead of incrementing, so testing doesn't
+ * inflate the real number.
+ */
+const visits = ref<string | null>(null)
+
+const countVisit = async () => {
+  const { namespace, key } = meta.visits
+  if (!namespace || !key) return
+  const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname)
+  const verb = isLocal ? 'get' : 'hit'
+  try {
+    const ctl = new AbortController()
+    const timer = setTimeout(() => ctl.abort(), 4000)
+    const res = await fetch(`https://abacus.jasoncameron.dev/${verb}/${namespace}/${key}`, {
+      signal: ctl.signal,
+    })
+    clearTimeout(timer)
+    if (!res.ok) return
+    const data: unknown = await res.json()
+    const value = (data as { value?: unknown })?.value
+    if (typeof value === 'number' && Number.isFinite(value)) {
+      visits.value = `${value.toLocaleString('en-US')} ${value === 1 ? 'visit' : 'visits'}`
+    }
+  } catch {
+    /* a counter is not worth a visible error */
+  }
 }
 
 const liveReading = ref<string | null>(null)
@@ -487,6 +545,7 @@ const onResize = () => {
 
 onMounted(() => {
   probeLive()
+  countVisit()
   measureBounds()
   measure()
   window.addEventListener('scroll', onScroll, { passive: true })

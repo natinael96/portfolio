@@ -23,9 +23,10 @@ export const changelogMeta = {
   timezone: 'UTC+3',
   email: site.email,
   /**
-   * The hero: role eyebrow plus a status strip that tries to prove the work
-   * live. Addis Air Net stays here after the role ended — it is still in
-   * production, which is a stronger claim than having merely worked on it.
+   * The hero: a key/value metadata block, in the page's own register —
+   * monospace keys, hairline rules, no pills. Addis Air Net stays here after
+   * the role ended; it is still in production, which is a stronger claim
+   * than having merely worked on it.
    *
    * `liveEndpoint`: a GET returning JSON from the Addis Air Net API. Empty
    * string = no fetch, the strip shows the static claim. To light it up:
@@ -37,10 +38,23 @@ export const changelogMeta = {
   hero: {
     strip: {
       liveEndpoint: '',
-      fallback: 'addisairnet.et \u2014 in production \u00b7 25K+ sensor readings processed daily',
+      label: 'addisairnet.et',
+      fallback: 'in production \u00b7 25K+ readings a day',
       url: 'https://addisairnet.et/',
     },
   },
+  /**
+   * Visit counter, kept by abacus.jasoncameron.dev — free, no auth, no
+   * account. It is a third party: each page load sends it the namespace and
+   * key below and nothing else — no cookies, no identifiers, no referrer
+   * data. The count is public and anyone who knows the URL can inflate it,
+   * which is the trade for zero infrastructure.
+   *
+   * Set `namespace` to '' to switch it off; the footer then renders nothing
+   * rather than a placeholder. To self-host later, any endpoint returning
+   * `{ value: number }` works — a Vercel function over KV is ~10 lines.
+   */
+  visits: { namespace: 'natinael96-tech', key: 'portfolio' },
   current: '3.0.0',
   since: '2022',
   /** Freshness stamp — a changelog with no visible update date reads dead. */
@@ -115,7 +129,7 @@ export const experience: Release[] = [
     railDate: 'Available',
     title: 'Looking for the next thing',
     summary:
-      'Open to remote backend, full-stack, or platform work — replies within 48 hours, from UTC+3.',
+      'Open to remote backend, full-stack, or platform work — replies within 12 hours.',
     changes: [
       { kind: 'added', text: 'Availability for remote backend, full-stack, or platform roles.' },
     ],
@@ -357,42 +371,57 @@ export const projects: ProjectEntry[] = [
 
   {
     id: 'sinq',
-    colors: { primary: ['#1f6f4a', '#7fc9a3'], secondary: ['#8a6a15', '#d9b45b'] },
     name: 'Sinq',
     altName: 'ስንቅ',
+    colors: { primary: ['#1f6f4a', '#7fc9a3'], secondary: ['#8a6a15', '#d9b45b'] },
     status: 'live',
     statusLabel: 'Live',
     period: 'Jul 2026 — present',
     railLabel: 'Sinq',
     summary:
-      'The Ethiopian Orthodox Tewahedo Book of Hours for Android — the seven canonical hours, the whole Psalter, ግጻዌ and ስንክሳር, entirely offline. Built solo.',
+      'The Ethiopian Orthodox Tewahedo Book of Hours (ሰዓታት) for Android — Amharic-first, fully offline, built and shipped solo. “Provisions for the journey.”',
     changes: [
       {
         kind: 'added',
-        text: 'Seven canonical hours plus the Veil, with a time-of-day suggestion, and the full 150-psalm Psalter with weekday reading divisions.',
+        text: 'The seven canonical hours — ጸሎተ ነግህ, ሠለስት, ቀትር, ተሰዓት, ሰርክ, ንዋም and መንፈቀ ሌሊት with its three watches — plus the Veil, with a time-of-day suggestion on the home screen.',
       },
       {
         kind: 'added',
-        text: 'ባሕረ ሓሳብ — the Ethiopian computus, placing the church year’s movable feasts entirely on-device.',
+        text: 'ግጻዌ, the complete source-backed lectionary: all 366 fixed dates, the movable weekday seasons and the Sunday cycle, resolved through ባሕረ ሓሳብ on-device. Every citation opens in the Scripture reader.',
       },
       {
         kind: 'added',
-        text: 'Bookmarks, verse highlights, habit streaks, reminders, and a home-screen widget.',
+        text: 'The full Amharic 1980 Ethiopian Orthodox canon, the 150-psalm Psalter with a Ge’ez 1980 toggle, ውዳሴ ማርያም, ዘወትር ጸሎት, ስንክሳር with its አርኬ hymn, and the አጽዋማት fasting calendar.',
+      },
+      {
+        kind: 'added',
+        text: 'ሥርዓተ ማኅሌት — 190 feasts, paged by month and searchable, which is how a reader actually looks for one.',
+      },
+      {
+        kind: 'added',
+        text: 'Reader controls tuned for Ethiopic: two reading modes, five text sizes, four Ethiopic faces, three line-spacings and four alignments, optically matched across every surface.',
+      },
+      {
+        kind: 'added',
+        text: 'Bookmarks, four-colour verse highlights, backup and restore, prayer reminders, a habit journey with no punitive streak language, and a widget showing today’s ምስባክ and ወንጌል.',
       },
       {
         kind: 'changed',
-        text: 'Search folds phonetically equivalent Ge’ez characters (ሀ/ሐ/ኀ, ሰ/ሠ, ጸ/ፀ), so any spelling of a word finds the prayer.',
+        text: 'Search folds phonetically equivalent Ge’ez characters (ሀ/ሐ/ኀ, ሰ/ሠ, ጸ/ፀ), so any spelling finds the text — across the prayers, Psalter, New Testament, ስንክሳር and ውዳሴ ማርያም.',
+      },
+      {
+        kind: 'changed',
+        text: 'Liturgical text is generated from sources by a Python pipeline and never hand-edited — 202 JSON files, 28 MB, built into the APK.',
       },
       {
         kind: 'fixed',
-        text: 'No account, no network, no ads — the app works with the radio off.',
+        text: 'No account, no network, no analytics, no ads. Everything ships inside the APK and stays on the device.',
       },
     ],
-    tech: ['Kotlin', 'Jetpack Compose', 'Material 3'],
-    stat: { value: '7+1', caption: 'canonical hours, plus the Veil' },
+    tech: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Python'],
+    stat: { value: 'v2.3.1', caption: '71 releases since July 2026' },
     links: [{ label: 'Website', href: 'https://sinq.natinael96.tech/', primary: true }],
   },
-
 
   {
     id: 'eotcdevapi',
@@ -550,7 +579,7 @@ export const dependencies: DependencyGroup[] = [
 ]
 
 export const contact = {
-  note: 'Hiring, collaboration, or technical questions — the inbox is open. Replies within 48 hours, from UTC+3.',
+  note: 'Hiring, collaboration, or technical questions — the inbox is open. Replies within 12 hours.',
   channels: [
     { name: 'Email', url: `mailto:${site.email}`, slug: site.email },
     { name: 'GitHub', url: site.social.github, slug: 'github.com/natinael96' },
