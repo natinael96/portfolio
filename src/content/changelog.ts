@@ -24,7 +24,8 @@ export const changelogMeta = {
   email: site.email,
   /**
    * The hero: role eyebrow plus a status strip that tries to prove the work
-   * live.
+   * live. Addis Air Net stays here after the role ended — it is still in
+   * production, which is a stronger claim than having merely worked on it.
    *
    * `liveEndpoint`: a GET returning JSON from the Addis Air Net API. Empty
    * string = no fetch, the strip shows the static claim. To light it up:
@@ -34,7 +35,6 @@ export const changelogMeta = {
    * cross-origin reads, so this ships static.
    */
   hero: {
-    statement: 'I build and run the backend for Addis Ababa\u2019s air quality monitoring network.',
     strip: {
       liveEndpoint: '',
       fallback: 'addisairnet.et \u2014 in production \u00b7 25K+ sensor readings processed daily',
@@ -113,11 +113,15 @@ export const experience: Release[] = [
     tier: 'primary',
     date: 'In progress',
     railDate: 'Available',
-    title: 'Open to remote roles',
+    title: 'Looking for the next thing',
     summary:
-      'Taking calls about backend and full-stack work. Replies within 48 hours, from UTC+3.',
+      'Wrapped up at Addis Air Net in September 2026 after a year leading the team. Open to remote backend, full-stack, or platform work — replies within 48 hours, from UTC+3.',
     changes: [
       { kind: 'added', text: 'Availability for remote backend, full-stack, or platform roles.' },
+      {
+        kind: 'changed',
+        text: 'Closed out the lead seat at Addis Air Net — the network is still in production and still ingesting.',
+      },
     ],
     links: [
       { label: 'Email', href: `mailto:${site.email}`, primary: true },
@@ -157,13 +161,13 @@ export const experience: Release[] = [
     title: 'Lead Software Engineer',
     org: 'Addis Air Net',
     orgUrl: 'https://addisairnet.et/',
-    period: 'Sep 2025 — present · Addis Ababa',
+    period: 'Sep 2025 — Sep 2026 · Addis Ababa',
     summary:
       'First lead seat. Air-quality monitoring for Addis Ababa — IoT sensor stations feeding a public real-time dashboard.',
     changes: [
       {
         kind: 'changed',
-        text: 'BREAKING — now leads a team of three engineers, owning architecture decisions, code review, and sprint planning.',
+        text: 'BREAKING — first lead seat: a team of three engineers, owning architecture decisions, code review, and sprint planning.',
       },
       {
         kind: 'added',
@@ -330,10 +334,12 @@ export const projects: ProjectEntry[] = [
     name: 'Addis Air Net',
     status: 'live',
     statusLabel: 'Live',
-    period: 'Sep 2025 — present',
+    /* The network is still in production; the job ended Sep 2026. Status
+       describes the system, the period describes my time on it. */
+    period: 'Built Sep 2025 — Sep 2026 · still running',
     railLabel: 'Addis Air Net',
     summary:
-      'Air-quality monitoring for Addis Ababa — sensor stations, a real-time map, and a public dashboard. Also the day job: see 3.0.0 above for the role.',
+      'Air-quality monitoring for Addis Ababa — sensor stations, a real-time map, and a public dashboard. The day job for a year; see 3.0.0 for the role.',
     changes: [
       {
         kind: 'added',

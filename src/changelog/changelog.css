@@ -1092,11 +1092,6 @@ details.cl-scheme summary:hover {
   margin-bottom: var(--cl-s3);
 }
 
-/* The current release's number carries the accent — "you are here". */
-.cl-version.is-current a {
-  color: var(--cl-accent);
-}
-
 /* One heartbeat on the page: the availability dot and LIVE badges breathe.
    The reduced-motion override above zeroes this out automatically. */
 @keyframes cl-pulse {

@@ -129,7 +129,7 @@
               :id="releaseSlug(release.version)"
             >
               <div class="cl-release-head">
-                <h3 class="cl-version" :class="{ 'is-current': release.version === meta.current }">
+                <h3 class="cl-version">
                   <a :href="`#${releaseSlug(release.version)}`">{{ release.version }}</a>
                 </h3>
                 <span class="cl-date">{{ release.date }}</span>

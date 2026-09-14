@@ -45,7 +45,7 @@ export const monitorSubject = {
   since: 'On record since 2022',
   readouts: [
     { key: 'Role', value: 'Software developer' },
-    { key: 'Current', value: 'Lead Software Engineer (PT) · Addis Air Net' },
+    { key: 'Most recent', value: 'Lead Software Engineer · Addis Air Net (to Sep 2026)' },
     { key: 'Location', value: 'Addis Ababa · 9.03°N 38.74°E' },
     { key: 'Uptime', value: '2+ yrs in industry' },
     { key: 'Signal', value: 'Open to remote roles', highlight: true, live: true },
@@ -283,10 +283,10 @@ export const experiences: Experience[] = [
     company: 'Addis Air Net',
     category: 'professional',
     companyUrl: 'https://addisairnet.et/',
-    period: 'Sep 2025 — Present',
+    period: 'Sep 2025 — Sep 2026',
     location: 'Addis Ababa, Ethiopia',
     bullets: [
-      'Leads a team of three engineers — owning architecture decisions, code review, and sprint planning.',
+      'Led a team of three engineers — owning architecture decisions, code review, and sprint planning.',
       'Built a real-time air-quality monitoring dashboard (React, WebSockets, Recharts) visualizing live IoT sensor readings across multiple locations with sub-second update latency.',
       'Designed and deployed backend ingestion services (FastAPI, PostgreSQL) processing over 25K sensor readings per day, with automatic validation and anomaly flagging.',
       'Integrated the PurpleAir sensor network alongside in-house stations, widening city coverage without new hardware.',
@@ -337,7 +337,7 @@ export const practiceTimeline = {
   endLabel: 'Present',
   totalMonths: 21,
   sessions: [
-    { expId: 'addisairnet', from: 9, to: 21, ongoing: true },
+    { expId: 'addisairnet', from: 9, to: 21, ongoing: false },
     { expId: 'amplitude', from: 2, to: 12, ongoing: false },
     { expId: 'xyberlabs', from: 0, to: 10, ongoing: false },
   ],
