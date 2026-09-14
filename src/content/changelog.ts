@@ -115,7 +115,7 @@ export const experience: Release[] = [
     railDate: 'Available',
     title: 'Looking for the next thing',
     summary:
-      'Wrapped up at Addis Air Net in September 2026 after a year leading the team. Open to remote backend, full-stack, or platform work — replies within 48 hours, from UTC+3.',
+      'Open to remote backend, full-stack, or platform work — replies within 48 hours, from UTC+3.',
     changes: [
       { kind: 'added', text: 'Availability for remote backend, full-stack, or platform roles.' },
       {
