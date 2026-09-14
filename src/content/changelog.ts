@@ -376,50 +376,54 @@ export const projects: ProjectEntry[] = [
     colors: { primary: ['#1f6f4a', '#7fc9a3'], secondary: ['#8a6a15', '#d9b45b'] },
     status: 'live',
     statusLabel: 'Live',
-    period: 'Jul 2026 — present',
+    period: 'Jul 2026 — present · v2.3.1, 71 releases',
     railLabel: 'Sinq',
     summary:
-      'The Ethiopian Orthodox Tewahedo Book of Hours (ሰዓታት) for Android — Amharic-first, fully offline, built and shipped solo. “Provisions for the journey.”',
+      'The Ethiopian Orthodox Tewahedo Book of Hours (ሰዓታት) for Android — Amharic-first, fully offline, built and shipped solo. 219 Kotlin files, 45k lines, and exactly one network call in the whole app.',
     changes: [
       {
         kind: 'added',
-        text: 'The seven canonical hours — ጸሎተ ነግህ, ሠለስት, ቀትር, ተሰዓት, ሰርክ, ንዋም and መንፈቀ ሌሊት with its three watches — plus the Veil, with a time-of-day suggestion on the home screen.',
+        text: 'Homophone-tolerant Amharic search as Unicode block arithmetic, not a lookup table: each Ge’ez syllable family (ሠ→ሰ, ሐ/ኀ/ኸ→ሀ, ዐ→አ, ፀ→ጸ) folds to one canonical consonant by codepoint offset, preserving the vowel order, so query and index collapse to the same form.',
       },
       {
         kind: 'added',
-        text: 'ግጻዌ, the complete source-backed lectionary: all 366 fixed dates, the movable weekday seasons and the Sunday cycle, resolved through ባሕረ ሓሳብ on-device. Every citation opens in the Scripture reader.',
+        text: 'ባሕረ ሓሳብ implemented from the classical tables rather than shipped as a date list — Fasika via the Alexandrian paschal cycle (Julian computus, shifted to Gregorian), every movable feast a Tewsak offset from ጾመ ነነዌ, with Wenber, Abekte and Metqi exposed and pinned by unit tests against known Easter dates.',
       },
       {
         kind: 'added',
-        text: 'The full Amharic 1980 Ethiopian Orthodox canon, the 150-psalm Psalter with a Ge’ez 1980 toggle, ውዳሴ ማርያም, ዘወትር ጸሎት, ስንክሳር with its አርኬ hymn, and the አጽዋማት fasting calendar.',
+        text: '389 unit tests across 58 files — the computus, ግጻዌ link coverage, Ge’ez numerals, the backup format and Ethiopian date arithmetic, which is where a calendar app actually breaks.',
       },
       {
         kind: 'added',
-        text: 'ሥርዓተ ማኅሌት — 190 feasts, paged by month and searchable, which is how a reader actually looks for one.',
+        text: 'Three GitHub Actions workflows. Release is gated in order — bundled-content validation, unit tests, release-blocking lint — then builds a signed APK and a Play AAB from the same commit.',
       },
       {
         kind: 'added',
-        text: 'Reader controls tuned for Ethiopic: two reading modes, five text sizes, four Ethiopic faces, three line-spacings and four alignments, optically matched across every surface.',
-      },
-      {
-        kind: 'added',
-        text: 'Bookmarks, four-colour verse highlights, backup and restore, prayer reminders, a habit journey with no punitive streak language, and a widget showing today’s ምስባክ and ወንጌል.',
+        text: 'The self-update notice is a Gradle flag (-PupdateNotice) wired so the failure mode is safe: forget it and GitHub loses a notice; it cannot ship an update prompt into a Play build, which would breach policy.',
       },
       {
         kind: 'changed',
-        text: 'Search folds phonetically equivalent Ge’ez characters (ሀ/ሐ/ኀ, ሰ/ሠ, ጸ/ፀ), so any spelling finds the text — across the prayers, Psalter, New Testament, ስንክሳር and ውዳሴ ማርያም.',
+        text: '28 MB of liturgical text ships in a 10.4 MB APK — R8 with resource shrinking, manifest-driven asset loading, and a 24-script Python pipeline that is the corpus’s only writer. Nothing in assets/ is hand-edited.',
       },
       {
         kind: 'changed',
-        text: 'Liturgical text is generated from sources by a Python pipeline and never hand-edited — 202 JSON files, 28 MB, built into the APK.',
+        text: 'Kotlin and Jetpack Compose throughout, Material 3, Room for the journal, DataStore for preferences, kotlinx.serialization for the bundled corpus. Reaches Android 6.0 (API 23) through core library desugaring, which backports java.time across 61 files — the lower floor cost no source changes.',
+      },
+      {
+        kind: 'added',
+        text: 'The corpus itself: seven canonical hours plus the Veil, the 150-psalm Psalter, the full Amharic 1980 canon, ግጻዌ across all 366 fixed dates, ስንክሳር, አጽዋማት, and ሥርዓተ ማኅሌት’s 190 feasts — each searchable and cross-linked.',
       },
       {
         kind: 'fixed',
-        text: 'No account, no network, no analytics, no ads. Everything ships inside the APK and stays on the device.',
+        text: 'Exactly one network call exists: a once-a-day GitHub releases check on the hand-installed build, opt-out, carrying no content and no identifiers. It fails silently — a person praying offline should not learn about it from an error.',
+      },
+      {
+        kind: 'changed',
+        text: 'That check is gated inside the repository object rather than at its call sites, so a Play build compiles it dark by construction instead of by discipline — pointing a Play install at a page of APKs is exactly what the store forbids.',
       },
     ],
-    tech: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Python'],
-    stat: { value: 'v2.3.1', caption: '71 releases since July 2026' },
+    tech: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Room', 'DataStore', 'Python'],
+    stat: { value: '389', caption: 'unit tests, green before any release' },
     links: [{ label: 'Website', href: 'https://sinq.natinael96.tech/', primary: true }],
   },
 
