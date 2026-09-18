@@ -1,0 +1,425 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T11:45:15+00:00",
+  "title": "Design System: natinael96.tech",
+  "extensions": {
+    "colorMeta": {
+      "instrument-green": {
+        "role": "primary",
+        "displayName": "Instrument Green",
+        "canonical": "#1f6f4a",
+        "darkVariant": "#7fc9a3",
+        "tonalRamp": [
+          "#113c28",
+          "#1d6946",
+          "#2a9765",
+          "#37c483",
+          "#62d39f",
+          "#90e0bb",
+          "#beedd7",
+          "#ebf9f3"
+        ]
+      },
+      "tracing-paper": {
+        "role": "neutral",
+        "displayName": "Tracing Paper",
+        "canonical": "#fdfcfa",
+        "darkVariant": "#191a18",
+        "tonalRamp": [
+          "#372c16",
+          "#604d27",
+          "#8a6e37",
+          "#b49048",
+          "#c6a970",
+          "#d6c29a",
+          "#e7dbc3",
+          "#f8f4ed"
+        ]
+      },
+      "card-white": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "#ffffff",
+        "darkVariant": "#1f211e",
+        "tonalRamp": [
+          "#262626",
+          "#434343",
+          "#616161",
+          "#7e7e7e",
+          "#9b9b9b",
+          "#b8b8b8",
+          "#d5d5d5",
+          "#f2f2f2"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#22201c",
+        "darkVariant": "#e9e7e1",
+        "tonalRamp": [
+          "#2a2723",
+          "#4a463d",
+          "#6a6457",
+          "#8a8272",
+          "#a59e91",
+          "#bfbab1",
+          "#d9d6d1",
+          "#f3f3f1"
+        ]
+      },
+      "graphite-soft": {
+        "role": "neutral",
+        "displayName": "Graphite Soft",
+        "canonical": "#4a463f",
+        "darkVariant": "#b6b2a9",
+        "tonalRamp": [
+          "#292723",
+          "#49453e",
+          "#686359",
+          "#888074",
+          "#a39d93",
+          "#bebab2",
+          "#d8d6d2",
+          "#f3f3f1"
+        ]
+      },
+      "pencil": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "#6f685d",
+        "darkVariant": "#8f8b83",
+        "tonalRamp": [
+          "#2a2723",
+          "#49453d",
+          "#696258",
+          "#898073",
+          "#a49d92",
+          "#beb9b2",
+          "#d9d6d1",
+          "#f3f2f1"
+        ]
+      },
+      "rule-hairline": {
+        "role": "neutral",
+        "displayName": "Rule Hairline",
+        "canonical": "#e5e0d7",
+        "darkVariant": "#30322d",
+        "tonalRamp": [
+          "#2e291e",
+          "#524735",
+          "#75664c",
+          "#988563",
+          "#b0a186",
+          "#c7bca9",
+          "#ded8cc",
+          "#f5f3f0"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Rule Strong",
+        "canonical": "#c9c2b5",
+        "darkVariant": "#474a43",
+        "tonalRamp": [
+          "#2c2820",
+          "#4e4739",
+          "#706551",
+          "#91846a",
+          "#aaa08b",
+          "#c3bbad",
+          "#dcd7cf",
+          "#f4f3f0"
+        ]
+      },
+      "tag-added": {
+        "role": "tertiary",
+        "displayName": "Added Green",
+        "canonical": "#1f6f4a",
+        "darkVariant": "#7fc9a3",
+        "tonalRamp": [
+          "#113c28",
+          "#1d6946",
+          "#2a9765",
+          "#37c483",
+          "#62d39f",
+          "#90e0bb",
+          "#beedd7",
+          "#ebf9f3"
+        ]
+      },
+      "tag-changed": {
+        "role": "tertiary",
+        "displayName": "Changed Slate",
+        "canonical": "#3b5680",
+        "darkVariant": "#9dbae0",
+        "tonalRamp": [
+          "#182334",
+          "#2b3e5c",
+          "#3d5984",
+          "#4f74ac",
+          "#7693c0",
+          "#9eb2d2",
+          "#c6d2e5",
+          "#eef1f7"
+        ]
+      },
+      "tag-fixed": {
+        "role": "tertiary",
+        "displayName": "Fixed Amber",
+        "canonical": "#8a5227",
+        "darkVariant": "#dfab7f",
+        "tonalRamp": [
+          "#3c2311",
+          "#693e1e",
+          "#97592b",
+          "#c47437",
+          "#d39363",
+          "#e0b390",
+          "#edd2be",
+          "#f9f1eb"
+        ]
+      },
+      "tag-learned": {
+        "role": "tertiary",
+        "displayName": "Learned Violet",
+        "canonical": "#5f4677",
+        "darkVariant": "#b7a2d4",
+        "tonalRamp": [
+          "#261c30",
+          "#443255",
+          "#61487a",
+          "#7e5d9e",
+          "#9b81b5",
+          "#b8a6ca",
+          "#d5cae0",
+          "#f2eff6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name. Once per page, Geist Mono."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Version numbers — the entry points of the log."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Entry titles and section headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Change lines and summaries. 16px floor, 66ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadata keys, tags, rail headings. Uppercase, 0.16em."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "state",
+        "value": "0.15s ease",
+        "purpose": "Border and colour shifts on hover and focus. The only transition in the system."
+      },
+      {
+        "name": "reveal",
+        "value": "0.2s ease",
+        "purpose": "Back-to-top opacity and transform as it enters."
+      },
+      {
+        "name": "pulse",
+        "value": "cl-pulse 2.4s ease-in-out infinite",
+        "purpose": "The single ambient loop: live-status dots. Stopped outright under prefers-reduced-motion, with the dot held at full opacity."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "tag-stack",
+        "value": "480px"
+      },
+      {
+        "name": "meta-stack",
+        "value": "560px"
+      },
+      {
+        "name": "deps-2col",
+        "value": "620px"
+      },
+      {
+        "name": "rail",
+        "value": "900px"
+      },
+      {
+        "name": "deps-3col",
+        "value": "940px"
+      }
+    ],
+    "scales": {
+      "type": [
+        "12px",
+        "14px",
+        "16px",
+        "19px",
+        "22px",
+        "28px",
+        "44px"
+      ],
+      "space": [
+        "2px",
+        "4px",
+        "8px",
+        "12px",
+        "16px",
+        "24px",
+        "32px",
+        "48px",
+        "72px"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one link per entry that proves the claim — a live system, published docs, an email address.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Live network</a>",
+      "css": ".ds-btn-primary{display:inline-block;font-family:'Geist Mono',ui-monospace,monospace;font-size:14px;font-weight:600;text-decoration:none;background:#1f6f4a;color:#fdfcfa;border:1px solid #1f6f4a;border-radius:3px;padding:8px 12px;transition:background .15s ease,border-color .15s ease}.ds-btn-primary::after{content:' \\2197'}.ds-btn-primary:hover{background:#1b5f40;border-color:transparent}.ds-btn-primary:focus-visible{outline:2px solid #1f6f4a;outline-offset:3px}"
+    },
+    {
+      "name": "Link Chip",
+      "kind": "button",
+      "refersTo": "link-chip",
+      "description": "Every secondary link. Quiet by default so the one filled button reads as the action.",
+      "html": "<a class=\"ds-chip\" href=\"#\">Source</a>",
+      "css": ".ds-chip{display:inline-block;font-family:'Geist Mono',ui-monospace,monospace;font-size:14px;text-decoration:none;color:#4a463f;background:#fff;border:1px solid #c9c2b5;border-radius:3px;padding:4px 8px;transition:border-color .15s ease,color .15s ease}.ds-chip::after{content:' \\2197';color:#6f685d}.ds-chip:hover{border-color:#1f6f4a;color:#1f6f4a}.ds-chip:hover::after{color:#1f6f4a}"
+    },
+    {
+      "name": "Change Tag",
+      "kind": "chip",
+      "refersTo": "tag-added",
+      "description": "The changelog idiom, quoted. Four hues, scoped to change lines and used nowhere else.",
+      "html": "<span class=\"ds-tag ds-tag-added\">added</span> <span class=\"ds-tag ds-tag-changed\">changed</span> <span class=\"ds-tag ds-tag-fixed\">fixed</span> <span class=\"ds-tag ds-tag-learned\">learned</span>",
+      "css": ".ds-tag{display:inline-block;width:4.75rem;text-align:center;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;padding:2.9px 0}.ds-tag-added{background:#e3efe7;color:#1f6f4a}.ds-tag-changed{background:#e6ecf4;color:#3b5680}.ds-tag-fixed{background:#f5ebe2;color:#8a5227}.ds-tag-learned{background:#efe9f2;color:#5f4677}"
+    },
+    {
+      "name": "Metadata Row",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Signature component. The hero as a ruled definition list — the system's thesis in one element.",
+      "html": "<dl class=\"ds-meta\"><div class=\"ds-meta-row\"><dt>status</dt><dd class=\"is-open\">Available for remote work — replies within 12 hours</dd></div><div class=\"ds-meta-row\"><dt>based</dt><dd>Addis Ababa, Ethiopia · UTC+3</dd></div></dl>",
+      "css": ".ds-meta{margin:0;border-top:1px solid #e5e0d7;font-family:'Geist',system-ui,sans-serif}.ds-meta-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:16px;align-items:baseline;padding:8px 0;border-bottom:1px solid #e5e0d7}.ds-meta dt{font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6f685d}.ds-meta dd{margin:0;font-size:16px;line-height:1.5;color:#4a463f}.ds-meta dd.is-open{color:#1f6f4a;font-weight:500}"
+    },
+    {
+      "name": "Stack Card",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Ruled panel, no radius, no shadow. Group colour lives on the name and on hover only.",
+      "html": "<article class=\"ds-card\" style=\"--dg:#1f6f4a\"><header class=\"ds-card-head\"><h3 class=\"ds-card-name\">\"backend\"</h3><span class=\"ds-card-count\">7</span></header><p class=\"ds-card-note\">Where most of my work lives</p><ul class=\"ds-card-items\"><li>FastAPI</li><li>Django</li><li>NestJS</li></ul></article>",
+      "css": ".ds-card{border:1px solid #e5e0d7;background:#fff;padding:16px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s ease;font-family:'Geist',system-ui,sans-serif}.ds-card:hover{border-color:color-mix(in srgb,var(--dg) 55%,#e5e0d7)}.ds-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.ds-card-name{margin:0;font-family:'Geist Mono',ui-monospace,monospace;font-size:16px;font-weight:600;letter-spacing:.02em;color:var(--dg)}.ds-card-count{font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;font-weight:500;color:#6f685d;letter-spacing:.04em}.ds-card-note{margin:0;font-size:14px;color:#6f685d}.ds-card-items{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px}.ds-card-items li{font-family:'Geist Mono',ui-monospace,monospace;font-size:14px;color:#4a463f;border:1px solid #e5e0d7;border-radius:20px;padding:2px 8px}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "panel",
+      "description": "Sticky contents rail. Active entry marked by an accent left border, tracked against a reading line a third down the viewport.",
+      "html": "<nav class=\"ds-rail\"><h2>Experience</h2><ol><li><a class=\"is-active\" href=\"#\"><strong>3.0.0</strong><span>Sep 2025</span></a></li><li><a href=\"#\"><strong>2.1.0</strong><span>Feb 2025</span></a></li></ol></nav>",
+      "css": ".ds-rail{font-family:'Geist',system-ui,sans-serif;width:7.5rem}.ds-rail h2{font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#6f685d;margin:0 0 16px;font-weight:500}.ds-rail ol{list-style:none;margin:8px 0 0;padding:0;border-left:1px solid #c9c2b5}.ds-rail a{display:block;text-decoration:none;padding:4px 0 4px 12px;margin-left:-1px;border-left:2px solid transparent}.ds-rail strong{display:block;font-family:'Geist Mono',ui-monospace,monospace;font-size:14px;font-weight:500;color:#4a463f;font-variant-numeric:tabular-nums}.ds-rail span{display:block;font-size:12px;color:#6f685d}.ds-rail a.is-active{border-left-color:#1f6f4a}.ds-rail a.is-active strong{color:#1f6f4a;font-weight:600}.ds-rail a:hover strong{color:#22201c}"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "status-live",
+      "description": "The only ambient motion in the system: a pulsing dot marking a live system.",
+      "html": "<span class=\"ds-status\">Live</span>",
+      "css": ".ds-status{display:inline-block;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:500;border-radius:3px;padding:2px 8px;background:#e3efe7;color:#1f6f4a;border:1px solid color-mix(in srgb,#1f6f4a 32%,transparent)}.ds-status::before{content:'';display:inline-block;width:.35rem;height:.35rem;border-radius:50%;background:currentColor;margin-right:4px;vertical-align:.08em;animation:ds-pulse 2.4s ease-in-out infinite}@keyframes ds-pulse{0%,100%{opacity:1}50%{opacity:.35}}@media (prefers-reduced-motion:reduce){.ds-status::before{animation:none;opacity:1}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineering Logbook",
+    "overview": "A logbook is written while the work is happening, by someone who expects to be held to it. It is ruled, dated, and numbered. Nothing in it is staged for a reader, which is exactly why a reader trusts it. This system takes that posture: the page is a record, not a pitch, and it assumes the visitor is capable of reading one.\n\nEverything follows from that. Structure comes from ruled lines rather than boxes, because a ledger is ruled. Keys, versions, dates and counts are set in monospace because they are data being logged, not decoration borrowed to look technical. Colour is rationed to state — what is available, what is current, what is live — since a log that highlights everything has recorded nothing.\n\nThe design is deliberately unfashionable. It rejects the current portfolio house style outright: no rounded status pills, no chip rows, no pulsing dots, no coloured bar down the side of a card, no highlighter behind a word.",
+    "keyCharacteristics": [
+      "Ruled, not boxed — hairlines separate, containers don't enclose",
+      "Zero shadows, zero radius on panels; 3px only on small controls",
+      "Monospace for data, sans for prose, Ethiopic first-class in both",
+      "One accent, spent only on state",
+      "Two themes measured independently, never inverted from each other"
+    ],
+    "rules": [
+      {
+        "name": "The State-Only Rule",
+        "section": "colors",
+        "body": "Instrument Green marks state and nothing else: available, current, live. Never general emphasis. When a thing needs weight, use weight."
+      },
+      {
+        "name": "The Two-Ground Rule",
+        "section": "colors",
+        "body": "A colour is verified against the surface it actually lands on, not against the page. An accent validated on the ground says nothing about the same accent on a 12% tint of itself — that exact mistake produced seven AA failures."
+      },
+      {
+        "name": "The Borrowed-Vocabulary Rule",
+        "section": "colors",
+        "body": "The four tag hues are quoted from release notes, not this system's palette. They stay inside change tags; promoting one to a section colour breaks the quotation."
+      },
+      {
+        "name": "The Sixteen-Pixel Floor",
+        "section": "typography",
+        "body": "Body text is never below 16px. 14px is permitted only for genuinely secondary metadata."
+      },
+      {
+        "name": "The Monospace-Is-Data Rule",
+        "section": "typography",
+        "body": "Monospace marks information that is logged, measured or versioned. Never applied to prose to look technical — that is costume."
+      },
+      {
+        "name": "The Dark-Compensation Rule",
+        "section": "typography",
+        "body": "Light text on dark reads tighter and thinner. Reading text on dark gains leading (1.6 to 1.7) and tracking (0.006em). Never ship dark as a pure inversion."
+      },
+      {
+        "name": "The Flat Rule",
+        "section": "elevation",
+        "body": "No box-shadow anywhere, in any state, including hover and focus. Separate with a rule or a surface step."
+      },
+      {
+        "name": "The One-Declaration Rule",
+        "section": "elevation",
+        "body": "An element declares elevation once. A 1px border under a soft shadow is the ghost card; pick the border."
+      },
+      {
+        "name": "The No-Card Rule",
+        "section": "shapes",
+        "body": "A rounded, shadowed rectangle is not how this system groups things. Group with rules and space."
+      },
+      {
+        "name": "The Side-Bar Ban",
+        "section": "shapes",
+        "body": "A coloured border-left or border-top above 1px on a card, panel or callout is forbidden outright. No brief earns it back."
+      }
+    ],
+    "dos": [
+      "Do spend Instrument Green on state only — available, current, live.",
+      "Do verify every colour against the surface it actually sits on, and measure both themes independently.",
+      "Do keep body text at 16px or above, and prose within a 66ch measure.",
+      "Do use monospace for logged data — versions, dates, keys, counts — and sans for anything read in sentences.",
+      "Do separate with hairlines and space; let the tonal step from ground to surface carry what little depth exists.",
+      "Do prefix every modifier class with is-. Tailwind's utilities are global via style.css, so a bare fixed or hidden silently pulls an element out of its layout.",
+      "Do use padding-block on any section that also carries .cl-shell; the padding shorthand overrides the shell's gutter and the section goes edge-to-edge on mobile.",
+      "Do give prefers-reduced-motion a real alternative: stop ambient loops outright, keep transitions at 1ms so state still reports."
+    ],
+    "donts": [
+      "Don't use rounded status pills, chip rows or pulsing dots as page furniture.",
+      "Don't put a coloured border-left or border-top above 1px on any card, panel or callout. Banned outright.",
+      "Don't emphasise a word with a highlighter or gradient behind it.",
+      "Don't add a box-shadow anywhere, in any state.",
+      "Don't write metaphor-forward copy. Claims are direct and checkable.",
+      "Don't introduce a font size or spacing value outside the two scales.",
+      "Don't animate anything ambient beyond the single live-status pulse, and never animate a layout property."
+    ]
+  }
+}
