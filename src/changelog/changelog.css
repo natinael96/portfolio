@@ -9,7 +9,7 @@
    Everything sits on two scales. Nothing should introduce a value outside
    them; if a step is missing, add it here rather than one-offing it.
 
-     type   11 · 13 · 15 · 17 · 21 · 27 · 44 px
+     type   12 · 14 · 16 · 19 · 22 · 28 · 44 px  (16 is the body floor)
      space  (2) · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 72 px
 
    Modifiers are `is-`-prefixed on purpose: a bare `.fixed` or `.hidden`
@@ -22,13 +22,13 @@
 
 .cl-root {
   /* ── type scale ── */
-  --cl-t1: 0.6875rem; /* 11 — labels, tags, chips, rail meta */
-  --cl-t2: 0.8125rem; /* 13 — periods, dates, captions */
-  --cl-t3: 0.9375rem; /* 15 — body: change lines, summaries */
-  --cl-t4: 1.0625rem; /* 17 — lead prose, entry titles */
-  --cl-t5: 1.3125rem; /* 21 — project names, pulled stats */
-  --cl-t6: 1.6875rem; /* 27 — version numbers */
-  --cl-t7: 2.75rem; /*   44 — the name */
+  --cl-t1: 0.75rem; /*    12 — uppercase labels, tags, marks */
+  --cl-t2: 0.875rem; /*   14 — metadata: periods, dates, captions */
+  --cl-t3: 1rem; /*        16 — body. The floor: change lines and summaries */
+  --cl-t4: 1.1875rem; /*   19 — lead prose, entry titles */
+  --cl-t5: 1.375rem; /*    22 — project names, pulled stats */
+  --cl-t6: 1.75rem; /*     28 — version numbers */
+  --cl-t7: 2.75rem; /*     44 — the name */
 
   /* ── space scale (4px base) ── */
   --cl-s0: 0.125rem; /* half-step, badge optical padding only */
@@ -110,6 +110,30 @@
   background: color-mix(in srgb, var(--cl-accent) 22%, transparent);
 }
 
+/* Surfaces the browser would otherwise style for us. */
+.cl-root {
+  caret-color: var(--cl-accent);
+  scrollbar-color: var(--cl-rule-strong) transparent;
+  scrollbar-width: thin;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: from-font;
+}
+.cl-root ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.cl-root ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cl-root ::-webkit-scrollbar-thumb {
+  background: var(--cl-rule-strong);
+  border: 3px solid var(--cl-bg);
+  border-radius: 10px;
+}
+.cl-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--cl-muted);
+}
+
 .cl-root a {
   color: inherit;
 }
@@ -118,10 +142,6 @@
   outline: 2px solid var(--cl-accent);
   outline-offset: 3px;
   border-radius: 3px;
-}
-
-.cl-mono {
-  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
 }
 
 .cl-shell {
@@ -181,38 +201,6 @@
   line-height: 1.05;
   margin: 0 0 var(--cl-s3);
   text-wrap: balance;
-}
-
-.cl-tagline {
-  font-size: var(--cl-t4);
-  line-height: 1.6;
-  color: var(--cl-ink-2);
-  margin: 0 0 var(--cl-s5);
-  max-width: 46ch;
-}
-.cl-tagline a {
-  color: var(--cl-accent);
-  text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--cl-accent) 35%, transparent);
-}
-.cl-tagline a:hover {
-  border-bottom-color: var(--cl-accent);
-}
-
-
-.cl-preamble {
-  font-size: var(--cl-t3);
-  line-height: 1.65;
-  color: var(--cl-ink-2);
-  margin: 0;
-  max-width: 60ch;
-  border-left: 2px solid var(--cl-rule-strong);
-  padding-left: var(--cl-s4);
-}
-.cl-preamble a {
-  color: var(--cl-accent);
-  text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--cl-accent) 30%, transparent);
 }
 
 /* ── versioning legend ───────────────────────────────────────────────────── */
@@ -744,19 +732,15 @@
 
 .cl-dep {
   border: 1px solid var(--cl-rule);
-  border-top: 3px solid var(--dg, var(--cl-accent));
-  border-radius: 5px;
   background: var(--cl-surface);
   padding: var(--cl-s4);
   display: flex;
   flex-direction: column;
   gap: var(--cl-s2);
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .cl-dep:hover {
-  border-color: color-mix(in srgb, var(--dg, var(--cl-accent)) 45%, var(--cl-rule));
-  border-top-color: var(--dg, var(--cl-accent));
-  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--dg, var(--cl-accent)) 55%, var(--cl-rule));
 }
 .cl-dep-head {
   display: flex;
@@ -783,12 +767,10 @@
 .cl-dep-count {
   font-family: 'Geist Mono', ui-monospace, monospace;
   font-size: var(--cl-t1);
-  font-weight: 600;
-  color: var(--dg, var(--cl-muted));
-  background: color-mix(in srgb, var(--dg, var(--cl-accent)) 12%, transparent);
-  border-radius: 999px;
-  padding: var(--cl-s0) var(--cl-s2);
+  font-weight: 500;
+  color: var(--cl-muted);
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
   flex: none;
 }
 .cl-dep-note {
@@ -834,7 +816,10 @@
   color: var(--cl-muted);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  padding-bottom: 1px;
+  padding-block: var(--cl-s1);
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
 }
 .cl-jump a:hover {
   color: var(--cl-ink);
@@ -871,7 +856,6 @@
   cursor: pointer;
   display: grid;
   place-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 12px 28px -14px rgba(0, 0, 0, 0.28);
   opacity: 0;
   visibility: hidden;
   transform: translateY(0.5rem);
@@ -979,11 +963,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Ambient loops stop outright — 0.01ms does not stop an infinite animation,
+     it runs it absurdly fast. The live dot holds at full strength so the
+     status it encodes survives without the pulse. */
   .cl-root *,
   .cl-root *::before,
   .cl-root *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+    animation: none !important;
+  }
+  .cl-status.is-live::before {
+    opacity: 1;
+  }
+  /* Feedback is kept, travel removed: hover and focus still report, instantly. */
+  .cl-root *,
+  .cl-root *::before,
+  .cl-root *::after {
+    transition-duration: 1ms !important;
+  }
+  .cl-totop {
+    transition: opacity 90ms ease, visibility 90ms !important;
+    transform: none !important;
   }
 }
 
@@ -1049,9 +1048,7 @@ details.cl-scheme summary:hover {
 /* HEAD is the call to action — the one entry allowed a panel of its own. */
 .cl-release.is-hero {
   background: var(--cl-surface);
-  border: 1px solid var(--cl-rule);
-  border-left: 3px solid var(--cl-accent);
-  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--cl-accent) 34%, var(--cl-rule));
   padding: var(--cl-s5);
   margin-bottom: var(--cl-s6);
 }
@@ -1064,9 +1061,6 @@ details.cl-scheme summary:hover {
 @keyframes cl-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.35; }
-}
-.cl-facts li.is-open::before {
-  animation: cl-pulse 2.4s ease-in-out infinite;
 }
 .cl-status.is-live::before {
   content: '';
@@ -1114,53 +1108,6 @@ details.cl-scheme summary:hover {
   color: var(--pj2, var(--cl-muted));
 }
 
-/* ── the pitch ───────────────────────────────────────────────────────────── */
-/* Replaces the format preamble: role first and impossible to miss, then one
-   concrete claim. The role is the only <mark> on the page. */
-.cl-lead {
-  font-size: var(--cl-t5);
-  line-height: 1.45;
-  font-weight: 500;
-  color: var(--cl-ink);
-  letter-spacing: -0.015em;
-  margin: 0 0 var(--cl-s3);
-  max-width: 32ch;
-  text-wrap: balance;
-}
-.cl-role {
-  color: var(--cl-accent);
-  font-weight: 600;
-}
-
-/* ── primary link buttons ────────────────────────────────────────────────── */
-/* The link that proves the claim gets the filled treatment; everything else
-   stays a quiet chip. --cl-accent-contrast is the text that sits ON the
-   accent: near-white in light mode, near-black in dark (accent is a tint). */
-.cl-root {
-  --cl-accent-contrast: #fdfcfa;
-}
-.cl-root.is-dark {
-  --cl-accent-contrast: #14201a;
-}
-.cl-links a.is-primary {
-  background: var(--cl-accent);
-  color: var(--cl-accent-contrast);
-  border-color: var(--cl-accent);
-  font-weight: 600;
-  padding: var(--cl-s2) var(--cl-s3);
-}
-.cl-links a.is-primary::after {
-  color: var(--cl-accent-contrast);
-}
-.cl-links a.is-primary:hover {
-  background: color-mix(in srgb, var(--cl-accent) 84%, var(--cl-ink));
-  color: var(--cl-accent-contrast);
-  border-color: transparent;
-}
-.cl-links a.is-primary:hover::after {
-  color: var(--cl-accent-contrast);
-}
-
 /* ── primary link buttons ────────────────────────────────────────────────── */
 /* The link that proves the claim gets the filled treatment; everything else
    stays a quiet chip. --cl-accent-contrast is the text that sits ON the
@@ -1192,7 +1139,7 @@ details.cl-scheme summary:hover {
 
 /* ── the hero diff ───────────────────────────────────────────────────────── */
 /* ── hero: statement + live strip ────────────────────────────────────────── */
-.cl-hero-eyebrow {
+.cl-hero-role {
   font-family: 'Geist Mono', ui-monospace, monospace;
   font-size: var(--cl-t2);
   letter-spacing: 0.14em;
@@ -1270,4 +1217,14 @@ details.cl-scheme summary:hover {
   height: 0.78rem;
   flex: none;
   display: block;
+}
+
+/* Dark-ground compensation. Light-on-dark reads tighter and thinner than the
+   same pair inverted, so reading text gains a little leading and tracking. */
+.cl-root.is-dark .cl-change p,
+.cl-root.is-dark .cl-summary,
+.cl-root.is-dark .cl-meta dd,
+.cl-root.is-dark .cl-contact p {
+  line-height: 1.7;
+  letter-spacing: 0.006em;
 }

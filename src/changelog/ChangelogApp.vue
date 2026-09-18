@@ -18,7 +18,7 @@
 
         <h1>{{ meta.name }}</h1>
 
-        <p class="cl-hero-eyebrow">{{ meta.role }}</p>
+        <p class="cl-hero-role">{{ meta.role }}</p>
 
         <dl class="cl-meta">
           <div class="cl-meta-row">

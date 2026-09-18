@@ -185,11 +185,11 @@ export const experience: Release[] = [
       },
       {
         kind: 'added',
-        text: 'Integrated PurpleAir — third-party sensor stations ingested alongside the in-house network, widening coverage across the city.',
+        text: 'Integrated PurpleAir behind its own router — 11 endpoints ingesting third-party stations alongside the in-house network, widening coverage across the city without new hardware.',
       },
       {
         kind: 'added',
-        text: '70+ REST endpoints across 11 routers — auth, devices, readings, analytics, admin — with JWT role guards, token blacklist, account lockout, and per-IP rate limits.',
+        text: '83 REST endpoints across 13 routers — auth, devices, readings, analytics, admin, PurpleAir — with JWT role guards, token blacklist, account lockout, and per-IP rate limits.',
       },
       {
         kind: 'added',
@@ -376,10 +376,10 @@ export const projects: ProjectEntry[] = [
     colors: { primary: ['#1f6f4a', '#7fc9a3'], secondary: ['#8a6a15', '#d9b45b'] },
     status: 'live',
     statusLabel: 'Live',
-    period: 'Jul 2026 — present · v2.3.1, 71 releases',
+    period: 'Jul 2026 — present · v2.5.1, 77 releases',
     railLabel: 'Sinq',
     summary:
-      'The Ethiopian Orthodox Tewahedo Book of Hours (ሰዓታት) for Android — Amharic-first, fully offline, built and shipped solo. 219 Kotlin files, 45k lines, and exactly one network call in the whole app.',
+      'The Ethiopian Orthodox Tewahedo Book of Hours (ሰዓታት) for Android — Amharic-first, fully offline, built and shipped solo. 241 Kotlin files, 47k lines, and exactly one network call in the whole app.',
     changes: [
       {
         kind: 'added',
@@ -391,7 +391,7 @@ export const projects: ProjectEntry[] = [
       },
       {
         kind: 'added',
-        text: '389 unit tests across 58 files — the computus, ግጻዌ link coverage, Ge’ez numerals, the backup format and Ethiopian date arithmetic, which is where a calendar app actually breaks.',
+        text: '441 unit tests across 71 files — the computus, ግጻዌ link coverage, Ge’ez numerals, the backup format and Ethiopian date arithmetic, which is where a calendar app actually breaks.',
       },
       {
         kind: 'added',
@@ -423,7 +423,7 @@ export const projects: ProjectEntry[] = [
       },
     ],
     tech: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Room', 'DataStore', 'Python'],
-    stat: { value: '389', caption: 'unit tests, green before any release' },
+    stat: { value: '441', caption: 'unit tests, green before any release' },
     links: [{ label: 'Website', href: 'https://sinq.natinael96.tech/', primary: true }],
   },
 

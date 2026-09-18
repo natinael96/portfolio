@@ -141,10 +141,10 @@ export const feature = {
       area: 'Backend · API',
       stack: 'FastAPI · PostgreSQL · SQLAlchemy',
       points: [
-        '70+ REST endpoints across 11 routers — auth, devices, readings, analytics, admin.',
+        '83 REST endpoints across 13 routers — auth, devices, readings, analytics, admin, PurpleAir.',
         'JWT role guards, token blacklist, account lockout, per-IP rate limits; aggregation by device, location, hour, or day.',
       ],
-      stat: { value: '70+', caption: 'endpoints · 13 models · 16 migrations' },
+      stat: { value: '83', caption: 'endpoints · 13 models · 22 migrations' },
     },
     {
       id: 'frontend',
@@ -162,7 +162,7 @@ export const feature = {
       points: [
         'Dockerized behind Caddy TLS with deploy, backup, and runbook scripts; security headers, throttling, request logging.',
       ],
-      stat: { value: '7', caption: 'middleware in the request path' },
+      stat: { value: '8', caption: 'middleware in the request path' },
     },
   ],
 } as const
